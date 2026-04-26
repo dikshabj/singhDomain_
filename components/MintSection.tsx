@@ -16,7 +16,7 @@ export default function MintSection() {
         {/* Header */}
         <div className="flex items-center gap-6 mb-16">
           <div className="flex-1 section-line" />
-          <h2 className="text-white text-xl font-bold tracking-widest uppercase whitespace-nowrap">
+          <h2 className="text-[var(--text-primary)] text-xl font-bold tracking-widest uppercase whitespace-nowrap">
             AVAILABLE MINT OPTIONS IN FUTURE
           </h2>
           <div className="flex-1 section-line" />
@@ -49,7 +49,7 @@ export default function MintSection() {
               </div>
 
               {/* Name */}
-              <div className="text-white text-sm font-semibold tracking-widest group-hover:text-yellow-400 transition-colors"
+              <div className="text-[var(--text-primary)] text-sm font-semibold tracking-widest group-hover:text-yellow-400 transition-colors"
                 style={{fontFamily:'Sora,sans-serif'}}>
                 {chain.name}
               </div>
