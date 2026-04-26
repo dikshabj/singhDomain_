@@ -1,17 +1,24 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useTheme } from 'next-themes'
+import { Sun, Moon, ShoppingBag, Menu, X } from 'lucide-react'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [cartCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
+    setMounted(true)
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  if (!mounted) return null
 
   return (
     <nav
@@ -29,7 +36,7 @@ export default function Navbar() {
             </div>
           </div>
           <span
-            className="font-display text-2xl tracking-widest text-white group-hover:text-yellow-400 transition-colors"
+            className="font-display text-2xl tracking-widest text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors"
             style={{ fontFamily: 'Bebas Neue, sans-serif', letterSpacing: '0.15em' }}
           >
             SINGHDOMAIN
@@ -42,7 +49,7 @@ export default function Navbar() {
             <Link
               key={item}
               href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-sm font-medium text-gray-300 hover:text-yellow-400 transition-all duration-300 relative group"
+              className="text-sm font-medium text-[var(--text-secondary)] hover:text-yellow-400 transition-all duration-300 relative group"
             >
               {item}
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-yellow-400 group-hover:w-full transition-all duration-300" />
@@ -52,6 +59,15 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-yellow-400 transition-all"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+
           <Link href="/login" className="hidden md:block">
             <button className="btn-gold px-6 py-2.5 rounded-lg text-sm font-semibold relative z-10">
               Login
@@ -59,12 +75,8 @@ export default function Navbar() {
           </Link>
 
           {/* Cart Icon */}
-          <button className="relative p-2 text-gray-300 hover:text-yellow-400 transition-colors">
-            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <path d="M16 10a4 4 0 01-8 0"/>
-            </svg>
+          <button className="relative p-2 text-[var(--text-secondary)] hover:text-yellow-400 transition-colors">
+            <ShoppingBag className="w-5 h-5" />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">
                 {cartCount}
@@ -74,27 +86,22 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-gray-300 hover:text-yellow-400 transition-colors"
+            className="md:hidden text-[var(--text-secondary)] hover:text-yellow-400 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              {menuOpen
-                ? <path d="M6 18L18 6M6 6l12 12"/>
-                : <path d="M3 12h18M3 6h18M3 18h18"/>
-              }
-            </svg>
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden nav-blur mt-2 mx-4 rounded-2xl p-6 flex flex-col gap-4">
+        <div className="md:hidden nav-blur mt-2 mx-4 rounded-2xl p-6 flex flex-col gap-4 border border-[var(--border)]">
           {['Home', 'How to buy', 'FAQs'].map((item) => (
             <Link
               key={item}
               href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-gray-300 hover:text-yellow-400 transition-colors text-lg"
+              className="text-[var(--text-secondary)] hover:text-yellow-400 transition-colors text-lg"
               onClick={() => setMenuOpen(false)}
             >
               {item}

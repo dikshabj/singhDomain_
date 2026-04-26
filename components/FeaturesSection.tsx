@@ -84,7 +84,7 @@ export default function FeaturesSection() {
         {/* Header */}
         <div className="flex items-center gap-6 mb-16">
           <div className="flex-1 section-line" />
-          <h2 className="text-white text-2xl font-bold tracking-widest text-center whitespace-nowrap">
+          <h2 className="text-[var(--text-primary)] text-2xl font-bold tracking-widest text-center whitespace-nowrap">
             WITH <span className="text-yellow-400">SINGH DOMAIN</span> YOU CAN
           </h2>
           <div className="flex-1 section-line" />
@@ -97,7 +97,7 @@ export default function FeaturesSection() {
               key={f.title}
               className="feature-card group"
               style={{
-                background: `linear-gradient(135deg, ${f.bg}, rgba(255,255,255,0.01))`,
+                background: `linear-gradient(135deg, ${f.bg}, transparent)`,
                 animationDelay: `${i * 0.1}s`
               }}
             >
@@ -108,12 +108,12 @@ export default function FeaturesSection() {
               </div>
 
               {/* Title */}
-              <h3 className="text-white font-bold text-lg mb-3 tracking-wide group-hover:text-yellow-400 transition-colors" style={{fontFamily:'Sora,sans-serif'}}>
+              <h3 className="text-[var(--text-primary)] font-bold text-lg mb-3 tracking-wide group-hover:text-yellow-400 transition-colors" style={{fontFamily:'Sora,sans-serif'}}>
                 {f.title}
               </h3>
 
               {/* Desc */}
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-[var(--text-secondary)] text-sm leading-relaxed opacity-80">
                 {f.desc}
               </p>
 

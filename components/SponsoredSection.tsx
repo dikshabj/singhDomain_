@@ -20,7 +20,7 @@ export default function SponsoredSection() {
         {/* Section header */}
         <div className="flex items-center gap-6 mb-12">
           <div className="flex-1 section-line" />
-          <h2 className="text-white text-xl font-bold tracking-widest uppercase flex items-center gap-3">
+          <h2 className="text-[var(--text-primary)] text-xl font-bold tracking-widest uppercase flex items-center gap-3">
             <span className="text-yellow-400">👑</span>
             SPONSORED
             <span className="text-yellow-400">👑</span>
@@ -34,7 +34,7 @@ export default function SponsoredSection() {
           backgroundSize: '300% 300%',
           animation: 'shimmer 4s ease infinite'
         }}>
-          <div className="bg-dark-800 rounded-3xl p-6" style={{background:'#0A0A12'}}>
+          <div className="rounded-3xl p-6" style={{background:'var(--bg-secondary)'}}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {sponsoredTLDs.map((tld, i) => (
                 <div
@@ -49,13 +49,13 @@ export default function SponsoredSection() {
                   </div>
 
                   {/* TLD name */}
-                  <div className="text-white text-2xl font-bold mb-3 group-hover:text-yellow-400 transition-colors" style={{fontFamily:'Sora,sans-serif', fontWeight:700}}>
+                  <div className="text-[var(--text-primary)] text-2xl font-bold mb-3 group-hover:text-yellow-400 transition-colors" style={{fontFamily:'Sora,sans-serif', fontWeight:700}}>
                     {tld.name}
                   </div>
 
                   {/* Price */}
-                  <div className="text-gray-400 text-sm mb-1">SLDs starting at:</div>
-                  <div className="text-white text-2xl font-bold">
+                  <div className="text-[var(--text-secondary)] text-sm mb-1 opacity-70">SLDs starting at:</div>
+                  <div className="text-[var(--text-primary)] text-2xl font-bold">
                     $ {tld.price}
                   </div>
 

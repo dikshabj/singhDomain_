@@ -189,18 +189,18 @@ export default function HeroSection() {
 
         {/* Main heading */}
         <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6" style={{fontFamily:'Sora, sans-serif'}}>
-          <span className="text-white">Get Your</span>
+          <span className="text-[var(--text-primary)]">Get Your</span>
           <br />
           <span className="text-gradient">Web3 Domains</span>
           <br />
-          <span className="text-white">and TLDs with</span>
+          <span className="text-[var(--text-primary)]">and TLDs with</span>
           <br />
-          <span className="text-white">Zero </span>
+          <span className="text-[var(--text-primary)]">Zero </span>
           <span className="text-yellow-400">Renewal Fees</span>
         </h1>
 
           {/* Sub text */}
-          <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-[var(--text-secondary)] text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
@@ -224,7 +224,7 @@ export default function HeroSection() {
           {/* Search bar */}
           <div className="relative max-w-2xl mx-auto lg:mx-0 group">
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-2xl blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative flex items-center bg-[#0d0d12]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative flex items-center bg-[var(--bg-card)] backdrop-blur-xl border border-[var(--border)] rounded-2xl overflow-hidden shadow-2xl">
               <div className="absolute left-6 flex items-center pointer-events-none">
                 <svg className="text-yellow-400 w-6 h-6 opacity-70" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <circle cx="11" cy="11" r="8"/>
@@ -236,7 +236,7 @@ export default function HeroSection() {
                 placeholder="Search your domain... e.g. yourname.singh"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="w-full pl-16 pr-44 py-6 text-lg bg-transparent text-white placeholder-gray-500 focus:outline-none"
+                className="w-full pl-16 pr-44 py-6 text-lg bg-transparent text-[var(--text-primary)] placeholder-gray-500 focus:outline-none"
               />
               <button className="absolute right-2 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-300 hover:to-yellow-500 text-black px-8 py-4 rounded-xl text-sm font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl shadow-yellow-400/20">
                 SEARCH NOW
@@ -245,7 +245,7 @@ export default function HeroSection() {
 
             {/* Popular searches */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-6">
-              <span className="text-xs text-gray-500 mr-1 self-center font-medium">Trending:</span>
+              <span className="text-xs text-[var(--text-secondary)] mr-1 self-center font-medium opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
                   key={d}
@@ -268,7 +268,7 @@ export default function HeroSection() {
             ].map(stat => (
               <div key={stat.label} className="text-center lg:text-left">
                 <div className="text-3xl font-bold text-yellow-400 mb-1" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
-                <div className="text-xs text-gray-500 uppercase tracking-widest">{stat.label}</div>
+                <div className="text-xs text-[var(--text-secondary)] uppercase tracking-widest opacity-60">{stat.label}</div>
               </div>
             ))}
           </div>
