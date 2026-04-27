@@ -14,10 +14,19 @@
   --bg-card: rgba(0, 0, 0, 0.02);
   --text-primary: #050508;
   --text-secondary: #4B5563;
-  --border: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.12);
   --border-gold: rgba(245, 197, 24, 0.4);
   --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  /* Globe animation */
+  --globe-core-bg: radial-gradient(circle at 35% 35%, #fffbeb, #fef3c7);
+  --globe-core-border: rgba(180, 120, 0, 0.5);
+  --globe-core-shadow: 0 0 60px rgba(245,197,24,0.35), inset 0 0 40px rgba(245,197,24,0.2);
+  --globe-ring1: rgba(180, 120, 0, 0.45);
+  --globe-ring2: rgba(180, 120, 0, 0.25);
+  --globe-sd-color: #92600a;
+  --sticky-search-bg: rgba(255, 255, 255, 0.92);
+  --sticky-search-border: rgba(245, 197, 24, 0.35);
 }
 
 .dark {
@@ -31,6 +40,15 @@
   --border-gold: rgba(245, 197, 24, 0.3);
   --glass-bg: rgba(5, 5, 8, 0.8);
   --glass-border: rgba(255, 255, 255, 0.05);
+  /* Globe animation */
+  --globe-core-bg: radial-gradient(circle at 35% 35%, #1a1400, #0a0a0a);
+  --globe-core-border: rgba(245, 197, 24, 0.3);
+  --globe-core-shadow: 0 0 60px rgba(245,197,24,0.2), inset 0 0 40px rgba(245,197,24,0.05);
+  --globe-ring1: rgba(245, 197, 24, 0.2);
+  --globe-ring2: rgba(245, 197, 24, 0.1);
+  --globe-sd-color: #F5C518;
+  --sticky-search-bg: rgba(12, 12, 20, 0.92);
+  --sticky-search-border: rgba(245, 197, 24, 0.2);
 }
 
 * {

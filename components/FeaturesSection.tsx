@@ -1,132 +1,133 @@
 'use client'
+import FloatingBackground from './FloatingBackground'
+
+const S = 300 // diamond container size
+const GAP = 6
 
 const features = [
-  {
-    icon: (
-      <svg width="36" height="36" fill="none" stroke="#4ECDC4" strokeWidth="1.5" viewBox="0 0 24 24">
-        <rect x="2" y="5" width="20" height="14" rx="2"/>
-        <path d="M2 10h20"/>
-        <path d="M7 15h.01M12 15h2"/>
-      </svg>
-    ),
-    title: 'BE A REGISTRAR',
-    desc: 'Take charge by managing and registering your own web3 domains.',
-    color: '#4ECDC4',
-    bg: 'rgba(78,205,196,0.05)'
-  },
-  {
-    icon: (
-      <svg width="36" height="36" fill="none" stroke="#4ECDC4" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path d="M6 3l6 3 6-3v12l-6 3-6-3V3z"/>
-        <path d="M12 6v12M6 3l6 3M18 3l-6 3"/>
-      </svg>
-    ),
-    title: 'MINT WEB3 TLDS',
-    desc: 'Mint your own TLDs and sell them on the marketplace.',
-    color: '#4ECDC4',
-    bg: 'rgba(78,205,196,0.05)'
-  },
-  {
-    icon: (
-      <svg width="36" height="36" fill="none" stroke="#4ECDC4" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        <path d="M9 12l2 2 4-4"/>
-      </svg>
-    ),
-    title: 'OWN YOUR DIGITAL IDENTITY',
-    desc: 'Secure your unique presence in the digital world.',
-    color: '#4ECDC4',
-    bg: 'rgba(78,205,196,0.05)'
-  },
-  {
-    icon: (
-      <svg width="36" height="36" fill="none" stroke="#F5C518" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
-    ),
-    title: 'CHAT WITH WEB3 EMAILS',
-    desc: 'Enjoy secure and efficient communication with web3-enabled emails.',
-    color: '#F5C518',
-    bg: 'rgba(245,197,24,0.05)'
-  },
-  {
-    icon: (
-      <svg width="36" height="36" fill="none" stroke="#FF6B6B" strokeWidth="1.5" viewBox="0 0 24 24">
-        <rect x="2" y="5" width="20" height="14" rx="2"/>
-        <line x1="2" y1="10" x2="22" y2="10"/>
-      </svg>
-    ),
-    title: 'NAME YOUR WALLET',
-    desc: 'Personalize your cryptocurrency wallet with a distinctive web3 domain.',
-    color: '#FF6B6B',
-    bg: 'rgba(255,107,107,0.05)'
-  },
-  {
-    icon: (
-      <svg width="36" height="36" fill="none" stroke="#aaa" strokeWidth="1.5" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-      </svg>
-    ),
-    title: 'SURF THE INTERNET',
-    desc: 'Experience smooth browsing with web3-enabled DNS.',
-    color: '#aaa',
-    bg: 'rgba(170,170,170,0.03)'
-  },
+  { icon: '🌐', title: 'Be a Registrar', desc: 'Manage and register your own web3 domains with full control.', color: '#4ECDC4' },
+  { icon: '⛓️', title: 'Mint Web3 TLDs', desc: 'Mint your own TLDs and sell them on the marketplace.', color: '#F5C518' },
+  { icon: '🛡️', title: 'Own Your Identity', desc: 'Secure your unique digital presence permanently on the blockchain.', color: '#4ECDC4' },
+  { icon: '📧', title: 'Web3 Emails', desc: 'Secure decentralized communication with web3-enabled emails.', color: '#FF6B35' },
+  { icon: '💳', title: 'Name Your Wallet', desc: 'Personalize your crypto wallet with a human-readable domain.', color: '#F5C518' },
+  { icon: '🌍', title: 'Surf the Internet', desc: 'Browse smoothly with web3-enabled DNS resolution.', color: '#4ECDC4' },
 ]
 
-export default function FeaturesSection() {
+function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
+    <div style={{ width: S, height: S, position: 'relative', flexShrink: 0 }} className="group">
+      {/* Shadow wrapper — drop-shadow respects clip-path */}
+      <div
+        className="absolute inset-0 transition-all duration-300 group-hover:scale-[1.04]"
+        style={{ filter: 'drop-shadow(0 10px 28px rgba(0,0,0,0.13))' }}
+      >
+        {/* Colored border diamond */}
+        <div
+          className="absolute inset-0"
+          style={{ clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)', background: color + '55' }}
+        />
+        {/* Fill diamond — inset 2px so colored border shows */}
+        <div
+          className="absolute"
+          style={{
+            top: 3, left: 3, right: 3, bottom: 3,
+            clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)',
+            background: 'var(--diamond-fill)',
+          }}
+        />
+      </div>
+
+      {/* Top vertex circle */}
+      <div
+        className="absolute z-10 flex items-center justify-center"
+        style={{
+          top: 10, left: '50%', transform: 'translateX(-50%)',
+          width: 44, height: 44, borderRadius: '50%',
+          background: color + '25',
+          border: `2px solid ${color}80`,
+        }}
+      >
+        <span style={{ fontSize: 18 }}>{icon}</span>
+      </div>
+
+      {/* Content — centered */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center text-center z-10"
+        style={{ paddingTop: 48, paddingBottom: 36, paddingLeft: 44, paddingRight: 44 }}
+      >
+        <h3
+          className="font-bold mb-2 leading-snug"
+          style={{ color: 'var(--text-primary)', fontSize: 13, fontFamily: 'Sora,sans-serif', letterSpacing: '0.02em' }}
+        >
+          {title}
+        </h3>
+        <p
+          style={{ color: 'var(--text-secondary)', fontSize: 11, lineHeight: 1.55, opacity: 0.85 }}
+        >
+          {desc}
+        </p>
+        <div
+          className="mt-3 flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold transition-transform duration-300 group-hover:scale-110"
+          style={{ background: color + '25', border: `1.5px solid ${color}60`, color }}
+        >
+          →
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function FeaturesSection() {
+  const row1 = features.slice(0, 3)
+  const row2 = features.slice(3)
+  const offset = (S + GAP) / 2
+  const overlapY = Math.round(S * 0.30)
+
+  return (
+    <section className="py-28 px-6 relative z-10 overflow-hidden">
+      <FloatingBackground density="low" />
+
+      {/* CSS vars for diamond fill */}
+      <style>{`
+        :root  { --diamond-fill: #fffcf0; }
+        .dark  { --diamond-fill: #0d0d18; }
+      `}</style>
+
+      {/* Background blobs */}
+      <div className="absolute inset-0 pointer-events-none -z-10">
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-yellow-300/15 dark:bg-yellow-500/5 blur-[160px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-teal-200/10 dark:bg-teal-500/5 blur-[140px]" />
+      </div>
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-6 mb-16">
-          <div className="flex-1 section-line" />
-          <h2 className="text-[var(--text-primary)] text-2xl font-bold tracking-widest text-center whitespace-nowrap">
-            WITH <span className="text-yellow-400">SINGH DOMAIN</span> YOU CAN
+        <div className="text-center mb-20">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
+            Platform Features
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mt-4 mb-5" style={{ fontFamily: 'Sora,sans-serif' }}>
+            With <span className="text-gradient">Singh Domain</span> You Can
           </h2>
-          <div className="flex-1 section-line" />
+          <p className="text-[var(--text-secondary)] max-w-lg mx-auto text-base leading-relaxed opacity-80">
+            Secure, Web3-native solutions — empowering you to own, manage, and grow your digital identity forever.
+          </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((f, i) => (
-            <div
-              key={f.title}
-              className="feature-card group"
-              style={{
-                background: `linear-gradient(135deg, ${f.bg}, transparent)`,
-                animationDelay: `${i * 0.1}s`
-              }}
-            >
-              {/* Icon */}
-              <div className="mb-5 w-16 h-16 rounded-2xl flex items-center justify-center"
-                style={{background: f.bg, border: `1px solid ${f.color}20`}}>
-                {f.icon}
-              </div>
-
-              {/* Title */}
-              <h3 className="text-[var(--text-primary)] font-bold text-lg mb-3 tracking-wide group-hover:text-yellow-400 transition-colors" style={{fontFamily:'Sora,sans-serif'}}>
-                {f.title}
-              </h3>
-
-              {/* Desc */}
-              <p className="text-[var(--text-secondary)] text-sm leading-relaxed opacity-80">
-                {f.desc}
-              </p>
-
-              {/* Arrow */}
-              <div className="mt-6 flex items-center gap-2 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0"
-                style={{color: f.color}}>
-                Learn more
-                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </div>
+        {/* Diamond honeycomb grid — shift whole group left by offset/2 to keep centered */}
+        <div className="flex flex-col items-center">
+          <div style={{ transform: `translateX(-${offset / 2}px)` }}>
+            {/* Row 1 */}
+            <div className="flex" style={{ gap: GAP }}>
+              {row1.map(f => <DiamondCard key={f.title} {...f} />)}
             </div>
-          ))}
+            {/* Row 2 — shifted right by full offset relative to row 1 */}
+            <div
+              className="flex"
+              style={{ gap: GAP, marginTop: -overlapY, transform: `translateX(${offset}px)` }}
+            >
+              {row2.map(f => <DiamondCard key={f.title} {...f} />)}
+            </div>
+          </div>
         </div>
       </div>
     </section>
