@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import FloatingBackground from './FloatingBackground'
 
 const socials = [
   { icon: 'T', label: 'Twitter', href: '#', color: '#1DA1F2' },
@@ -13,7 +14,8 @@ export default function Footer() {
   return (
     <>
       {/* Community Section */}
-      <section className="py-20 px-6 relative overflow-hidden">
+      <section className="py-20 px-6 relative z-10 overflow-hidden">
+        <FloatingBackground density="low" />
         {/* Pink/purple glow blob */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 pointer-events-none"
           style={{background:'radial-gradient(ellipse, rgba(180,0,255,0.12), transparent 70%)', filter:'blur(40px)'}} />

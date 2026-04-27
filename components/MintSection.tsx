@@ -1,4 +1,5 @@
 'use client'
+import FloatingBackground from './FloatingBackground'
 
 const chains = [
   { name: 'Aurora', color: '#00EC97', letter: 'A', bg: '#003E1F' },
@@ -11,7 +12,8 @@ const chains = [
 
 export default function MintSection() {
   return (
-    <section className="py-24 px-6 relative">
+    <section className="py-24 px-6 relative z-10 overflow-hidden">
+      <FloatingBackground density="low" />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-6 mb-16">

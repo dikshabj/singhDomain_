@@ -11,6 +11,7 @@ import {
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import AnnouncementBar from '@/components/AnnouncementBar'
+import FloatingBackground from '@/components/FloatingBackground'
 
 const faqs = [
   {
@@ -50,11 +51,11 @@ export default function FAQPage() {
 
   return (
     <main className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
-      <AnnouncementBar />
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+      <section className="relative z-10 pt-40 pb-20 px-6 overflow-hidden">
+        <FloatingBackground density="medium" />
         {/* Background Gradients */}
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-yellow-500/5 rounded-full blur-[120px] -z-10" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-yellow-600/5 rounded-full blur-[100px] -z-10" />
@@ -95,7 +96,8 @@ export default function FAQPage() {
       </section>
 
       {/* FAQ Accordion Section */}
-      <section className="pb-32 px-6">
+      <section className="pb-32 px-6 relative z-10 overflow-hidden">
+        <FloatingBackground density="medium" />
         <div className="max-w-4xl mx-auto">
           <div className="space-y-4">
             {filteredFaqs.length > 0 ? (
@@ -148,7 +150,8 @@ export default function FAQPage() {
       </section>
 
       {/* CTA / Still have questions? */}
-      <section className="py-24 px-6 border-t border-[var(--border)] relative overflow-hidden">
+      <section className="py-24 px-6 border-t border-[var(--border)] relative z-10 overflow-hidden">
+        <FloatingBackground density="medium" />
         <div className="absolute inset-0 bg-yellow-500/[0.02] -z-10" />
         <div className="max-w-4xl mx-auto text-center">
           <div className="glass-card p-12 md:p-16 border-yellow-500/10 hover:border-yellow-500/20">

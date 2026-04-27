@@ -10,10 +10,20 @@ import {
   CreditCard, 
   Zap, 
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Globe,
+  Cpu,
+  Network,
+  Code,
+  Database,
+  Hash,
+  AtSign,
+  Link,
+  Server
 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import FloatingBackground from '@/components/FloatingBackground'
 
 const steps = [
   {
@@ -83,7 +93,20 @@ export default function HowToBuyPage() {
   })
 
   return (
-    <main className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden">
+    <main className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden relative">
+      {/* Global page gradient — light theme richness */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        {/* Top-left warm amber blob */}
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-yellow-300/20 dark:bg-yellow-500/5 blur-[140px]" />
+        {/* Top-right cool accent */}
+        <div className="absolute -top-20 right-0 w-[500px] h-[500px] rounded-full bg-orange-200/25 dark:bg-orange-500/5 blur-[120px]" />
+        {/* Bottom center warm glow */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-yellow-200/20 dark:bg-yellow-600/5 blur-[160px]" />
+        {/* Mid-left subtle peach */}
+        <div className="absolute top-1/2 -left-20 w-[350px] h-[350px] rounded-full bg-amber-200/20 dark:bg-amber-500/5 blur-[100px]" />
+        {/* Mid-right subtle gold */}
+        <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full bg-yellow-100/30 dark:bg-yellow-400/5 blur-[130px]" />
+      </div>
       <Navbar />
       
       {/* Progress Bar */}
@@ -93,10 +116,12 @@ export default function HowToBuyPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative z-10 pt-32 pb-20 px-6 overflow-hidden">
+        <FloatingBackground density="medium" />
         {/* Background Blobs */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-yellow-500/10 rounded-full blur-[120px] -z-10 animate-pulse-slow" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-yellow-600/5 rounded-full blur-[100px] -z-10" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-yellow-400/20 dark:bg-yellow-500/10 rounded-full blur-[120px] -z-10" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-orange-300/15 dark:bg-yellow-600/5 rounded-full blur-[100px] -z-10" />
+        <div className="absolute top-10 right-10 w-[200px] h-[200px] bg-amber-300/20 dark:bg-amber-500/5 rounded-full blur-[80px] -z-10" />
 
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
@@ -116,11 +141,21 @@ export default function HowToBuyPage() {
       </section>
 
       {/* Steps Section */}
-      <section className="py-20 px-6 relative">
+      <section className="py-20 px-6 relative z-10 overflow-hidden">
+        <FloatingBackground density="medium" />
+        {/* Section gradient blobs — light theme richness */}
+        <div className="absolute top-0 left-0 w-[450px] h-[450px] rounded-full bg-yellow-300/15 dark:bg-yellow-500/5 blur-[130px] -z-10" />
+        <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full bg-orange-200/20 dark:bg-orange-500/5 blur-[110px] -z-10" />
+        <div className="absolute bottom-0 left-1/3 w-[500px] h-[300px] rounded-full bg-amber-200/20 dark:bg-amber-500/5 blur-[120px] -z-10" />
+        <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-yellow-200/25 dark:bg-yellow-400/5 blur-[100px] -z-10" />
+
+        <FloatingBackground />
+
+
         <div className="max-w-5xl mx-auto relative">
           
           {/* Vertical Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-yellow-500/30 to-transparent hidden md:block" />
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-yellow-500/80 to-transparent hidden md:block" />
 
           <div className="space-y-24">
             {steps.map((step, index) => (
@@ -133,14 +168,14 @@ export default function HowToBuyPage() {
                 className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 relative`}
               >
                 {/* Step Number Circle (Desktop) */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[var(--bg-secondary)] border border-yellow-500/50 flex items-center justify-center z-10 hidden md:flex">
-                  <span className="text-yellow-400 font-bold">{index + 1}</span>
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[var(--bg-secondary)] border border-yellow-500/70 flex items-center justify-center z-10 hidden md:flex shadow-sm">
+                  <span className="text-yellow-600 dark:text-yellow-400 font-bold">{index + 1}</span>
                 </div>
 
                 {/* Content Side */}
                 <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 glass-card border-yellow-500/20 group hover:border-yellow-500/50 transition-all duration-500`}>
-                    <step.icon className="w-8 h-8 text-yellow-400 group-hover:scale-110 transition-transform duration-500" />
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 glass-card border-yellow-500/40 group hover:border-yellow-500/60 transition-all duration-500`}>
+                    <step.icon className="w-8 h-8 text-yellow-500 dark:text-yellow-400 group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <h3 className="text-2xl md:text-3xl font-bold mb-4 text-[var(--text-primary)]">{step.title}</h3>
                   <p className="text-[var(--text-secondary)] text-lg leading-relaxed max-w-md mx-auto md:mx-0">
@@ -175,8 +210,8 @@ export default function HowToBuyPage() {
                     )}
 
                     {/* Decorative elements */}
-                    <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-white/5" />
-                    <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-white/5" />
+                    <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-black/5 dark:border-white/5" />
+                    <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-black/5 dark:border-white/5" />
                   </div>
                 </div>
               </motion.div>
@@ -186,7 +221,8 @@ export default function HowToBuyPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 relative overflow-hidden">
+      <section className="py-32 px-6 relative z-10 overflow-hidden">
+        <FloatingBackground density="medium" />
         <div className="absolute inset-0 bg-yellow-500/5 -z-10" />
         <div className="max-w-4xl mx-auto text-center glass-card p-12 md:p-20 border-yellow-500/10">
           <motion.div
