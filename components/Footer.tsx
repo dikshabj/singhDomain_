@@ -44,7 +44,7 @@ export default function Footer() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t px-6 py-16 relative" style={{borderColor:'var(--border)', background:'var(--bg-primary)'}}>
+      <footer className="border-t px-6 pt-16 pb-6 relative" style={{borderColor:'var(--border)', background:'var(--bg-primary)'}}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           {/* Brand */}
           <div>
