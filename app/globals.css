@@ -119,6 +119,7 @@ body::before {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  z-index: 1;
 }
 
 .btn-gold::before {
@@ -128,6 +129,7 @@ body::before {
   background: linear-gradient(135deg, #FFD700, #F5C518);
   opacity: 0;
   transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
 .btn-gold:hover::before {
