@@ -8,35 +8,18 @@ const TLDS = ['.singh', '.web3', '.crypto', '.nft', '.gaming', '.metaverse', '.u
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [showSearch, setShowSearch] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [cartCount] = useState(0)
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
-  const [search, setSearch] = useState('')
-  const [activeTld, setActiveTld] = useState('.singh')
-  const [tldIndex, setTldIndex] = useState(0)
 
   useEffect(() => {
     setMounted(true)
     const onScroll = () => {
       setScrolled(window.scrollY > 20)
-      setShowSearch(window.scrollY > window.innerHeight * 0.65)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // Cycle TLD in the navbar search bar
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTldIndex(i => {
-        const next = (i + 1) % TLDS.length
-        setActiveTld(TLDS[next])
-        return next
-      })
-    }, 2500)
-    return () => clearInterval(interval)
   }, [])
 
   if (!mounted) return null
@@ -118,55 +101,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Row 2: Sticky search bar — slides in below navbar when scrolled */}
-      <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          showSearch ? 'max-h-24 opacity-100 pb-3' : 'max-h-0 opacity-0 pb-0'
-        }`}
-      >
-        <div className="max-w-2xl mx-auto px-6">
-          <div
-            className="flex items-center rounded-full border px-2 py-1.5 shadow-lg"
-            style={{
-              background: 'var(--sticky-search-bg)',
-              borderColor: 'rgba(245,197,24,0.3)',
-              boxShadow: '0 4px 20px rgba(245,197,24,0.12)',
-            }}
-          >
-            {/* Input */}
-            <input
-              type="text"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Find your name."
-              className="flex-1 bg-transparent outline-none pl-5 pr-2 py-2 text-sm font-medium"
-              style={{ color: 'var(--text-primary)', caretColor: '#F5C518' }}
-            />
 
-            {/* Cycling TLD */}
-            <span
-              className="text-sm font-bold px-3 select-none whitespace-nowrap transition-all duration-300"
-              style={{ color: '#F5C518', fontFamily: 'Sora, sans-serif' }}
-            >
-              {activeTld}
-            </span>
-
-            {/* Divider */}
-            <div className="w-px h-5 bg-yellow-500/20 mr-1.5" />
-
-            {/* Gold circular search button */}
-            <button
-              className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-105 active:scale-95"
-              style={{
-                background: 'linear-gradient(135deg, #F5C518, #E6B800)',
-                boxShadow: '0 0 16px rgba(245,197,24,0.4)',
-              }}
-            >
-              <Search className="w-4 h-4 text-black" strokeWidth={2.5} />
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* Mobile Menu */}
       {menuOpen && (

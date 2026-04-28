@@ -197,12 +197,14 @@ export default function HeroSection() {
               />
 
               {/* Active TLD display */}
-              <span
-                className="text-base font-bold px-4 select-none whitespace-nowrap"
-                style={{ color: '#F5C518', fontFamily: 'Sora, sans-serif' }}
-              >
-                .singh
-              </span>
+              {!search && (
+                <span
+                  className="text-base font-bold px-4 select-none whitespace-nowrap"
+                  style={{ color: '#F5C518', fontFamily: 'Sora, sans-serif' }}
+                >
+                  .singh
+                </span>
+              )}
 
               {/* Divider */}
               <div className="w-px h-6 bg-yellow-500/20 mr-2" />

@@ -49,19 +49,19 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
       <div
         className="absolute z-10 flex items-center justify-center"
         style={{
-          top: 10, left: '50%', transform: 'translateX(-50%)',
-          width: 44, height: 44, borderRadius: '50%',
+          top: 28, left: '50%', transform: 'translateX(-50%)',
+          width: 48, height: 48, borderRadius: '50%',
           background: color + '25',
           border: `2px solid ${color}80`,
         }}
       >
-        <span style={{ fontSize: 18 }}>{icon}</span>
+        <span style={{ fontSize: 20 }}>{icon}</span>
       </div>
 
       {/* Content — centered */}
       <div
         className="absolute inset-0 flex flex-col items-center justify-center text-center z-10"
-        style={{ paddingTop: 48, paddingBottom: 36, paddingLeft: 44, paddingRight: 44 }}
+        style={{ paddingLeft: 40, paddingRight: 40 }}
       >
         <h3
           className="font-bold mb-2 leading-snug"
@@ -70,16 +70,21 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
           {title}
         </h3>
         <p
-          style={{ color: 'var(--text-secondary)', fontSize: 12, lineHeight: 1.6 }}
+          style={{ color: 'var(--text-secondary)', fontSize: 12, lineHeight: 1.55, opacity: 0.85 }}
         >
           {desc}
         </p>
-        <div
-          className="mt-3 flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold transition-transform duration-300 group-hover:scale-110"
-          style={{ background: color + '25', border: `1.5px solid ${color}60`, color }}
-        >
-          →
-        </div>
+      </div>
+
+      {/* Bottom vertex arrow */}
+      <div
+        className="absolute z-10 flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold transition-transform duration-300 group-hover:scale-110"
+        style={{
+          bottom: 28, left: '50%', transform: 'translateX(-50%)',
+          background: color + '25', border: `1.5px solid ${color}60`, color
+        }}
+      >
+        →
       </div>
     </div>
   )
