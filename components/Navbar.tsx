@@ -1,8 +1,10 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import { Sun, Moon, ShoppingBag, Menu, X, Search } from 'lucide-react'
+import { Sun, Moon, ShoppingBag, Menu, X, Search, LogOut, User } from 'lucide-react'
+import { getProfile, clearProfile, isLoggedIn as checkLoggedIn } from '@/lib/auth'
 
 const TLDS = ['.singh', '.web3', '.crypto', '.nft', '.gaming', '.metaverse', '.usa', '.dao']
 
@@ -11,7 +13,10 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [cartCount] = useState(0)
   const [mounted, setMounted] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [userEmail, setUserEmail] = useState('')
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
@@ -19,8 +24,23 @@ export default function Navbar() {
       setScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
+
+    // Check auth status
+    const profile = getProfile()
+    if (profile?.Token) {
+      setLoggedIn(true)
+      setUserEmail(profile.email || '')
+    }
+
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const handleLogout = () => {
+    clearProfile()
+    setLoggedIn(false)
+    setUserEmail('')
+    router.push('/')
+  }
 
   if (!mounted) return null
 
@@ -75,11 +95,32 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
 
-          <Link href="/login" className="hidden md:block">
-            <button className="btn-gold px-6 py-2.5 rounded-lg text-sm font-semibold relative z-10">
-              Login
-            </button>
-          </Link>
+
+          {/* Auth Buttons */}
+          {loggedIn ? (
+            <div className="hidden md:flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-black text-xs font-bold">
+                  {userEmail.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-sm text-[var(--text-primary)] font-medium max-w-[120px] truncate">{userEmail}</span>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-red-400 hover:border-red-400/30 transition-all"
+                aria-label="Logout"
+                title="Logout"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
+          ) : (
+            <Link href="/login" className="hidden md:block">
+              <button className="btn-gold px-6 py-2.5 rounded-lg text-sm font-semibold relative z-10">
+                Login
+              </button>
+            </Link>
+          )}
 
           {/* Cart Icon */}
           <button className="relative p-2 text-[var(--text-secondary)] hover:text-yellow-400 transition-colors">
@@ -116,9 +157,28 @@ export default function Navbar() {
               {item}
             </Link>
           ))}
-          <button className="btn-gold px-6 py-3 rounded-lg text-sm font-semibold w-full mt-2">
-            Login
-          </button>
+          {loggedIn ? (
+            <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-black text-sm font-bold">
+                  {userEmail.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-sm text-[var(--text-primary)] font-medium truncate max-w-[160px]">{userEmail}</span>
+              </div>
+              <button
+                onClick={() => { handleLogout(); setMenuOpen(false) }}
+                className="px-4 py-2 rounded-lg text-sm font-semibold text-red-400 border border-red-400/30 hover:bg-red-400/10 transition-all"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link href="/login" onClick={() => setMenuOpen(false)}>
+              <button className="btn-gold px-6 py-3 rounded-lg text-sm font-semibold w-full mt-2">
+                Login
+              </button>
+            </Link>
+          )}
         </div>
       )}
     </nav>
