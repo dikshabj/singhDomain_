@@ -18,7 +18,7 @@ export default function MintSection() {
         {/* Header */}
         <div className="flex items-center gap-6 mb-16">
           <div className="flex-1 section-line" />
-          <h2 className="text-[var(--text-primary)] text-xl font-bold tracking-widest uppercase whitespace-nowrap">
+          <h2 className="text-[var(--text-primary)] text-lg md:text-xl font-bold tracking-widest uppercase text-center">
             AVAILABLE MINT OPTIONS IN FUTURE
           </h2>
           <div className="flex-1 section-line" />

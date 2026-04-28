@@ -10,14 +10,14 @@
   
   /* Light Theme Variables */
   --bg-primary: #FFFFFF;
-  --bg-secondary: #F8F9FA;
-  --bg-card: rgba(0, 0, 0, 0.02);
-  --text-primary: #050508;
-  --text-secondary: #4B5563;
-  --border: rgba(0, 0, 0, 0.12);
-  --border-gold: rgba(245, 197, 24, 0.4);
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(0, 0, 0, 0.1);
+  --bg-secondary: #F5F5F0;
+  --bg-card: rgba(0, 0, 0, 0.04);
+  --text-primary: #111111;
+  --text-secondary: #3B3F47;
+  --border: rgba(0, 0, 0, 0.15);
+  --border-gold: rgba(245, 197, 24, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(0, 0, 0, 0.12);
   /* Globe animation */
   --globe-core-bg: radial-gradient(circle at 35% 35%, #fffbeb, #fef3c7);
   --globe-core-border: rgba(180, 120, 0, 0.5);
@@ -25,7 +25,7 @@
   --globe-ring1: rgba(180, 120, 0, 0.45);
   --globe-ring2: rgba(180, 120, 0, 0.25);
   --globe-sd-color: #92600a;
-  --sticky-search-bg: rgba(255, 255, 255, 0.92);
+  --sticky-search-bg: rgba(255, 255, 255, 0.95);
   --sticky-search-border: rgba(245, 197, 24, 0.35);
 }
 
@@ -94,15 +94,19 @@ body::before {
 
 /* Glassmorphism card */
 .glass-card {
-  background: var(--bg-card);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: 16px;
   transition: all 0.3s ease;
 }
 
+.dark .glass-card {
+  background: var(--bg-card);
+}
+
 .glass-card:hover {
-  background: rgba(245, 197, 24, 0.05);
+  background: rgba(245, 197, 24, 0.08);
   border-color: var(--gold);
   transform: translateY(-4px);
   box-shadow: 0 20px 60px rgba(245, 197, 24, 0.15);
@@ -286,7 +290,7 @@ body::before {
 
 /* Mint option card */
 .mint-card {
-  background: var(--bg-card);
+  background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 28px 20px;
@@ -295,8 +299,12 @@ body::before {
   cursor: pointer;
 }
 
+.dark .mint-card {
+  background: var(--bg-card);
+}
+
 .mint-card:hover {
-  background: rgba(245, 197, 24, 0.07);
+  background: rgba(245, 197, 24, 0.1);
   border-color: var(--gold);
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 30px 80px rgba(245, 197, 24, 0.15);

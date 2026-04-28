@@ -67,15 +67,15 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
         </h3>
 
         {/* Description */}
-        <p className="text-center text-xs leading-relaxed mb-4" style={{ color: 'var(--text-secondary)', opacity: 0.85 }}>
+        <p className="text-center text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
           {desc}
         </p>
 
         {/* Price + CTA row */}
         <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid var(--sponsor-card-border)' }}>
           <div>
-            <div className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--text-secondary)', opacity: 0.6 }}>SLDs from</div>
-            <div className="text-lg font-bold text-yellow-500" style={{ fontFamily: 'Sora, sans-serif' }}>{price}<span className="text-xs font-normal opacity-60">/yr</span></div>
+            <div className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--text-secondary)' }}>SLDs from</div>
+            <div className="text-lg font-bold text-yellow-600 dark:text-yellow-500" style={{ fontFamily: 'Sora, sans-serif' }}>{price}<span className="text-xs font-normal text-[var(--text-secondary)] ml-0.5">/yr</span></div>
           </div>
           <button
             className="px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 hover:scale-105 active:scale-95"
@@ -103,9 +103,6 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
 }
 
 export default function SponsoredSection() {
-  const [left] = [sponsoredTLDs[1]]          // .usa  — large left card
-  const right = [sponsoredTLDs[0], sponsoredTLDs[2], sponsoredTLDs[3]] // right stacked
-
   return (
     <section className="py-24 px-6 relative z-10 overflow-hidden">
       <FloatingBackground density="low" />
@@ -127,43 +124,33 @@ export default function SponsoredSection() {
       {/* Background orb */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-yellow-300/10 dark:bg-yellow-500/5 blur-[180px] -translate-y-1/2" />
+        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-yellow-200/10 dark:bg-yellow-400/5 blur-[140px]" />
       </div>
 
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Section Header — centered full-width */}
+        <div className="text-center mb-16">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
+            👑 Sponsored TLDs
+          </span>
 
-          {/* LEFT — text + large featured card */}
-          <div>
-            {/* Section label */}
-            <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
-              👑 Sponsored TLDs
-            </span>
+          <h2
+            className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
+            style={{ fontFamily: 'Sora, sans-serif' }}
+          >
+            Premium <span className="text-gradient">Web3 Domains</span>
+          </h2>
 
-            <h2
-              className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
-              style={{ fontFamily: 'Sora, sans-serif' }}
-            >
-              Premium<br />
-              <span className="text-gradient">Web3 Domains</span>
-            </h2>
+          <p className="text-[var(--text-secondary)] text-base leading-relaxed max-w-2xl mx-auto">
+            Discover our hand-picked sponsored TLDs — premium extensions that power the next generation of digital identities, brands, and communities on the blockchain.
+          </p>
+        </div>
 
-            <p className="text-[var(--text-secondary)] text-base leading-relaxed mb-12 max-w-md opacity-80">
-              Discover our hand-picked sponsored TLDs — premium extensions that power the next generation of digital identities, brands, and communities on the blockchain.
-            </p>
-
-            {/* Featured large card */}
-            <div className="max-w-sm">
-              <SponsorCard {...left} />
-            </div>
-          </div>
-
-          {/* RIGHT — 3 stacked cards */}
-          <div className="flex flex-col gap-10 pt-8">
-            {right.map(tld => (
-              <SponsorCard key={tld.name} {...tld} />
-            ))}
-          </div>
-
+        {/* Cards Grid — responsive: 1 → 2 → 4 columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-14">
+          {sponsoredTLDs.map(tld => (
+            <SponsorCard key={tld.name} {...tld} />
+          ))}
         </div>
       </div>
     </section>

@@ -136,7 +136,7 @@ export default function HeroSection() {
           <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full mx-auto lg:mx-0"
             style={{background:'rgba(245,197,24,0.1)', border:'1px solid rgba(245,197,24,0.2)'}}>
             <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-            <span className="text-yellow-400 text-sm font-medium">Web3 Domain Registry • Zero Renewal Fees</span>
+            <span className="text-yellow-700 dark:text-yellow-400 text-sm font-medium">Web3 Domain Registry • Zero Renewal Fees</span>
           </div>
 
         {/* Main heading */}
@@ -148,7 +148,7 @@ export default function HeroSection() {
           <span className="text-[var(--text-primary)]">and TLDs with</span>
           <br />
           <span className="text-[var(--text-primary)]">Zero </span>
-          <span className="text-yellow-400">Renewal Fees</span>
+          <span className="text-yellow-600 dark:text-yellow-400">Renewal Fees</span>
         </h1>
 
           {/* Sub text */}
@@ -226,7 +226,7 @@ export default function HeroSection() {
 
             {/* Popular searches */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-5 px-2">
-              <span className="text-xs text-[var(--text-secondary)] mr-1 self-center font-medium opacity-60">Trending:</span>
+              <span className="text-xs text-[var(--text-secondary)] mr-1 self-center font-medium">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
                   key={d}
@@ -251,8 +251,8 @@ export default function HeroSection() {
                 key={stat.label}
                 className="glass-card px-6 py-8 text-center lg:text-left flex flex-col justify-between hover:border-yellow-500/40 transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="text-5xl font-bold text-yellow-400 mb-3 leading-none" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
-                <div className="text-xs text-[var(--text-secondary)] uppercase tracking-widest opacity-70 font-semibold leading-snug">{stat.label}</div>
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-yellow-600 dark:text-yellow-400 mb-3 leading-none" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-[var(--text-secondary)] uppercase tracking-widest font-semibold leading-snug">{stat.label}</div>
               </div>
             ))}
           </div>
