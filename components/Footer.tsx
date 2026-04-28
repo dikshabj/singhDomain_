@@ -3,11 +3,11 @@ import Link from 'next/link'
 import FloatingBackground from './FloatingBackground'
 
 const socials = [
-  { icon: 'T', label: 'Twitter', href: '#', color: '#1DA1F2' },
-  { icon: 'I', label: 'Instagram', href: '#', color: '#E1306C' },
-  { icon: 'F', label: 'Facebook', href: '#', color: '#1877F2' },
-  { icon: 'in', label: 'LinkedIn', href: '#', color: '#0A66C2' },
-  { icon: '✈', label: 'Telegram', href: '#', color: '#229ED9' },
+  { icon: 'T', label: 'Twitter', href: 'https://x.com/SinghTheApp', color: '#1DA1F2' },
+  { icon: 'I', label: 'Instagram', href: 'https://www.instagram.com/singhtheapp/', color: '#E1306C' },
+  { icon: 'F', label: 'Facebook', href: 'https://www.facebook.com/singhtheapp', color: '#1877F2' },
+  { icon: 'in', label: 'LinkedIn', href: 'https://www.linkedin.com/company/singhtheapp', color: '#0A66C2' },
+  { icon: '✈', label: 'Telegram', href: 'https://t.me/group_singhtheapp', color: '#229ED9' },
 ]
 
 export default function Footer() {
@@ -56,7 +56,7 @@ export default function Footer() {
                 SINGH
               </span>
             </div>
-            <p className="text-[var(--text-secondary)] text-sm leading-relaxed opacity-70">
+            <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
               Singh domains are more than just web3 domains.
             </p>
           </div>
@@ -65,12 +65,17 @@ export default function Footer() {
           <div>
             <h4 className="text-[var(--text-primary)] font-semibold mb-5 uppercase tracking-widest text-sm">Company</h4>
             <ul className="space-y-3">
-              {['About', 'App', 'Premium DNS', 'Become a partner'].map(link => (
-                <li key={link}>
-                  <Link href="#" className="text-[var(--text-secondary)] hover:text-yellow-400 transition-colors text-sm flex items-center gap-2 opacity-80 hover:opacity-100">
+              {[
+                { label: 'About', href: 'https://singhcoin.io' },
+                { label: 'App', href: 'https://app.singhcoin.io' },
+                { label: 'Premium DNS', href: '#' },
+                { label: 'Become a partner', href: '#' },
+              ].map(link => (
+                <li key={link.label}>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] hover:text-yellow-400 transition-colors text-sm flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/50" />
-                    {link}
-                  </Link>
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -80,19 +85,19 @@ export default function Footer() {
           <div>
             <h4 className="text-[var(--text-primary)] font-semibold mb-5 uppercase tracking-widest text-sm">Download Singh Social Media app:</h4>
             <div className="flex flex-col gap-3">
-              <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-yellow-400/30"
-                style={{background:'var(--bg-card)', border:'1px solid var(--border)'}}>
+              <a href="https://play.google.com/store/apps/details?id=com.smartgenesis.singhcoin.singhcoin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-yellow-400/30"
+                style={{background:'var(--bg-secondary)', border:'1px solid var(--border)'}}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="#34A853"><path d="M3.18 23.76c.33.18.7.24 1.06.19l11.47-11.47L12.42 9.2z M.29 2.05C.1 2.42 0 2.85 0 3.35v17.3c0 .5.1.93.29 1.3l.1.09 9.69-9.69v-.23L.39 1.96zM19.44 9.33l-2.74-1.56L13.5 11l3.2 3.2 2.74-1.56c.78-.44.78-1.87 0-2.31zM4.24.05L15.71 11.52 12.42 14.8l-8.18-8.18c-.55-.55-.6-1.4-.1-2z"/></svg>
                 <div>
-                  <div className="text-[var(--text-secondary)] text-xs opacity-60">GET IT ON</div>
+                  <div className="text-[var(--text-secondary)] text-xs">GET IT ON</div>
                   <div className="text-[var(--text-primary)] text-sm font-semibold">Google Play</div>
                 </div>
               </a>
               <a href="https://apps.apple.com/in/app/singhcoin/id1634159563" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-yellow-400/30"
-                style={{background:'var(--bg-card)', border:'1px solid var(--border)'}}>
+                style={{background:'var(--bg-secondary)', border:'1px solid var(--border)'}}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-[var(--text-primary)]"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                 <div>
-                  <div className="text-[var(--text-secondary)] text-xs opacity-60">Download on the</div>
+                  <div className="text-[var(--text-secondary)] text-xs">Download on the</div>
                   <div className="text-[var(--text-primary)] text-sm font-semibold">App Store</div>
                 </div>
               </a>
@@ -101,9 +106,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="max-w-7xl mx-auto mt-12 pt-6 text-center text-[var(--text-secondary)] text-sm opacity-60"
+        <div className="max-w-7xl mx-auto mt-12 pt-6 text-center text-[var(--text-secondary)] text-sm"
           style={{borderTop:'1px solid var(--border)'}}>
-          © Singhcoin, All Right Reserved.
+          <p className="mb-2">© Singhcoin, All Right Reserved.</p>
+          <div className="flex justify-center gap-4">
+            <a href="https://singhcoin.io/privacypolicy.html" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">Privacy Policy</a>
+            <span>|</span>
+            <a href="https://singhcoin.io/tnc.html" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">Terms & Conditions</a>
+          </div>
         </div>
       </footer>
     </>

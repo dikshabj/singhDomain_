@@ -15,7 +15,15 @@ const features = [
 
 function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
   return (
-    <div style={{ width: S, height: S, position: 'relative', flexShrink: 0 }} className="group">
+    <div 
+      style={{ 
+        width: 'var(--diamond-s)', 
+        height: 'var(--diamond-s)', 
+        position: 'relative', 
+        flexShrink: 0 
+      }} 
+      className="group"
+    >
       {/* Shadow wrapper — drop-shadow respects clip-path */}
       <div
         className="absolute inset-0 transition-all duration-300 group-hover:scale-[1.04]"
@@ -57,12 +65,12 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
       >
         <h3
           className="font-bold mb-2 leading-snug"
-          style={{ color: 'var(--text-primary)', fontSize: 13, fontFamily: 'Sora,sans-serif', letterSpacing: '0.02em' }}
+          style={{ color: 'var(--text-primary)', fontSize: 14, fontFamily: 'Sora,sans-serif', letterSpacing: '0.02em' }}
         >
           {title}
         </h3>
         <p
-          style={{ color: 'var(--text-secondary)', fontSize: 11, lineHeight: 1.55, opacity: 0.85 }}
+          style={{ color: 'var(--text-secondary)', fontSize: 12, lineHeight: 1.6 }}
         >
           {desc}
         </p>
@@ -87,10 +95,20 @@ export default function FeaturesSection() {
     <section className="py-28 px-6 relative z-10 overflow-hidden">
       <FloatingBackground density="low" />
 
-      {/* CSS vars for diamond fill */}
+      {/* CSS vars for responsive sizing */}
       <style>{`
-        :root  { --diamond-fill: #fffcf0; }
+        :root  { 
+          --diamond-fill: #fffcf0; 
+          --diamond-s: 300px;
+        }
         .dark  { --diamond-fill: #0d0d18; }
+        
+        @media (max-width: 1100px) {
+          :root { --diamond-s: 260px; }
+        }
+        @media (max-width: 640px) {
+          :root { --diamond-s: 280px; }
+        }
       `}</style>
 
       {/* Background blobs */}
@@ -108,25 +126,38 @@ export default function FeaturesSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mt-4 mb-5" style={{ fontFamily: 'Sora,sans-serif' }}>
             With <span className="text-gradient">Singh Domain</span> You Can
           </h2>
-          <p className="text-[var(--text-secondary)] max-w-lg mx-auto text-base leading-relaxed opacity-80">
+          <p className="text-[var(--text-secondary)] max-w-lg mx-auto text-base leading-relaxed">
             Secure, Web3-native solutions — empowering you to own, manage, and grow your digital identity forever.
           </p>
         </div>
 
-        {/* Diamond honeycomb grid — shift whole group left by offset/2 to keep centered */}
+        {/* Responsive Diamond Grid */}
         <div className="flex flex-col items-center">
-          <div style={{ transform: `translateX(-${offset / 2}px)` }}>
-            {/* Row 1 */}
-            <div className="flex" style={{ gap: GAP }}>
-              {row1.map(f => <DiamondCard key={f.title} {...f} />)}
+          {/* Desktop: Staggered Honeycomb (3-3) */}
+          <div className="hidden xl:block">
+            <div style={{ transform: `translateX(-${offset / 2}px)` }}>
+              {/* Row 1 */}
+              <div className="flex" style={{ gap: GAP }}>
+                {row1.map(f => <DiamondCard key={f.title} {...f} />)}
+              </div>
+              {/* Row 2 — shifted right */}
+              <div
+                className="flex"
+                style={{ gap: GAP, marginTop: -overlapY, transform: `translateX(${offset}px)` }}
+              >
+                {row2.map(f => <DiamondCard key={f.title} {...f} />)}
+              </div>
             </div>
-            {/* Row 2 — shifted right by full offset relative to row 1 */}
-            <div
-              className="flex"
-              style={{ gap: GAP, marginTop: -overlapY, transform: `translateX(${offset}px)` }}
-            >
-              {row2.map(f => <DiamondCard key={f.title} {...f} />)}
-            </div>
+          </div>
+
+          {/* Tablet: 2-column grid */}
+          <div className="hidden md:grid xl:hidden grid-cols-2 gap-x-8 gap-y-16">
+             {features.map(f => <DiamondCard key={f.title} {...f} />)}
+          </div>
+
+          {/* Mobile: 1-column stack */}
+          <div className="grid md:hidden grid-cols-1 gap-y-12">
+             {features.map(f => <DiamondCard key={f.title} {...f} />)}
           </div>
         </div>
       </div>
