@@ -116,7 +116,7 @@ export default function HowToBuyPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative z-10 pt-32 pb-20 px-6">
         <FloatingBackground density="medium" />
         {/* Background Blobs */}
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-yellow-400/20 dark:bg-yellow-500/10 rounded-full blur-[120px] -z-10" />
@@ -141,7 +141,7 @@ export default function HowToBuyPage() {
       </section>
 
       {/* Steps Section */}
-      <section className="py-20 px-6 relative z-10 overflow-hidden">
+      <section className="py-20 px-6 relative z-10">
         <FloatingBackground density="medium" />
         {/* Section gradient blobs — light theme richness */}
         <div className="absolute top-0 left-0 w-[450px] h-[450px] rounded-full bg-yellow-300/15 dark:bg-yellow-500/5 blur-[130px] -z-10" />
@@ -217,9 +217,8 @@ export default function HowToBuyPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 relative z-10 overflow-hidden">
+      <section className="py-32 px-6 relative z-10">
         <FloatingBackground density="medium" />
-        <div className="absolute inset-0 bg-yellow-500/5 -z-10" />
         <div className="max-w-4xl mx-auto text-center glass-card p-12 md:p-20 border-yellow-500/10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
