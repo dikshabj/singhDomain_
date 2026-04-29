@@ -34,11 +34,11 @@ const sponsoredTLDs = [
 
 function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
   return (
-    <div className="relative group">
+    <div className="relative group h-full">
 
       {/* Card */}
       <div
-        className="relative rounded-2xl pt-10 pb-6 px-6 transition-all duration-300 group-hover:-translate-y-1"
+        className="relative h-full flex flex-col rounded-2xl pt-10 pb-6 px-6 transition-all duration-300 group-hover:-translate-y-1"
         style={{
           background: 'var(--sponsor-card-bg)',
           border: '1px solid var(--sponsor-card-border)',
@@ -67,7 +67,7 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
         </h3>
 
         {/* Description */}
-        <p className="text-center text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-center text-sm leading-relaxed mb-4 flex-grow" style={{ color: 'var(--text-secondary)' }}>
           {desc}
         </p>
 

@@ -22,6 +22,21 @@ export async function verifyOtp(email: string, otp: number) {
   return response.data
 }
 
+export async function googleLogin(access_token: string) {
+  const response = await api.post('/user/google/login', { access_token })
+  return response.data
+}
+
+export async function forgotPassword(email: string) {
+  const response = await api.get(`/user/forget-password/${email}`)
+  return response.data
+}
+
+export async function resetPassword(email: string, otp: number, newPassword: string) {
+  const response = await api.post('/user/reset-password-otp', { email, otp, newPassword })
+  return response.data
+}
+
 export function saveProfile(data: LoginResponse) {
   if (typeof window !== 'undefined') {
     localStorage.setItem('profile', JSON.stringify(data))
