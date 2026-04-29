@@ -5,35 +5,7 @@ import FloatingBackground from './FloatingBackground'
 const DOMAINS = ['.singh', '.metaverse', '.gaming', '.usa', '.web3', '.crypto', '.nft', '.dao']
 
 export default function HeroSection() {
-  const [typedText, setTypedText] = useState('')
   const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  // Typing animation
-  useEffect(() => {
-    const types = ['TLD', 'SLD', 'ALL']
-    let idx = 0
-    let charIdx = 0
-    let deleting = false
-
-    const interval = setInterval(() => {
-      const current = types[idx % types.length]
-      if (!deleting) {
-        setTypedText(current.slice(0, charIdx + 1))
-        charIdx++
-        if (charIdx === current.length) {
-          setTimeout(() => { deleting = true }, 1200)
-        }
-      } else {
-        setTypedText(current.slice(0, charIdx - 1))
-        charIdx--
-        if (charIdx === 0) {
-          deleting = false
-          idx++
-        }
-      }
-    }, 120)
-    return () => clearInterval(interval)
-  }, [])
 
   // Canvas particle effect
   useEffect(() => {
@@ -110,7 +82,6 @@ export default function HeroSection() {
     }
   }, [])
 
-  const [search, setSearch] = useState('')
 
   return (
     <section className="relative min-h-[90vh] lg:h-screen flex flex-col items-center justify-center overflow-hidden pt-28 pb-10 lg:pt-32" style={{ zIndex: 0 }}>
@@ -164,7 +135,6 @@ export default function HeroSection() {
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
                   key={d}
-                  onClick={() => setSearch(d)}
                   className="domain-pill text-[10px] py-1 px-3 border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-400/10 transition-colors"
                 >
                   {d}
