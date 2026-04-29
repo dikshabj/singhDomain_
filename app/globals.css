@@ -5,32 +5,34 @@
 @tailwind utilities;
 
 :root {
-  --gold: #F5C518;
-  --gold-glow: rgba(245, 197, 24, 0.4);
+  --gold: #FF733F;
+  --gold-glow: rgba(255, 115, 63, 0.25);
   
   /* Light Theme Variables */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F5F5F0;
-  --bg-card: rgba(0, 0, 0, 0.04);
-  --text-primary: #111111;
-  --text-secondary: #3B3F47;
-  --border: rgba(0, 0, 0, 0.15);
-  --border-gold: rgba(245, 197, 24, 0.5);
-  --glass-bg: rgba(255, 255, 255, 0.92);
-  --glass-border: rgba(0, 0, 0, 0.12);
+  --bg-primary: #FDFCF0;
+  --bg-secondary: #F7F6E9;
+  --bg-card: #FFFFFF;
+  --text-primary: #1A1A1A;
+  --text-secondary: #525252;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-gold: rgba(255, 115, 63, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
   /* Globe animation */
-  --globe-core-bg: radial-gradient(circle at 35% 35%, #fffbeb, #fef3c7);
-  --globe-core-border: rgba(180, 120, 0, 0.5);
-  --globe-core-shadow: 0 0 60px rgba(245,197,24,0.35), inset 0 0 40px rgba(245,197,24,0.2);
-  --globe-ring1: rgba(180, 120, 0, 0.45);
-  --globe-ring2: rgba(180, 120, 0, 0.25);
-  --globe-sd-color: #92600a;
-  --sticky-search-bg: rgba(255, 255, 255, 0.95);
-  --sticky-search-border: rgba(245, 197, 24, 0.35);
+  --globe-core-bg: radial-gradient(circle at 35% 35%, #FFFFFF, #FFFBEB);
+  --globe-core-border: rgba(255, 115, 63, 0.3);
+  --globe-core-shadow: 0 0 60px rgba(255, 115, 63, 0.2), inset 0 0 40px rgba(255, 115, 63, 0.1);
+  --globe-ring1: rgba(255, 115, 63, 0.2);
+  --globe-ring2: rgba(255, 115, 63, 0.1);
+  --globe-sd-color: #FF733F;
+  --sticky-search-bg: rgba(255, 255, 255, 0.9);
+  --sticky-search-border: rgba(255, 115, 63, 0.2);
 }
 
 .dark {
-  /* Dark Theme Variables */
+  /* Dark Theme Variables — ORIGINAL, UNTOUCHED */
+  --gold: #F5C518;
+  --gold-glow: rgba(245, 197, 24, 0.4);
   --bg-primary: #050508;
   --bg-secondary: #0A0A12;
   --bg-card: rgba(255, 255, 255, 0.03);
@@ -106,16 +108,20 @@ body::before {
 }
 
 .glass-card:hover {
-  background: rgba(245, 197, 24, 0.08);
   border-color: var(--gold);
   transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass-card:hover {
+  background: rgba(245, 197, 24, 0.08);
   box-shadow: 0 20px 60px rgba(245, 197, 24, 0.15);
 }
 
 /* Gold glow button */
 .btn-gold {
-  background: linear-gradient(135deg, #F5C518, #E6A800);
-  color: #000;
+  background: linear-gradient(135deg, var(--gold), #FF5C21);
+  color: #FFFFFF;
   font-family: 'Sora', sans-serif;
   font-weight: 700;
   border: none;
@@ -126,14 +132,23 @@ body::before {
   z-index: 1;
 }
 
+.dark .btn-gold {
+  background: linear-gradient(135deg, #F5C518, #E6A800);
+  color: #000;
+}
+
 .btn-gold::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #FFD700, #F5C518);
+  background: linear-gradient(135deg, #FF8E64, var(--gold));
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
+}
+
+.dark .btn-gold::before {
+  background: linear-gradient(135deg, #FFD700, #F5C518);
 }
 
 .btn-gold:hover::before {
@@ -142,6 +157,10 @@ body::before {
 
 .btn-gold:hover {
   transform: translateY(-2px);
+  box-shadow: 0 10px 40px var(--gold-glow);
+}
+
+.dark .btn-gold:hover {
   box-shadow: 0 10px 40px rgba(245, 197, 24, 0.5);
 }
 
@@ -155,19 +174,32 @@ body::before {
 }
 
 .btn-outline:hover {
-  background: rgba(245, 197, 24, 0.1);
+  background: color-mix(in srgb, var(--gold), transparent 95%);
   border-color: var(--gold);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--gold), transparent 90%);
+}
+
+.dark .btn-outline:hover {
+  background: rgba(245, 197, 24, 0.1);
   box-shadow: 0 0 30px rgba(245, 197, 24, 0.2);
 }
 
 /* Gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #F5C518, #FF6B35, #F5C518);
+  background: linear-gradient(135deg, #FF733F, #FFB000, #FF733F);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shimmer 3s linear infinite;
+}
+
+.dark .text-gradient {
+  background: linear-gradient(135deg, #F5C518, #FF6B35, #F5C518);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @keyframes shimmer {
@@ -190,7 +222,7 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(245, 197, 24, 0.08), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--gold), transparent 92%), transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -215,7 +247,7 @@ body::before {
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(var(--angle, 0deg), #F5C518, transparent, #F5C518);
+  background: linear-gradient(var(--angle, 0deg), var(--gold), transparent, var(--gold));
   z-index: -1;
   animation: rotateBorder 4s linear infinite;
 }
@@ -240,8 +272,8 @@ body::before {
 
 /* Domain tag pill */
 .domain-pill {
-  background: rgba(245, 197, 24, 0.1);
-  border: 1px solid rgba(245, 197, 24, 0.2);
+  background: color-mix(in srgb, var(--gold), transparent 90%);
+  border: 1px solid color-mix(in srgb, var(--gold), transparent 80%);
   border-radius: 100px;
   padding: 6px 16px;
   font-size: 13px;
@@ -251,7 +283,7 @@ body::before {
 }
 
 .domain-pill:hover {
-  background: rgba(245, 197, 24, 0.2);
+  background: color-mix(in srgb, var(--gold), transparent 80%);
   border-color: var(--gold);
 }
 
@@ -266,8 +298,8 @@ body::before {
 .search-input:focus {
   outline: none;
   border-color: var(--gold);
-  background: rgba(245, 197, 24, 0.05);
-  box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.1);
+  background: color-mix(in srgb, var(--gold), transparent 95%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold), transparent 90%);
 }
 
 .search-input::placeholder {
@@ -278,7 +310,7 @@ body::before {
 /* Section divider */
 .section-line {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245, 197, 24, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold), transparent 50%), transparent);
 }
 
 /* Nav blur */
@@ -304,10 +336,10 @@ body::before {
 }
 
 .mint-card:hover {
-  background: rgba(245, 197, 24, 0.1);
+  background: color-mix(in srgb, var(--gold), transparent 90%);
   border-color: var(--gold);
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 30px 80px rgba(245, 197, 24, 0.15);
+  box-shadow: 0 30px 80px color-mix(in srgb, var(--gold), transparent 85%);
 }
 
 /* Feature card */
@@ -329,7 +361,7 @@ body::before {
 
 /* Announcement bar */
 .announcement-bar {
-  background: linear-gradient(90deg, #0F0A00, #1A1200, #F5C518, #1A1200, #0F0A00);
+  background: linear-gradient(90deg, #0F0A00, #1A1200, var(--gold), #1A1200, #0F0A00);
   background-size: 300% 100%;
   animation: sweepGold 4s ease infinite;
 }

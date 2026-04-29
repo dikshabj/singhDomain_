@@ -117,8 +117,8 @@ export default function SponsoredSection() {
       <style>{`
         :root {
           --sponsor-card-bg: rgba(255,255,255,0.92);
-          --sponsor-card-border: rgba(245,197,24,0.25);
-          --sponsor-num: rgba(245,197,24,0.10);
+          --sponsor-card-border: rgba(255,115,63,0.15);
+          --sponsor-num: rgba(255,115,63,0.08);
         }
         .dark {
           --sponsor-card-bg: rgba(255,255,255,0.04);
@@ -129,8 +129,8 @@ export default function SponsoredSection() {
 
       {/* Background orb */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-yellow-300/10 dark:bg-yellow-500/5 blur-[180px] -translate-y-1/2" />
-        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-yellow-200/10 dark:bg-yellow-400/5 blur-[140px]" />
+        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-orange-300/10 dark:bg-yellow-500/5 blur-[180px] -translate-y-1/2" />
+        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-orange-200/10 dark:bg-yellow-400/5 blur-[140px]" />
       </div>
 
       <div className="max-w-7xl mx-auto">

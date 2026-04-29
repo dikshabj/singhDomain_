@@ -32,7 +32,10 @@ function DiamondCard({ icon: Icon, title, desc, color }: typeof features[0]) {
         {/* Colored border diamond */}
         <div
           className="absolute inset-0"
-          style={{ clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)', background: color + '55' }}
+          style={{ 
+            clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)', 
+            background: color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 66%)` : color + '55' 
+          }}
         />
         {/* Fill diamond — inset 2px so colored border shows */}
         <div
@@ -130,14 +133,14 @@ export default function FeaturesSection() {
 
       {/* Background blobs */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-yellow-300/15 dark:bg-yellow-500/5 blur-[160px]" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-orange-300/15 dark:bg-yellow-500/5 blur-[160px]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-teal-200/10 dark:bg-teal-500/5 blur-[140px]" />
       </div>
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-20">
-          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-orange-400/10 dark:bg-yellow-400/10 border border-orange-400/20 dark:border-yellow-400/20">
             Platform Features
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mt-4 mb-5" style={{ fontFamily: 'Sora,sans-serif' }}>
