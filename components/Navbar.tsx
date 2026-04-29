@@ -68,7 +68,7 @@ export default function Navbar() {
             className="font-display text-2xl tracking-widest text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors"
             style={{ fontFamily: 'Bebas Neue, sans-serif', letterSpacing: '0.15em' }}
           >
-            WEB3 DOMAINS
+            SINGHDOMAIN
           </span>
         </Link>
 
