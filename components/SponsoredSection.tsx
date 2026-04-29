@@ -37,6 +37,7 @@ const sponsoredTLDs = [
 
 function SponsorCard({ name, price, desc, icon: Icon, color, index, total }: any) {
   return (
+<<<<<<< HEAD
     <motion.div 
       className="relative w-full max-w-lg mx-auto"
       initial={false}
@@ -44,6 +45,13 @@ function SponsorCard({ name, price, desc, icon: Icon, color, index, total }: any
       {/* Card */}
       <div
         className="relative rounded-2xl pt-14 pb-8 px-10 transition-all duration-500 min-h-[380px] flex flex-col justify-between"
+=======
+    <div className="relative group h-full">
+
+      {/* Card */}
+      <div
+        className="relative h-full flex flex-col rounded-2xl pt-10 pb-6 px-6 transition-all duration-300 group-hover:-translate-y-1"
+>>>>>>> a71f9849505eb94526f2ff25d19725a526247980
         style={{
           background: 'var(--sponsor-card-bg)',
           border: '1px solid var(--sponsor-card-border)',
@@ -78,15 +86,24 @@ function SponsorCard({ name, price, desc, icon: Icon, color, index, total }: any
         </h3>
 
         {/* Description */}
+<<<<<<< HEAD
         <p className="text-center text-xs leading-relaxed mb-4 opacity-70" style={{ color: 'var(--text-secondary)' }}>
+=======
+        <p className="text-center text-sm leading-relaxed mb-4 flex-grow" style={{ color: 'var(--text-secondary)' }}>
+>>>>>>> a71f9849505eb94526f2ff25d19725a526247980
           {desc}
         </p>
 
         {/* Price + CTA row */}
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
           <div>
+<<<<<<< HEAD
             <div className="text-[10px] uppercase tracking-widest font-semibold opacity-50" style={{ color: 'var(--text-secondary)' }}>SLDs from</div>
             <div className="text-lg font-bold text-yellow-500">{price}<span className="text-xs font-normal opacity-50">/yr</span></div>
+=======
+            <div className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--text-secondary)' }}>SLDs from</div>
+            <div className="text-lg font-bold text-yellow-600 dark:text-yellow-500" style={{ fontFamily: 'Sora, sans-serif' }}>{price}<span className="text-xs font-normal text-[var(--text-secondary)] ml-0.5">/yr</span></div>
+>>>>>>> a71f9849505eb94526f2ff25d19725a526247980
           </div>
           <button className="px-4 py-2 rounded-xl text-xs font-bold btn-gold shadow-lg shadow-yellow-500/20">
             Register →
@@ -130,6 +147,7 @@ export default function SponsoredSection() {
       {/* Background orb */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-yellow-300/10 dark:bg-yellow-500/5 blur-[180px] -translate-y-1/2" />
+        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-yellow-200/10 dark:bg-yellow-400/5 blur-[140px]" />
       </div>
 
       <div className="max-w-7xl mx-auto">
