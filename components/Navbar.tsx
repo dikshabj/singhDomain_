@@ -55,15 +55,15 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-10 h-10">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 animate-pulse-slow opacity-40 blur-sm" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 dark:from-yellow-400 dark:to-yellow-600 animate-pulse-slow opacity-40 blur-sm" />
             <img
               src="/images/singh-logo.png"
               alt="Singh Domain Logo"
-              className="relative w-10 h-10 rounded-full object-cover shadow-lg ring-1 ring-yellow-500/30"
+              className="relative w-10 h-10 rounded-full object-cover shadow-lg ring-1 ring-orange-500/30 dark:ring-yellow-500/30"
             />
           </div>
           <span
-            className="font-display text-2xl tracking-widest text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors"
+            className="font-display text-2xl tracking-widest text-[var(--text-primary)] group-hover:text-[var(--gold)] dark:group-hover:text-yellow-400 transition-colors"
             style={{ fontFamily: 'Bebas Neue, sans-serif', letterSpacing: '0.15em' }}
           >
             SINGHDOMAIN
@@ -76,10 +76,10 @@ export default function Navbar() {
             <Link
               key={item}
               href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-sm font-medium text-[var(--text-secondary)] hover:text-yellow-400 transition-all duration-300 relative group"
+              className="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-all duration-300 relative group"
             >
               {item}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-yellow-400 group-hover:w-full transition-all duration-300" />
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[var(--gold)] dark:bg-yellow-400 group-hover:w-full transition-all duration-300" />
             </Link>
           ))}
         </div>
@@ -89,7 +89,7 @@ export default function Navbar() {
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-yellow-400 transition-all"
+            className="p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-all"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -99,8 +99,8 @@ export default function Navbar() {
           {/* Auth Buttons */}
           {loggedIn ? (
             <div className="hidden md:flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-black text-xs font-bold">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-orange-500/10 dark:bg-yellow-500/10 border border-orange-500/20 dark:border-yellow-500/20">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 dark:from-yellow-400 dark:to-yellow-600 flex items-center justify-center text-black text-xs font-bold">
                   {userEmail.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm text-[var(--text-primary)] font-medium max-w-[120px] truncate">{userEmail}</span>
@@ -123,10 +123,10 @@ export default function Navbar() {
           )}
 
           {/* Cart Icon */}
-          <button className="relative p-2 text-[var(--text-secondary)] hover:text-yellow-400 transition-colors">
+          <button className="relative p-2 text-[var(--text-secondary)] hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors">
             <ShoppingBag className="w-5 h-5" />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 bg-orange-400 dark:bg-yellow-400 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">
                 {cartCount}
               </span>
             )}
@@ -134,7 +134,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-[var(--text-secondary)] hover:text-yellow-400 transition-colors"
+            className="md:hidden text-[var(--text-secondary)] hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -151,7 +151,7 @@ export default function Navbar() {
             <Link
               key={item}
               href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="text-[var(--text-secondary)] hover:text-yellow-400 transition-colors text-lg"
+              className="text-[var(--text-secondary)] hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors text-lg"
               onClick={() => setMenuOpen(false)}
             >
               {item}
@@ -160,7 +160,7 @@ export default function Navbar() {
           {loggedIn ? (
             <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-black text-sm font-bold">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 dark:from-yellow-400 dark:to-yellow-600 flex items-center justify-center text-black text-sm font-bold">
                   {userEmail.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm text-[var(--text-primary)] font-medium truncate max-w-[160px]">{userEmail}</span>

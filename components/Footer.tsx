@@ -30,8 +30,8 @@ export default function Footer() {
                 href={s.href}
                 className="w-14 h-14 rounded-2xl flex items-center justify-center text-black font-bold text-lg transition-all duration-300 hover:-translate-y-2"
                 style={{
-                  background: `linear-gradient(135deg, #F5C518, #E6A800)`,
-                  boxShadow: '0 4px 20px rgba(245,197,24,0.3)',
+                  background: `linear-gradient(135deg, var(--gold), #E85D20)`,
+                  boxShadow: '0 4px 20px var(--gold-glow)',
                   fontFamily: s.icon.length > 1 ? 'inherit' : 'inherit'
                 }}
                 title={s.label}
@@ -49,8 +49,8 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white/5 p-1 border border-yellow-500/20">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 opacity-20 blur-sm" />
+            <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white/5 p-1 border border-orange-500/20 dark:border-yellow-500/20">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 dark:from-yellow-400 dark:to-yellow-600 opacity-20 blur-sm" />
                 <img
                   src="/images/singh-logo.png"
                   alt="SinghDomain Logo"
@@ -77,8 +77,8 @@ export default function Footer() {
                 { label: 'Become a partner', href: '/' },
               ].map(link => (
                 <li key={link.label}>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] hover:text-yellow-400 transition-colors text-sm flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/50" />
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors text-sm flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400/50 dark:bg-yellow-400/50" />
                     {link.label}
                   </a>
                 </li>
@@ -90,7 +90,7 @@ export default function Footer() {
           <div>
             <h4 className="text-[var(--text-primary)] font-semibold mb-5 uppercase tracking-widest text-sm">Download Singh Social Media app:</h4>
             <div className="flex flex-col gap-3">
-              <a href="https://play.google.com/store/apps/details?id=com.smartgenesis.singhcoin.singhcoin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-yellow-400/30"
+              <a href="https://play.google.com/store/apps/details?id=com.smartgenesis.singhcoin.singhcoin" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-orange-400/30 dark:hover:border-yellow-400/30"
                 style={{background:'var(--bg-secondary)', border:'1px solid var(--border)'}}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="#34A853"><path d="M3.18 23.76c.33.18.7.24 1.06.19l11.47-11.47L12.42 9.2z M.29 2.05C.1 2.42 0 2.85 0 3.35v17.3c0 .5.1.93.29 1.3l.1.09 9.69-9.69v-.23L.39 1.96zM19.44 9.33l-2.74-1.56L13.5 11l3.2 3.2 2.74-1.56c.78-.44.78-1.87 0-2.31zM4.24.05L15.71 11.52 12.42 14.8l-8.18-8.18c-.55-.55-.6-1.4-.1-2z"/></svg>
                 <div>
@@ -98,7 +98,7 @@ export default function Footer() {
                   <div className="text-[var(--text-primary)] text-sm font-semibold">Google Play</div>
                 </div>
               </a>
-              <a href="https://apps.apple.com/in/app/singhcoin/id1634159563" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-yellow-400/30"
+              <a href="https://apps.apple.com/in/app/singhcoin/id1634159563" className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:border-orange-400/30 dark:hover:border-yellow-400/30"
                 style={{background:'var(--bg-secondary)', border:'1px solid var(--border)'}}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-[var(--text-primary)]"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                 <div>
@@ -115,9 +115,9 @@ export default function Footer() {
           style={{borderTop:'1px solid var(--border)'}}>
           <p className="mb-2">© Singhcoin, All Right Reserved.</p>
           <div className="flex justify-center gap-4">
-            <a href="https://singhcoin.io/privacypolicy.html" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">Privacy Policy</a>
+            <a href="https://singhcoin.io/privacypolicy.html" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors">Privacy Policy</a>
             <span>|</span>
-            <a href="https://singhcoin.io/tnc.html" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors">Terms & Conditions</a>
+            <a href="https://singhcoin.io/tnc.html" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors">Terms & Conditions</a>
           </div>
         </div>
       </footer>

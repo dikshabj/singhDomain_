@@ -6,10 +6,10 @@ const GAP = 6
 
 const features = [
   { icon: '🌐', title: 'Be a Registrar', desc: 'Manage and register your own web3 domains with full control.', color: '#4ECDC4' },
-  { icon: '⛓️', title: 'Mint Web3 TLDs', desc: 'Mint your own TLDs and sell them on the marketplace.', color: '#F5C518' },
+  { icon: '⛓️', title: 'Mint Web3 TLDs', desc: 'Mint your own TLDs and sell them on the marketplace.', color: 'var(--gold)' },
   { icon: '🛡️', title: 'Own Your Identity', desc: 'Secure your unique digital presence permanently on the blockchain.', color: '#4ECDC4' },
   { icon: '📧', title: 'Web3 Emails', desc: 'Secure decentralized communication with web3-enabled emails.', color: '#FF6B35' },
-  { icon: '💳', title: 'Name Your Wallet', desc: 'Personalize your crypto wallet with a human-readable domain.', color: '#F5C518' },
+  { icon: '💳', title: 'Name Your Wallet', desc: 'Personalize your crypto wallet with a human-readable domain.', color: 'var(--gold)' },
   { icon: '🌍', title: 'Surf the Internet', desc: 'Browse smoothly with web3-enabled DNS resolution.', color: '#4ECDC4' },
 ]
 
@@ -32,7 +32,10 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
         {/* Colored border diamond */}
         <div
           className="absolute inset-0"
-          style={{ clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)', background: color + '55' }}
+          style={{ 
+            clipPath: 'polygon(50% 0%,100% 50%,50% 100%,0% 50%)', 
+            background: color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 66%)` : color + '55' 
+          }}
         />
         {/* Fill diamond — inset 2px so colored border shows */}
         <div
@@ -51,8 +54,8 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
         style={{
           top: 28, left: '50%', transform: 'translateX(-50%)',
           width: 48, height: 48, borderRadius: '50%',
-          background: color + '25',
-          border: `2px solid ${color}80`,
+          background: color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 85%)` : color + '25',
+          border: `2px solid ${color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 50%)` : color + '80'}`,
         }}
       >
         <span style={{ fontSize: 20 }}>{icon}</span>
@@ -81,7 +84,9 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
         className="absolute z-10 flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold transition-transform duration-300 group-hover:scale-110"
         style={{
           bottom: 28, left: '50%', transform: 'translateX(-50%)',
-          background: color + '25', border: `1.5px solid ${color}60`, color
+          background: color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 85%)` : color + '25', 
+          border: `1.5px solid ${color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 60%)` : color + '60'}`, 
+          color: color.startsWith('var') ? color : color
         }}
       >
         →
@@ -118,14 +123,14 @@ export default function FeaturesSection() {
 
       {/* Background blobs */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-yellow-300/15 dark:bg-yellow-500/5 blur-[160px]" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-orange-300/15 dark:bg-yellow-500/5 blur-[160px]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-teal-200/10 dark:bg-teal-500/5 blur-[140px]" />
       </div>
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-20">
-          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-orange-400/10 dark:bg-yellow-400/10 border border-orange-400/20 dark:border-yellow-400/20">
             Platform Features
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mt-4 mb-5" style={{ fontFamily: 'Sora,sans-serif' }}>

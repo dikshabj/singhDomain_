@@ -2,7 +2,7 @@
 export default function AnnouncementBar() {
   return (
     <div className="relative overflow-hidden z-40 h-10 flex items-center" style={{
-      background: 'linear-gradient(90deg, #0a0a0a, #1a1200, #F5C518 40%, #F5C518 60%, #1a1200, #0a0a0a)',
+      background: 'linear-gradient(90deg, #0a0a0a, #1a1200, var(--gold) 40%, var(--gold) 60%, #1a1200, #0a0a0a)',
       backgroundSize: '200% 100%',
       animation: 'sweepGold 5s ease infinite'
     }}>
