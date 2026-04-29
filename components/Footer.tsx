@@ -32,7 +32,6 @@ export default function Footer() {
                 style={{
                   background: `linear-gradient(135deg, var(--gold), #E85D20)`,
                   boxShadow: '0 4px 20px var(--gold-glow)',
-                  fontFamily: s.icon.length > 1 ? 'inherit' : 'inherit'
                 }}
                 title={s.label}
               >
