@@ -3,6 +3,7 @@ import HeroSection from '@/components/HeroSection'
 import SponsoredSection from '@/components/SponsoredSection'
 import FeaturesSection from '@/components/FeaturesSection'
 import MintSection from '@/components/MintSection'
+import StatsSection from '@/components/StatsSection'
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
     <main className="relative min-h-screen">
       <Navbar />
       <HeroSection />
+      <StatsSection />
       <SponsoredSection />
       <FeaturesSection />
       <MintSection />

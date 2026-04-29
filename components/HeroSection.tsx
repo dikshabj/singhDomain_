@@ -6,7 +6,6 @@ const DOMAINS = ['.singh', '.metaverse', '.gaming', '.usa', '.web3', '.crypto', 
 
 export default function HeroSection() {
   const [typedText, setTypedText] = useState('')
-  const [activeType, setActiveType] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // Typing animation
@@ -30,7 +29,6 @@ export default function HeroSection() {
         if (charIdx === 0) {
           deleting = false
           idx++
-          setActiveType(idx % 3)
         }
       }
     }, 120)
@@ -115,7 +113,7 @@ export default function HeroSection() {
   const [search, setSearch] = useState('')
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16 lg:pt-32">
+    <section className="relative min-h-[90vh] lg:h-screen flex flex-col items-center justify-center overflow-hidden pt-28 pb-10 lg:pt-32" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -130,136 +128,65 @@ export default function HeroSection() {
       <div className="orb w-64 h-64 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{background:'radial-gradient(circle, rgba(78,205,196,0.08), transparent 70%)', zIndex:1}} />
 
       {/* Main content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        <div className="lg:col-span-7 text-center lg:text-left pt-8">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full mx-auto lg:mx-0"
-            style={{background:'rgba(245,197,24,0.1)', border:'1px solid rgba(245,197,24,0.2)'}}>
-            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-            <span className="text-yellow-400 text-sm font-medium">Web3 Domain Registry • Zero Renewal Fees</span>
-          </div>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-start pt-6 md:pt-8">
+        
+            {/* Web3 Registry Badge — stay at top */}
+            <div className="inline-flex items-center gap-2 mb-2 px-3 py-1.5 rounded-full"
+              style={{background:'rgba(245,197,24,0.1)', border:'1px solid rgba(245,197,24,0.2)'}}>
+              <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+              <span className="text-yellow-400 text-xs font-medium uppercase tracking-wider">Web3 Domain Registry • Zero Renewal Fees</span>
+            </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start w-full">
+          <div className="lg:col-span-7 text-center lg:text-left pt-4">
+            {/* Hero content removed search and replaced with spacing */}
+            <div className="mb-4" />
 
         {/* Main heading */}
-        <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6" style={{fontFamily:'Sora, sans-serif'}}>
-          <span className="text-[var(--text-primary)]">Get Your</span>
-          <br />
+        <h1 className="text-4xl md:text-5xl font-bold leading-[1.1] mb-4" style={{fontFamily:'Sora, sans-serif'}}>
+          <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
           <br />
-          <span className="text-[var(--text-primary)]">and TLDs with</span>
-          <br />
-          <span className="text-[var(--text-primary)]">Zero </span>
-          <span className="text-yellow-400">Renewal Fees</span>
+          <span className="text-[var(--text-primary)]">with </span>
+          <span className="text-yellow-400">Zero Renewal Fees</span>
         </h1>
 
           {/* Sub text */}
-          <p className="text-[var(--text-secondary)] text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-[var(--text-secondary)] text-base md:text-lg mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
-          {/* Type selector buttons */}
-          <div className="flex items-center justify-center lg:justify-start gap-3 mb-10">
-            {['TLD', 'SLD', 'ALL'].map((type, i) => (
-              <button
-                key={type}
-                onClick={() => setActiveType(i)}
-                className={`px-8 py-3 rounded-xl text-sm font-bold tracking-widest transition-all duration-300 ${
-                  activeType === i
-                    ? 'btn-gold shadow-lg shadow-yellow-400/30'
-                    : 'btn-outline'
-                }`}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-
-          {/* Search bar — pill style */}
-          <div className="relative max-w-2xl mx-auto lg:mx-0 group">
-            {/* Glow halo on hover */}
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 blur-lg opacity-0 group-hover:opacity-100 transition duration-700 pointer-events-none" />
-
-            <div
-              className="relative flex items-center rounded-full border px-2 py-2 shadow-xl backdrop-blur-xl transition-all duration-300"
-              style={{
-                background: 'var(--sticky-search-bg)',
-                borderColor: 'rgba(245,197,24,0.3)',
-                boxShadow: '0 4px 30px rgba(245,197,24,0.1)',
-              }}
-            >
-              {/* Input */}
-              <input
-                type="text"
-                placeholder="Find your name."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="flex-1 bg-transparent outline-none pl-6 pr-2 py-3 text-lg font-medium"
-                style={{ color: 'var(--text-primary)', caretColor: '#F5C518' }}
-              />
-
-              {/* Active TLD display */}
-              {!search && (
-                <span
-                  className="text-base font-bold px-4 select-none whitespace-nowrap"
-                  style={{ color: '#F5C518', fontFamily: 'Sora, sans-serif' }}
-                >
-                  .singh
-                </span>
-              )}
-
-              {/* Divider */}
-              <div className="w-px h-6 bg-yellow-500/20 mr-2" />
-
-              {/* Gold circular search button */}
-              <button
-                className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-105 active:scale-95 group/btn"
-                style={{
-                  background: 'linear-gradient(135deg, #F5C518, #E6B800)',
-                  boxShadow: '0 0 24px rgba(245,197,24,0.45)',
-                }}
-              >
-                <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
-                </svg>
-              </button>
-            </div>
-
-            {/* Popular searches */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-5 px-2">
-              <span className="text-xs text-[var(--text-secondary)] mr-1 self-center font-medium opacity-60">Trending:</span>
+          {/* Search Bar removed — moved to global Navbar */}
+          <div>
+            {/* Trending Tags Row — moved below search bar */}
+            <div className="flex flex-wrap justify-start gap-2 mt-4 px-2 items-center">
+              <span className="text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
                   key={d}
                   onClick={() => setSearch(d)}
-                  className="domain-pill text-xs hover:bg-yellow-400/10 transition-colors"
+                  className="domain-pill text-[10px] py-1 px-3 border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-400/10 transition-colors"
                 >
                   {d}
                 </button>
               ))}
             </div>
+
+            {/* Extra decorative pill — moved below search bar */}
+            <div className="inline-flex mt-4 px-3 py-1 rounded-full border border-yellow-500/20 bg-yellow-500/5 text-[10px] font-bold text-yellow-500/60 uppercase tracking-widest ml-4">
+              .singh
+            </div>
           </div>
 
-          {/* Stats — big card boxes */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-            {[
-              { label: 'Domains Registered', value: '12K+' },
-              { label: 'TLDs Available', value: '50+' },
-              { label: 'Blockchains', value: '6+' },
-              { label: 'Renewal Fee', value: '$0' },
-            ].map(stat => (
-              <div
-                key={stat.label}
-                className="glass-card px-6 py-8 text-center lg:text-left flex flex-col justify-between hover:border-yellow-500/40 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="text-5xl font-bold text-yellow-400 mb-3 leading-none" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
-                <div className="text-xs text-[var(--text-secondary)] uppercase tracking-widest opacity-70 font-semibold leading-snug">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+          {/* Type selector removed */}
+
+          {/* Search bar removed from here */}
+
+          {/* Stats removed from here */}
         </div>
 
         {/* 3D Globe / Domain sphere — right column, sticky so it stays centered */}
-        <div className="lg:col-span-5 hidden lg:flex items-center justify-center sticky top-32 scale-75 xl:scale-100" style={{zIndex:2}}>
+        <div className="lg:col-span-5 hidden lg:flex items-center justify-center sticky top-24 scale-75 xl:scale-90" style={{zIndex:2}}>
           <div className="relative w-72 h-72 animate-float">
             {/* Outer ring */}
             <div className="absolute inset-0 rounded-full animate-spin-slow"
@@ -313,6 +240,7 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
-  )
+    </div>
+  </section>
+)
 }

@@ -1,8 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Sun, Moon, ShoppingBag, Menu, X, Search } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const TLDS = ['.singh', '.web3', '.crypto', '.nft', '.gaming', '.metaverse', '.usa', '.dao']
 
@@ -10,6 +11,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [cartCount] = useState(0)
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
 
@@ -27,7 +31,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'nav-blur shadow-2xl' : 'bg-transparent'
+        scrolled ? 'nav-blur shadow-2xl border-b border-yellow-500/10' : 'bg-transparent'
       }`}
     >
       {/* Row 1: Logo + Links + Actions */}
@@ -46,7 +50,7 @@ export default function Navbar() {
             className="font-display text-2xl tracking-widest text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors"
             style={{ fontFamily: 'Bebas Neue, sans-serif', letterSpacing: '0.15em' }}
           >
-            SINGHDOMAIN
+            WEB3 DOMAINS
           </span>
         </Link>
 
@@ -65,7 +69,41 @@ export default function Navbar() {
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          {/* Expandable Search */}
+          <div className="relative flex items-center">
+            <AnimatePresence>
+              {isSearchExpanded && (
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: 240, opacity: 1 }}
+                  exit={{ width: 0, opacity: 0 }}
+                  className="overflow-hidden mr-2"
+                >
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search domains..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-yellow-500/5 border border-yellow-500/20 rounded-full px-4 py-1.5 text-sm outline-none focus:border-yellow-500/40 transition-all"
+                    style={{ color: 'var(--text-primary)' }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <button
+              onClick={() => {
+                setIsSearchExpanded(!isSearchExpanded)
+                if (!isSearchExpanded) setTimeout(() => searchInputRef.current?.focus(), 100)
+              }}
+              className={`p-2 rounded-lg transition-all ${isSearchExpanded ? 'text-yellow-400 bg-yellow-500/10' : 'text-[var(--text-secondary)] hover:text-yellow-400'}`}
+              aria-label="Toggle search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+          </div>
+
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
