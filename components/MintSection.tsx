@@ -51,15 +51,15 @@ export default function MintSection() {
               </div>
 
               {/* Name */}
-              <div className="text-[var(--text-primary)] text-sm font-semibold tracking-widest group-hover:text-yellow-400 transition-colors"
+              <div className="text-[var(--text-primary)] text-sm font-semibold tracking-widest group-hover:text-[var(--gold)] dark:group-hover:text-yellow-400 transition-colors"
                 style={{fontFamily:'Sora,sans-serif'}}>
                 {chain.name}
               </div>
 
               {/* Coming soon badge */}
               <div className="mt-3 inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs"
-                style={{background:'rgba(245,197,24,0.1)', color:'#F5C518', border:'1px solid rgba(245,197,24,0.2)'}}>
-                <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
+                style={{background:'rgba(255,115,63,0.08)', color:'var(--gold)', border:'1px solid rgba(255,115,63,0.15)'}}>
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 dark:bg-yellow-400 animate-pulse" />
                 Soon
               </div>
             </div>

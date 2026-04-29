@@ -51,8 +51,8 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
           className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center text-2xl border-4 shadow-lg"
           style={{
             background: 'var(--sponsor-card-bg)',
-            borderColor: 'rgba(245,197,24,0.4)',
-            boxShadow: '0 0 20px rgba(245,197,24,0.25)',
+            borderColor: 'var(--border-gold)',
+            boxShadow: '0 0 20px var(--gold-glow)',
           }}
         >
           {icon}
@@ -60,7 +60,7 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
 
         {/* TLD name */}
         <h3
-          className="text-center text-xl font-bold mb-2 text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors"
+          className="text-center text-xl font-bold mb-2 text-[var(--text-primary)] group-hover:text-[var(--gold)] dark:group-hover:text-yellow-400 transition-colors"
           style={{ fontFamily: 'Sora, sans-serif' }}
         >
           {name}
@@ -75,14 +75,14 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
         <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid var(--sponsor-card-border)' }}>
           <div>
             <div className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--text-secondary)' }}>SLDs from</div>
-            <div className="text-lg font-bold text-yellow-600 dark:text-yellow-500" style={{ fontFamily: 'Sora, sans-serif' }}>{price}<span className="text-xs font-normal text-[var(--text-secondary)] ml-0.5">/yr</span></div>
+            <div className="text-lg font-bold text-orange-600 dark:text-yellow-500" style={{ fontFamily: 'Sora, sans-serif' }}>{price}<span className="text-xs font-normal text-[var(--text-secondary)] ml-0.5">/yr</span></div>
           </div>
           <button
             className="px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, #F5C518, #E6B800)',
-              color: '#000',
-              boxShadow: '0 0 16px rgba(245,197,24,0.3)',
+              background: 'linear-gradient(135deg, var(--gold), #E85D20)',
+              color: '#FFFFFF',
+              boxShadow: '0 0 16px var(--gold-glow)',
             }}
           >
             Register →
@@ -92,7 +92,7 @@ function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
         {/* Gold star row */}
         <div className="flex justify-center gap-1 mt-4">
           {[...Array(5)].map((_, i) => (
-            <svg key={i} width="14" height="14" fill="#F5C518" viewBox="0 0 24 24">
+            <svg key={i} width="14" height="14" fill="var(--gold)" viewBox="0 0 24 24">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
           ))}
@@ -111,8 +111,8 @@ export default function SponsoredSection() {
       <style>{`
         :root {
           --sponsor-card-bg: rgba(255,255,255,0.92);
-          --sponsor-card-border: rgba(245,197,24,0.25);
-          --sponsor-num: rgba(245,197,24,0.10);
+          --sponsor-card-border: rgba(255,115,63,0.15);
+          --sponsor-num: rgba(255,115,63,0.08);
         }
         .dark {
           --sponsor-card-bg: rgba(255,255,255,0.04);
@@ -123,14 +123,14 @@ export default function SponsoredSection() {
 
       {/* Background orb */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-yellow-300/10 dark:bg-yellow-500/5 blur-[180px] -translate-y-1/2" />
-        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-yellow-200/10 dark:bg-yellow-400/5 blur-[140px]" />
+        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] rounded-full bg-orange-300/10 dark:bg-yellow-500/5 blur-[180px] -translate-y-1/2" />
+        <div className="absolute top-1/4 right-0 w-[400px] h-[400px] rounded-full bg-orange-200/10 dark:bg-yellow-400/5 blur-[140px]" />
       </div>
 
       <div className="max-w-7xl mx-auto">
         {/* Section Header — centered full-width */}
         <div className="text-center mb-16">
-          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-orange-400/10 dark:bg-yellow-400/10 border border-orange-400/20 dark:border-yellow-400/20">
             👑 Sponsored TLDs
           </span>
 

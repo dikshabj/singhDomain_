@@ -41,7 +41,7 @@ export default function StickySearchBar() {
           style={{
             background: 'var(--sticky-search-bg)',
             borderColor: 'var(--sticky-search-border)',
-            boxShadow: '0 8px 40px rgba(245,197,24,0.15), 0 2px 12px rgba(0,0,0,0.08)',
+            boxShadow: '0 8px 40px var(--gold-glow), 0 2px 12px rgba(0,0,0,0.08)',
           }}
         >
           {/* Input */}
@@ -51,26 +51,26 @@ export default function StickySearchBar() {
             onChange={e => setSearch(e.target.value)}
             placeholder="Find your name."
             className="flex-1 bg-transparent outline-none px-5 py-2 text-base font-medium"
-            style={{ color: 'var(--text-primary)', caretColor: '#F5C518' }}
+            style={{ color: 'var(--text-primary)', caretColor: 'var(--gold)' }}
           />
 
           {/* TLD display — cycling */}
           <span
             className="text-base font-bold px-4 transition-all duration-300 select-none"
-            style={{ color: '#F5C518', fontFamily: 'Sora, sans-serif' }}
+            style={{ color: 'var(--gold)', fontFamily: 'Sora, sans-serif' }}
           >
             {activeTld}
           </span>
 
           {/* Dot separator */}
-          <div className="w-px h-6 bg-yellow-500/20 mx-1" />
+          <div className="w-px h-6 bg-orange-500/20 dark:bg-yellow-500/20 mx-1" />
 
           {/* Search button */}
           <button
             className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-105 active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, #F5C518, #E6B800)',
-              boxShadow: '0 0 20px rgba(245,197,24,0.4)',
+              background: 'linear-gradient(135deg, var(--gold), #E85D20)',
+              boxShadow: '0 0 20px var(--gold-glow)',
             }}
           >
             <Search className="w-5 h-5 text-black" strokeWidth={2.5} />
