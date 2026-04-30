@@ -43,7 +43,7 @@ export default function Footer() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t px-6 pt-16 pb-6 relative" style={{borderColor:'var(--border)', background:'var(--bg-primary)'}}>
+      <footer className="mt-10 border-t px-6 pt-16 pb-6 relative rounded-t-[50px] lg:rounded-t-[80px]" style={{borderColor:'var(--border)', background:'var(--bg-primary)', boxShadow: '0 -20px 40px rgba(0,0,0,0.03)'}}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           {/* Brand */}
           <div>
