@@ -38,12 +38,12 @@ const sponsoredTLDs = [
 function SponsorCard({ name, price, desc, icon: Icon, color, index, total }: any) {
   return (
     <motion.div 
-      className="relative w-full max-w-lg mx-auto"
+      className="relative w-full max-w-[420px] mx-auto"
       initial={false}
     >
       {/* Card */}
       <div
-        className="relative rounded-2xl pt-14 pb-8 px-10 transition-all duration-500 min-h-[380px] flex flex-col justify-between"
+        className="relative rounded-2xl pt-12 pb-6 px-8 transition-all duration-500 min-h-[320px] flex flex-col justify-between"
         style={{
           background: 'var(--sponsor-card-bg)',
           border: '1px solid var(--sponsor-card-border)',
@@ -144,7 +144,7 @@ export default function SponsoredSection() {
             </span>
 
             <h2
-              className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
+              className="text-3xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               Premium<br />
