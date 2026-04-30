@@ -43,7 +43,10 @@ export default function Footer() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-10 border-t px-6 pt-16 pb-6 relative rounded-t-[50px] lg:rounded-t-[80px]" style={{borderColor:'var(--border)', background:'var(--bg-primary)', boxShadow: '0 -20px 40px rgba(0,0,0,0.03)'}}>
+      <footer className="mt-10 mb-10 mx-6 border px-8 pt-16 pb-12 relative rounded-[40px] lg:rounded-[70px] overflow-hidden" 
+        style={{borderColor:'var(--border)', background:'var(--bg-primary)', boxShadow: '0 20px 50px rgba(0,0,0,0.1)'}}>
+        <div className="absolute inset-0 pointer-events-none opacity-50" 
+          style={{background: 'radial-gradient(circle at 50% 0%, var(--gold-glow), transparent 70%)'}} />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           {/* Brand */}
           <div>
