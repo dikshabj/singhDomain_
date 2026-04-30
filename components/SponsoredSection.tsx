@@ -134,10 +134,10 @@ export default function SponsoredSection() {
       </div>
 
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
           {/* LEFT — text info */}
-          <div className="lg:sticky lg:top-32 self-start">
+          <div className="lg:sticky lg:top-40 self-start">
             {/* Section label */}
             <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
               👑 Sponsored TLDs
@@ -179,7 +179,7 @@ export default function SponsoredSection() {
           </div>
 
           {/* RIGHT — Interactive Card Carousel */}
-          <div className="relative h-[500px] flex items-center justify-center lg:justify-center pt-12">
+          <div className="relative h-[500px] flex items-center justify-center lg:justify-center pt-0">
             <div className="relative w-full max-w-lg lg:pr-4">
               
               {/* Stack background effect (indicates more cards) */}
