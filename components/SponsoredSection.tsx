@@ -38,12 +38,12 @@ const sponsoredTLDs = [
 function SponsorCard({ name, price, desc, icon: Icon, color, index, total }: any) {
   return (
     <motion.div 
-      className="relative w-full max-w-lg mx-auto"
+      className="relative w-full max-w-[420px] mx-auto"
       initial={false}
     >
       {/* Card */}
       <div
-        className="relative rounded-2xl pt-14 pb-8 px-10 transition-all duration-500 min-h-[380px] flex flex-col justify-between"
+        className="relative rounded-2xl pt-12 pb-6 px-8 transition-all duration-500 min-h-[320px] flex flex-col justify-between"
         style={{
           background: 'var(--sponsor-card-bg)',
           border: '1px solid var(--sponsor-card-border)',
@@ -137,14 +137,14 @@ export default function SponsoredSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
           {/* LEFT — text info */}
-          <div className="lg:sticky lg:top-32 self-start">
+          <div className="lg:sticky lg:top-32 self-start pt-10">
             {/* Section label */}
             <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
               👑 Sponsored TLDs
             </span>
 
             <h2
-              className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
+              className="text-3xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               Premium<br />
@@ -179,7 +179,7 @@ export default function SponsoredSection() {
           </div>
 
           {/* RIGHT — Interactive Card Carousel */}
-          <div className="relative h-[500px] flex items-center justify-center lg:justify-center pt-12">
+          <div className="relative flex items-start justify-center lg:justify-center pt-10">
             <div className="relative w-full max-w-lg lg:pr-4">
               
               {/* Stack background effect (indicates more cards) */}

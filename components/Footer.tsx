@@ -43,7 +43,10 @@ export default function Footer() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t px-6 pt-16 pb-6 relative" style={{borderColor:'var(--border)', background:'var(--bg-primary)'}}>
+      <footer className="mt-10 mb-10 mx-6 border px-8 pt-16 pb-12 relative rounded-[40px] lg:rounded-[70px] overflow-hidden" 
+        style={{borderColor:'var(--border)', background:'var(--bg-primary)', boxShadow: '0 20px 50px rgba(0,0,0,0.1)'}}>
+        <div className="absolute inset-0 pointer-events-none opacity-50" 
+          style={{background: 'radial-gradient(circle at 50% 0%, var(--gold-glow), transparent 70%)'}} />
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
           {/* Brand */}
           <div>
@@ -110,8 +113,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="max-w-7xl mx-auto mt-12 pt-6 text-center text-[var(--text-secondary)] text-sm"
-          style={{borderTop:'1px solid var(--border)'}}>
+        <div className="max-w-7xl mx-auto mt-16 pt-10 text-center text-[var(--text-secondary)] text-sm relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1.5px] bg-gradient-to-r from-transparent via-orange-500/20 dark:via-yellow-500/20 to-transparent rounded-full" />
           <p className="mb-2">© Singhcoin, All Right Reserved.</p>
           <div className="flex justify-center gap-4">
             <a href="https://singhcoin.io/privacypolicy.html" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors">Privacy Policy</a>
