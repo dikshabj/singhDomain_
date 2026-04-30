@@ -110,8 +110,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="max-w-7xl mx-auto mt-12 pt-6 text-center text-[var(--text-secondary)] text-sm"
-          style={{borderTop:'1px solid var(--border)'}}>
+        <div className="max-w-7xl mx-auto mt-16 pt-10 text-center text-[var(--text-secondary)] text-sm relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1.5px] bg-gradient-to-r from-transparent via-orange-500/20 dark:via-yellow-500/20 to-transparent rounded-full" />
           <p className="mb-2">© Singhcoin, All Right Reserved.</p>
           <div className="flex justify-center gap-4">
             <a href="https://singhcoin.io/privacypolicy.html" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--gold)] dark:hover:text-yellow-400 transition-colors">Privacy Policy</a>
