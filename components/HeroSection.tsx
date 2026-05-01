@@ -85,7 +85,7 @@ export default function HeroSection() {
 
 
   return (
-    <section className="relative min-h-0 lg:min-h-screen flex flex-col items-center justify-start lg:justify-center overflow-hidden pt-10 pb-4 lg:pt-14" style={{ zIndex: 0 }}>
+    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-8 pb-4 lg:pt-10" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -109,12 +109,12 @@ export default function HeroSection() {
               <span className="text-yellow-400 text-[9px] md:text-xs font-medium uppercase tracking-wider text-center">Web3 Domain Registry • Zero Renewal Fees</span>
             </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center lg:items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center lg:items-start w-full">
           <div className="lg:col-span-7 text-center lg:text-left pt-0">
             {/* Hero content spacing removed */}
 
         {/* Main heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
           <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
           <br className="hidden sm:block" />
@@ -123,7 +123,7 @@ export default function HeroSection() {
         </h1>
 
           {/* Sub text */}
-          <p className="text-xs md:text-sm lg:text-sm mb-3 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
+          <p className="text-[10px] md:text-xs lg:text-sm mb-2 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
@@ -143,7 +143,7 @@ export default function HeroSection() {
             </div>
 
             {/* Stats Blocks Integrated */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-3 mt-4 md:mt-5 w-full max-w-2xl mx-auto lg:mx-0">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-3 mt-3 md:mt-4 w-full max-w-2xl mx-auto lg:mx-0">
               {[
                 { label: 'Domains Registered', value: '12K+' },
                 { label: 'TLDs Available', value: '50+' },
