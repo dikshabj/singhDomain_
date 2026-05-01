@@ -85,7 +85,7 @@ export default function HeroSection() {
 
 
   return (
-    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-8 pb-4 lg:pt-10" style={{ zIndex: 0 }}>
+    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-4 pb-4 lg:pt-6" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -103,10 +103,10 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center lg:items-start pt-0">
         
             {/* Web3 Registry Badge — stay at top */}
-            <div className="inline-flex items-center gap-1.5 md:gap-2 mb-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full"
+            <div className="inline-flex items-center gap-1 mb-1 px-2 py-0.5 rounded-full"
               style={{background:'rgba(245,197,24,0.1)', border:'1px solid rgba(245,197,24,0.2)'}}>
-              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-yellow-400 animate-pulse" />
-              <span className="text-yellow-400 text-[9px] md:text-xs font-medium uppercase tracking-wider text-center">Web3 Domain Registry • Zero Renewal Fees</span>
+              <span className="w-1 h-1 rounded-full bg-yellow-400 animate-pulse" />
+              <span className="text-yellow-400 text-[8px] md:text-[10px] font-medium uppercase tracking-wider text-center">Web3 Domain Registry • Zero Renewal Fees</span>
             </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center lg:items-start w-full">
@@ -114,7 +114,7 @@ export default function HeroSection() {
             {/* Hero content spacing removed */}
 
         {/* Main heading */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
+        <h1 className="text-2xl sm:text-3xl md:text-3xl lg:text-3xl font-bold leading-[1] mb-1" style={{fontFamily:'Sora, sans-serif'}}>
           <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
           <br className="hidden sm:block" />
@@ -123,14 +123,14 @@ export default function HeroSection() {
         </h1>
 
           {/* Sub text */}
-          <p className="text-[10px] md:text-xs lg:text-sm mb-2 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
+          <p className="text-[10px] md:text-xs lg:text-xs mb-1 max-w-xl mx-auto lg:mx-0 leading-tight opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
           {/* Search Bar removed — moved to global Navbar */}
           <div>
             {/* Trending Tags Row — moved below search bar */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-1 px-2 items-center">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 mt-1 px-2 items-center">
               <span className="text-[9px] md:text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
