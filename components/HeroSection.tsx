@@ -85,7 +85,7 @@ export default function HeroSection() {
 
 
   return (
-    <section className="relative min-h-0 lg:min-h-screen flex flex-col items-center justify-start lg:justify-center overflow-hidden pt-12 pb-6 lg:pt-16" style={{ zIndex: 0 }}>
+    <section className="relative min-h-0 lg:min-h-screen flex flex-col items-center justify-start lg:justify-center overflow-hidden pt-10 pb-4 lg:pt-14" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -100,7 +100,7 @@ export default function HeroSection() {
       <div className="orb w-64 h-64 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{background:'radial-gradient(circle, rgba(78,205,196,0.08), transparent 70%)', zIndex:1}} />
 
       {/* Main content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center lg:items-start pt-2 md:pt-4">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center lg:items-start pt-0">
         
             {/* Web3 Registry Badge — stay at top */}
             <div className="inline-flex items-center gap-1.5 md:gap-2 mb-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full"
@@ -110,12 +110,11 @@ export default function HeroSection() {
             </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center lg:items-start w-full">
-          <div className="lg:col-span-7 text-center lg:text-left pt-2 md:pt-4">
-            {/* Hero content removed search and replaced with spacing */}
-            <div className="mb-2 md:mb-4" />
+          <div className="lg:col-span-7 text-center lg:text-left pt-0">
+            {/* Hero content spacing removed */}
 
         {/* Main heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-[1.1] mb-3" style={{fontFamily:'Sora, sans-serif'}}>
+        <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
           <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
           <br className="hidden sm:block" />
@@ -124,14 +123,14 @@ export default function HeroSection() {
         </h1>
 
           {/* Sub text */}
-          <p className="text-[var(--text-secondary)] text-sm md:text-base lg:text-base mb-4 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
+          <p className="text-xs md:text-sm lg:text-sm mb-3 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
           {/* Search Bar removed — moved to global Navbar */}
           <div>
             {/* Trending Tags Row — moved below search bar */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-2 px-2 items-center">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-1 px-2 items-center">
               <span className="text-[9px] md:text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
@@ -144,7 +143,7 @@ export default function HeroSection() {
             </div>
 
             {/* Stats Blocks Integrated */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-3 mt-6 md:mt-8 w-full max-w-2xl mx-auto lg:mx-0">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-3 mt-4 md:mt-5 w-full max-w-2xl mx-auto lg:mx-0">
               {[
                 { label: 'Domains Registered', value: '12K+' },
                 { label: 'TLDs Available', value: '50+' },
