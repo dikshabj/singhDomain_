@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Globe,
@@ -26,6 +27,12 @@ interface FloatingBackgroundProps {
 }
 
 export default function FloatingBackground({ density = 'medium' }: FloatingBackgroundProps) {
+  const [hasMounted, setHasMounted] = useState(false)
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   const allIcons = [
     { Icon: Globe,    x1: '8%',  y1: '5%',  x2: '14%', y2: '12%', size: 110, delay: 0,   dur: 18 },
     { Icon: Cpu,      x1: '88%', y1: '8%',  x2: '82%', y2: '15%', size: 75,  delay: 2,   dur: 22 },
@@ -78,6 +85,8 @@ export default function FloatingBackground({ density = 'medium' }: FloatingBackg
         <motion.div
           key={`icon-${i}`}
           className="absolute text-yellow-500"
+          style={{ left: item.x1, top: item.y1 }}
+          initial={{ left: item.x1, top: item.y1 }}
           animate={{
             left: [item.x1, item.x2, item.x1],
             top:  [item.y1, item.y2, item.y1],
@@ -109,7 +118,10 @@ export default function FloatingBackground({ density = 'medium' }: FloatingBackg
             fontSize: '13px',
             color: 'rgba(245,197,24,0.6)',
             letterSpacing: '0.05em',
+            left: item.x1,
+            top: item.y1,
           }}
+          initial={{ left: item.x1, top: item.y1 }}
           animate={{
             left: [item.x1, item.x2, item.x1],
             top:  [item.y1, item.y2, item.y1],

@@ -42,7 +42,7 @@ export default function Navbar() {
     router.push('/')
   }
 
-  if (!mounted) return null
+  // if (!mounted) return null
 
   return (
     <nav

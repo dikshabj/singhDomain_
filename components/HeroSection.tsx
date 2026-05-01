@@ -8,6 +8,8 @@ export default function HeroSection() {
   const [typedText, setTypedText] = useState('')
   const [activeType, setActiveType] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [hasMounted, setHasMounted] = useState(false)
+  const [search, setSearch] = useState('')
 
   // Typing animation
   useEffect(() => {
@@ -39,6 +41,7 @@ export default function HeroSection() {
 
   // Canvas particle effect
   useEffect(() => {
+    setHasMounted(true)
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -112,8 +115,6 @@ export default function HeroSection() {
     }
   }, [])
 
-  const [search, setSearch] = useState('')
-
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16 lg:pt-32">
       <FloatingBackground density="low" />
@@ -133,7 +134,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-7 text-center lg:text-left pt-8">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full mx-auto lg:mx-0"
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full mx-auto"
             style={{background:'rgba(255,115,63,0.08)', border:'1px solid rgba(255,115,63,0.15)'}}>
             <span className="w-2 h-2 rounded-full bg-orange-400 dark:bg-yellow-400 animate-pulse" />
             <span className="text-orange-700 dark:text-yellow-400 text-sm font-medium">Web3 Domain Registry • Zero Renewal Fees</span>
@@ -259,7 +260,7 @@ export default function HeroSection() {
         </div>
 
         {/* 3D Globe / Domain sphere — right column, sticky so it stays centered */}
-        <div className="lg:col-span-5 hidden lg:flex items-center justify-center sticky top-32 scale-75 xl:scale-100" style={{zIndex:2}}>
+        <div className={`lg:col-span-5 hidden lg:flex items-center justify-center sticky top-32 scale-75 xl:scale-100 transition-opacity duration-1000 ${hasMounted ? 'opacity-100' : 'opacity-0'}`} style={{zIndex:2}}>
           <div className="relative w-80 h-80">
             
             {/* Background Glow Aura */}
