@@ -1,43 +1,14 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import FloatingBackground from './FloatingBackground'
 
 const DOMAINS = ['.singh', '.metaverse', '.gaming', '.usa', '.web3', '.crypto', '.nft', '.dao']
 
 export default function HeroSection() {
-  const [typedText, setTypedText] = useState('')
-  const [activeType, setActiveType] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [hasMounted, setHasMounted] = useState(false)
   const [search, setSearch] = useState('')
-
-  // Typing animation
-  useEffect(() => {
-    const types = ['TLD', 'SLD', 'ALL']
-    let idx = 0
-    let charIdx = 0
-    let deleting = false
-
-    const interval = setInterval(() => {
-      const current = types[idx % types.length]
-      if (!deleting) {
-        setTypedText(current.slice(0, charIdx + 1))
-        charIdx++
-        if (charIdx === current.length) {
-          setTimeout(() => { deleting = true }, 1200)
-        }
-      } else {
-        setTypedText(current.slice(0, charIdx - 1))
-        charIdx--
-        if (charIdx === 0) {
-          deleting = false
-          idx++
-          setActiveType(idx % 3)
-        }
-      }
-    }, 120)
-    return () => clearInterval(interval)
-  }, [])
 
   // Canvas particle effect
   useEffect(() => {
@@ -115,8 +86,9 @@ export default function HeroSection() {
     }
   }, [])
 
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16 lg:pt-32">
+    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-16 pb-6 lg:pt-20" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -141,122 +113,61 @@ export default function HeroSection() {
           </div>
 
         {/* Main heading */}
-        <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6" style={{fontFamily:'Sora, sans-serif'}}>
-          <span className="text-[var(--text-primary)]">Get Your</span>
-          <br />
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
+          <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
-          <br />
-          <span className="text-[var(--text-primary)]">and TLDs with</span>
-          <br />
-          <span className="text-[var(--text-primary)]">Zero </span>
-          <span className="text-[var(--gold)] dark:text-yellow-400">Renewal Fees</span>
+          <br className="hidden sm:block" />
+          <span className="text-[var(--text-primary)]">with </span>
+          <span className="text-yellow-400">Zero Renewal Fees</span>
         </h1>
 
           {/* Sub text */}
-          <p className="text-[var(--text-secondary)] text-lg md:text-xl mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-[10px] md:text-xs lg:text-sm mb-4 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
-          {/* Type selector buttons */}
-          <div className="flex items-center justify-center lg:justify-start gap-3 mb-10">
-            {['TLD', 'SLD', 'ALL'].map((type, i) => (
-              <button
-                key={type}
-                onClick={() => setActiveType(i)}
-                className={`px-8 py-3 rounded-xl text-sm font-bold tracking-widest transition-all duration-300 ${
-                  activeType === i
-                    ? 'btn-gold shadow-lg shadow-orange-400/30 dark:shadow-yellow-400/30'
-                    : 'btn-outline'
-                }`}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-
-          {/* Search bar — pill style */}
-          <div className="relative max-w-2xl mx-auto lg:mx-0 group">
-            {/* Glow halo on hover */}
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-orange-400/20 to-orange-600/20 dark:from-yellow-400/20 dark:to-yellow-600/20 blur-lg opacity-0 group-hover:opacity-100 transition duration-700 pointer-events-none" />
-
-            <div
-              className="relative flex items-center rounded-full border px-2 py-2 shadow-xl backdrop-blur-xl transition-all duration-300"
-              style={{
-                background: 'var(--sticky-search-bg)',
-                borderColor: 'var(--sticky-search-border)',
-                boxShadow: '0 4px 30px var(--gold-glow)',
-              }}
-            >
-              {/* Input */}
-              <input
-                type="text"
-                placeholder="Find your name."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                className="flex-1 bg-transparent outline-none pl-6 pr-2 py-3 text-lg font-medium"
-                style={{ color: 'var(--text-primary)', caretColor: 'var(--gold)' }}
-              />
-
-              {/* Active TLD display */}
-              {!search && (
-                <span
-                  className="text-base font-bold px-4 select-none whitespace-nowrap"
-                  style={{ color: 'var(--gold)', fontFamily: 'Sora, sans-serif' }}
-                >
-                  .singh
-                </span>
-              )}
-
-              {/* Divider */}
-              <div className="w-px h-6 bg-orange-500/20 dark:bg-yellow-500/20 mr-2" />
-
-              {/* Gold circular search button */}
-              <button
-                className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 hover:scale-105 active:scale-95 group/btn"
-                style={{
-                  background: 'linear-gradient(135deg, var(--gold), #E85D20)',
-                  boxShadow: '0 0 24px var(--gold-glow)',
-                }}
-              >
-                <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <circle cx="11" cy="11" r="8"/>
-                  <path d="m21 21-4.35-4.35"/>
-                </svg>
-              </button>
-            </div>
-
-            {/* Popular searches */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-5 px-2">
-              <span className="text-xs text-[var(--text-secondary)] mr-1 self-center font-medium">Trending:</span>
+          {/* Search Bar removed — moved to global Navbar */}
+          <div>
+            {/* Trending Tags Row — moved below search bar */}
+            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 mt-1 px-2 items-center">
+              <span className="text-[9px] md:text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
                   key={d}
-                  onClick={() => setSearch(d)}
-                  className="domain-pill text-xs hover:bg-orange-400/10 dark:hover:bg-yellow-400/10 transition-colors"
+                  className="domain-pill text-[9px] md:text-[10px] py-1 px-2.5 md:px-3 border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-400/10 transition-colors"
                 >
                   {d}
                 </button>
               ))}
             </div>
+
+            {/* Stats Blocks Integrated */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-3 mt-6 md:mt-8 w-full max-w-2xl mx-auto lg:mx-0">
+              {[
+                { label: 'Domains Registered', value: '12K+' },
+                { label: 'TLDs Available', value: '50+' },
+                { label: 'Blockchains', value: '6+' },
+                { label: 'Renewal Fee', value: '$0' },
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + i * 0.1 }}
+                  className="glass-card p-2 md:p-3 lg:p-4 text-center border border-yellow-500/10 bg-yellow-500/5 rounded-xl flex flex-col justify-center"
+                >
+                  <div className="text-lg md:text-xl lg:text-2xl font-bold text-yellow-400 leading-none mb-1" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
+                  <div className="text-[7px] md:text-[8px] lg:text-[10px] text-[var(--text-secondary)] uppercase tracking-wider opacity-60 leading-tight">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Stats — big card boxes */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-            {[
-              { label: 'Domains Registered', value: '12K+' },
-              { label: 'TLDs Available', value: '50+' },
-              { label: 'Blockchains', value: '6+' },
-              { label: 'Renewal Fee', value: '$0' },
-            ].map(stat => (
-              <div
-                key={stat.label}
-                className="glass-card px-6 py-8 text-center lg:text-left flex flex-col justify-between hover:border-orange-500/40 dark:hover:border-yellow-500/40 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-orange-600 dark:text-yellow-400 mb-3 leading-none" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
-                <div className="text-[10px] sm:text-xs text-[var(--text-secondary)] uppercase tracking-widest font-semibold leading-snug">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+          {/* Type selector removed */}
+
+          {/* Search bar removed from here */}
+
+          {/* Stats removed from here */}
         </div>
 
         {/* 3D Globe / Domain sphere — right column, sticky so it stays centered */}
@@ -359,6 +270,7 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
-  )
+    </div>
+  </section>
+)
 }
