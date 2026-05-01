@@ -85,7 +85,7 @@ export default function HeroSection() {
 
 
   return (
-    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-24 pb-6 lg:pt-28" style={{ zIndex: 0 }}>
+    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-20 pb-6 lg:pt-24" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
