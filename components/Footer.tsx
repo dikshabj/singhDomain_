@@ -14,14 +14,14 @@ export default function Footer() {
   return (
     <>
       {/* Community Section */}
-      <section className="py-20 px-6 relative z-10 overflow-hidden">
+      <section className="py-12 px-6 relative z-10 overflow-hidden">
         <FloatingBackground density="low" />
         {/* Pink/purple glow blob */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 pointer-events-none"
           style={{background:'radial-gradient(ellipse, rgba(180,0,255,0.12), transparent 70%)', filter:'blur(40px)'}} />
 
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-[var(--text-primary)] mb-10">Join the Community</h2>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-8">Join the Community</h2>
 
           <div className="flex items-center justify-center gap-4 flex-wrap">
             {socials.map((s) => (
@@ -43,7 +43,7 @@ export default function Footer() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-10 mb-10 mx-6 border px-8 pt-16 pb-12 relative rounded-[40px] lg:rounded-[70px] overflow-hidden" 
+      <footer className="mt-6 mb-10 mx-6 border px-8 pt-12 pb-10 relative rounded-[40px] lg:rounded-[60px] overflow-hidden" 
         style={{borderColor:'var(--border)', background:'var(--bg-primary)', boxShadow: '0 20px 50px rgba(0,0,0,0.1)'}}>
         <div className="absolute inset-0 pointer-events-none opacity-50" 
           style={{background: 'radial-gradient(circle at 50% 0%, var(--gold-glow), transparent 70%)'}} />
@@ -113,7 +113,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="max-w-7xl mx-auto mt-16 pt-10 text-center text-[var(--text-secondary)] text-sm relative">
+        <div className="max-w-7xl mx-auto mt-10 pt-8 text-center text-[var(--text-secondary)] text-xs relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1.5px] bg-gradient-to-r from-transparent via-orange-500/20 dark:via-yellow-500/20 to-transparent rounded-full" />
           <p className="mb-2">© Singhcoin, All Right Reserved.</p>
           <div className="flex justify-center gap-4">

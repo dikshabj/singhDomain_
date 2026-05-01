@@ -110,7 +110,7 @@ export default function SponsoredSection() {
   }
 
   return (
-    <section className="py-12 px-6 relative z-10 overflow-hidden">
+    <section className="py-8 md:py-16 px-6 relative z-10 overflow-hidden">
       <FloatingBackground density="low" />
 
       {/* CSS vars */}
@@ -144,14 +144,14 @@ export default function SponsoredSection() {
             </span>
 
             <h2
-              className="text-3xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
+              className="text-2xl sm:text-3xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
               style={{ fontFamily: 'Sora, sans-serif' }}
             >
               Premium<br />
               <span className="text-gradient">Web3 Domains</span>
             </h2>
 
-            <p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-8 max-w-md opacity-80">
+            <p className="text-[var(--text-secondary)] text-base md:text-lg leading-relaxed mb-8 max-w-md opacity-80">
               Discover our hand-picked sponsored TLDs — premium extensions that power the next generation of digital identities, brands, and communities on the blockchain.
             </p>
 
@@ -200,20 +200,20 @@ export default function SponsoredSection() {
               </AnimatePresence>
 
               {/* Navigation Controls — Contained within margins */}
-              <div className="absolute right-0 lg:-right-4 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
+              <div className="absolute -right-2 lg:-right-4 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
                 <button 
                   onClick={nextCard}
-                  className="w-14 h-14 rounded-full bg-yellow-500 text-black flex items-center justify-center shadow-xl shadow-yellow-500/40 hover:scale-110 active:scale-95 transition-all group"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-yellow-500 text-black flex items-center justify-center shadow-xl shadow-yellow-500/40 hover:scale-110 active:scale-95 transition-all group"
                 >
-                  <ChevronRight className="w-8 h-8 group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
 
               <button 
                 onClick={prevCard}
-                className="absolute left-0 lg:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-yellow-500/20 bg-[var(--bg-primary)]/80 backdrop-blur-md flex items-center justify-center text-yellow-500/60 hover:text-yellow-400 hover:border-yellow-500/50 transition-all z-20"
+                className="absolute -left-2 lg:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full border border-yellow-500/20 bg-[var(--bg-primary)]/80 backdrop-blur-md flex items-center justify-center text-yellow-500/60 hover:text-yellow-400 hover:border-yellow-500/50 transition-all z-20"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
               </button>
             </div>
           </div>

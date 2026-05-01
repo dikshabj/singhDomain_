@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import FloatingBackground from './FloatingBackground'
 
 const DOMAINS = ['.singh', '.metaverse', '.gaming', '.usa', '.web3', '.crypto', '.nft', '.dao']
@@ -84,7 +85,7 @@ export default function HeroSection() {
 
 
   return (
-    <section className="relative min-h-[90vh] lg:h-screen flex flex-col items-center justify-center overflow-hidden pt-28 pb-10 lg:pt-32" style={{ zIndex: 0 }}>
+    <section className="relative min-h-0 lg:min-h-screen flex flex-col items-center justify-start lg:justify-center overflow-hidden pt-12 pb-6 lg:pt-16" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -99,52 +100,68 @@ export default function HeroSection() {
       <div className="orb w-64 h-64 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{background:'radial-gradient(circle, rgba(78,205,196,0.08), transparent 70%)', zIndex:1}} />
 
       {/* Main content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-start pt-6 md:pt-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center lg:items-start pt-2 md:pt-4">
         
             {/* Web3 Registry Badge — stay at top */}
-            <div className="inline-flex items-center gap-2 mb-2 px-3 py-1.5 rounded-full"
+            <div className="inline-flex items-center gap-1.5 md:gap-2 mb-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full"
               style={{background:'rgba(245,197,24,0.1)', border:'1px solid rgba(245,197,24,0.2)'}}>
-              <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-              <span className="text-yellow-400 text-xs font-medium uppercase tracking-wider">Web3 Domain Registry • Zero Renewal Fees</span>
+              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-yellow-400 animate-pulse" />
+              <span className="text-yellow-400 text-[9px] md:text-xs font-medium uppercase tracking-wider text-center">Web3 Domain Registry • Zero Renewal Fees</span>
             </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start w-full">
-          <div className="lg:col-span-7 text-center lg:text-left pt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center lg:items-start w-full">
+          <div className="lg:col-span-7 text-center lg:text-left pt-2 md:pt-4">
             {/* Hero content removed search and replaced with spacing */}
-            <div className="mb-4" />
+            <div className="mb-2 md:mb-4" />
 
         {/* Main heading */}
-        <h1 className="text-4xl md:text-5xl font-bold leading-[1.1] mb-4" style={{fontFamily:'Sora, sans-serif'}}>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-[1.1] mb-3" style={{fontFamily:'Sora, sans-serif'}}>
           <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
-          <br />
+          <br className="hidden sm:block" />
           <span className="text-[var(--text-primary)]">with </span>
           <span className="text-yellow-400">Zero Renewal Fees</span>
         </h1>
 
           {/* Sub text */}
-          <p className="text-[var(--text-secondary)] text-base md:text-lg mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
+          <p className="text-[var(--text-secondary)] text-sm md:text-base lg:text-base mb-4 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
           {/* Search Bar removed — moved to global Navbar */}
           <div>
             {/* Trending Tags Row — moved below search bar */}
-            <div className="flex flex-wrap justify-start gap-2 mt-4 px-2 items-center">
-              <span className="text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
+            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-2 px-2 items-center">
+              <span className="text-[9px] md:text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
                   key={d}
-                  className="domain-pill text-[10px] py-1 px-3 border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-400/10 transition-colors"
+                  className="domain-pill text-[9px] md:text-[10px] py-1 px-2.5 md:px-3 border border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-400/10 transition-colors"
                 >
                   {d}
                 </button>
               ))}
             </div>
 
-            {/* Extra decorative pill — moved below search bar */}
-            <div className="inline-flex mt-4 px-3 py-1 rounded-full border border-yellow-500/20 bg-yellow-500/5 text-[10px] font-bold text-yellow-500/60 uppercase tracking-widest ml-4">
-              .singh
+            {/* Stats Blocks Integrated */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-2 md:gap-3 mt-6 md:mt-8 w-full max-w-2xl mx-auto lg:mx-0">
+              {[
+                { label: 'Domains Registered', value: '12K+' },
+                { label: 'TLDs Available', value: '50+' },
+                { label: 'Blockchains', value: '6+' },
+                { label: 'Renewal Fee', value: '$0' },
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + i * 0.1 }}
+                  className="glass-card p-2 md:p-3 lg:p-4 text-center border border-yellow-500/10 bg-yellow-500/5 rounded-xl flex flex-col justify-center"
+                >
+                  <div className="text-lg md:text-xl lg:text-2xl font-bold text-yellow-400 leading-none mb-1" style={{fontFamily:'Bebas Neue'}}>{stat.value}</div>
+                  <div className="text-[7px] md:text-[8px] lg:text-[10px] text-[var(--text-secondary)] uppercase tracking-wider opacity-60 leading-tight">{stat.label}</div>
+                </motion.div>
+              ))}
             </div>
           </div>
 
