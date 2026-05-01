@@ -54,7 +54,7 @@ export default function Navbar() {
         scrolled ? 'nav-blur shadow-2xl border-b border-yellow-500/10' : 'bg-transparent'
       }`}
     >
-      <div className={`max-w-7xl mx-auto px-6 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-3' : 'py-5'}`}>
+      <div className={`max-w-7xl mx-auto px-6 flex items-center justify-between transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-10 h-10">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 dark:from-yellow-400 dark:to-yellow-600 animate-pulse-slow opacity-40 blur-sm" />

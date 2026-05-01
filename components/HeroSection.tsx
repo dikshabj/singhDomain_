@@ -85,7 +85,7 @@ export default function HeroSection() {
 
 
   return (
-    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-20 pb-6 lg:pt-24" style={{ zIndex: 0 }}>
+    <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-16 pb-6 lg:pt-20" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
       {/* Canvas particles */}
       <canvas
@@ -114,7 +114,7 @@ export default function HeroSection() {
             {/* Hero content spacing removed */}
 
         {/* Main heading */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] mb-3" style={{fontFamily:'Sora, sans-serif'}}>
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
           <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
           <br className="hidden sm:block" />
