@@ -114,7 +114,7 @@ export default function HeroSection() {
             {/* Hero content spacing removed */}
 
         {/* Main heading */}
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.1] mb-2" style={{fontFamily:'Sora, sans-serif'}}>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] mb-3" style={{fontFamily:'Sora, sans-serif'}}>
           <span className="text-[var(--text-primary)]">Get Your </span>
           <span className="text-gradient">Web3 Domains</span>
           <br className="hidden sm:block" />
