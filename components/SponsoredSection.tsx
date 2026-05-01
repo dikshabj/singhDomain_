@@ -1,4 +1,7 @@
 'use client'
+import { Globe, Flag, Gamepad2, Shield, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
 import FloatingBackground from './FloatingBackground'
 
 const sponsoredTLDs = [
@@ -6,105 +9,108 @@ const sponsoredTLDs = [
     name: '.metaverse',
     price: '$5.00',
     desc: 'The ultimate domain for virtual worlds, gaming platforms, and next-gen immersive digital experiences.',
-    icon: '🌐',
-    num: '01',
+    icon: Globe,
+    color: '#4ECDC4',
   },
   {
     name: '.usa',
     price: '$5.00',
     desc: 'Establish your American digital identity with the most trusted country-specific Web3 domain extension.',
-    icon: '🇺🇸',
-    num: '02',
+    icon: Flag,
+    color: '#FF6B35',
   },
   {
     name: '.gaming',
     price: '$5.00',
     desc: 'Built for gamers, streamers, and esports brands who want to own their corner of the digital arena.',
-    icon: '🎮',
-    num: '03',
+    icon: Gamepad2,
+    color: '#F5C518',
   },
   {
     name: '.singh',
     price: '$5.00',
     desc: 'Claim your cultural heritage with the first Web3 community domain powering the Singh identity worldwide.',
-    icon: '⚔️',
-    num: '04',
+    icon: Shield,
+    color: '#FFD700',
   },
 ]
 
-function SponsorCard({ name, price, desc, icon }: typeof sponsoredTLDs[0]) {
+function SponsorCard({ name, price, desc, icon: Icon, color, index, total }: any) {
   return (
-    <div className="relative group h-full">
-
+    <motion.div 
+      className="relative w-full max-w-[420px] mx-auto"
+      initial={false}
+    >
       {/* Card */}
       <div
-        className="relative h-full flex flex-col rounded-2xl pt-10 pb-6 px-6 transition-all duration-300 group-hover:-translate-y-1"
+        className="relative rounded-2xl pt-12 pb-6 px-8 transition-all duration-500 min-h-[320px] flex flex-col justify-between"
         style={{
           background: 'var(--sponsor-card-bg)',
           border: '1px solid var(--sponsor-card-border)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+          boxShadow: '0 20px 60px -15px rgba(0,0,0,0.3)',
           zIndex: 1,
         }}
       >
-        {/* Notch + Icon circle at top center */}
+        {/* Glow effect matching icon color */}
+        <div 
+          className="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 blur-3xl opacity-10 rounded-full pointer-events-none"
+          style={{ background: color }}
+        />
+
+        {/* Icon circle at top center */}
         <div
-          className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center text-2xl border-4 shadow-lg"
+          className="absolute -top-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full flex items-center justify-center border-4 shadow-lg z-10"
           style={{
             background: 'var(--sponsor-card-bg)',
-            borderColor: 'var(--border-gold)',
-            boxShadow: '0 0 20px var(--gold-glow)',
+            borderColor: color + '66',
+            boxShadow: `0 0 20px ${color}33`,
           }}
         >
-          {icon}
+          <Icon className="w-6 h-6" style={{ color }} />
         </div>
 
         {/* TLD name */}
         <h3
-          className="text-center text-xl font-bold mb-2 text-[var(--text-primary)] group-hover:text-[var(--gold)] dark:group-hover:text-yellow-400 transition-colors"
+          className="text-center text-xl font-bold mb-2 text-[var(--text-primary)]"
           style={{ fontFamily: 'Sora, sans-serif' }}
         >
           {name}
         </h3>
 
         {/* Description */}
-        <p className="text-center text-sm leading-relaxed mb-4 flex-grow" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-center text-xs leading-relaxed mb-4 opacity-70" style={{ color: 'var(--text-secondary)' }}>
           {desc}
         </p>
 
         {/* Price + CTA row */}
-        <div className="flex items-center justify-between mt-4 pt-4" style={{ borderTop: '1px solid var(--sponsor-card-border)' }}>
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
           <div>
-            <div className="text-[10px] uppercase tracking-widest font-semibold" style={{ color: 'var(--text-secondary)' }}>SLDs from</div>
-            <div className="text-lg font-bold text-orange-600 dark:text-yellow-500" style={{ fontFamily: 'Sora, sans-serif' }}>{price}<span className="text-xs font-normal text-[var(--text-secondary)] ml-0.5">/yr</span></div>
+            <div className="text-[10px] uppercase tracking-widest font-semibold opacity-50" style={{ color: 'var(--text-secondary)' }}>SLDs from</div>
+            <div className="text-lg font-bold text-yellow-500">{price}<span className="text-xs font-normal opacity-50">/yr</span></div>
           </div>
-          <button
-            className="px-4 py-2 rounded-xl text-xs font-bold transition-all duration-300 hover:scale-105 active:scale-95"
-            style={{
-              background: 'linear-gradient(135deg, var(--gold), #E85D20)',
-              color: '#FFFFFF',
-              boxShadow: '0 0 16px var(--gold-glow)',
-            }}
-          >
+          <button className="px-4 py-2 rounded-xl text-xs font-bold btn-gold shadow-lg shadow-yellow-500/20">
             Register →
           </button>
         </div>
-
-        {/* Gold star row */}
-        <div className="flex justify-center gap-1 mt-4">
-          {[...Array(5)].map((_, i) => (
-            <svg key={i} width="14" height="14" fill="var(--gold)" viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-          ))}
-        </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export default function SponsoredSection() {
+  const cards = sponsoredTLDs
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const nextCard = () => {
+    setActiveIndex((prev) => (prev + 1) % cards.length)
+  }
+
+  const prevCard = () => {
+    setActiveIndex((prev) => (prev - 1 + cards.length) % cards.length)
+  }
+
   return (
-    <section className="py-24 px-6 relative z-10 overflow-hidden">
+    <section className="py-8 md:py-16 px-6 relative z-10 overflow-hidden">
       <FloatingBackground density="low" />
 
       {/* CSS vars */}
@@ -128,29 +134,89 @@ export default function SponsoredSection() {
       </div>
 
       <div className="max-w-7xl mx-auto">
-        {/* Section Header — centered full-width */}
-        <div className="text-center mb-16">
-          <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-orange-400/10 dark:bg-yellow-400/10 border border-orange-400/20 dark:border-yellow-400/20">
-            👑 Sponsored TLDs
-          </span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
-          <h2
-            className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
-            style={{ fontFamily: 'Sora, sans-serif' }}
-          >
-            Premium <span className="text-gradient">Web3 Domains</span>
-          </h2>
+          {/* LEFT — text info */}
+          <div className="lg:sticky lg:top-32 self-start pt-10">
+            {/* Section label */}
+            <span className="inline-block text-xs font-bold uppercase tracking-[0.3em] text-yellow-600 dark:text-yellow-500 mb-5 px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20">
+              👑 Sponsored TLDs
+            </span>
 
-          <p className="text-[var(--text-secondary)] text-base leading-relaxed max-w-2xl mx-auto">
-            Discover our hand-picked sponsored TLDs — premium extensions that power the next generation of digital identities, brands, and communities on the blockchain.
-          </p>
-        </div>
+            <h2
+              className="text-2xl sm:text-3xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight"
+              style={{ fontFamily: 'Sora, sans-serif' }}
+            >
+              Premium<br />
+              <span className="text-gradient">Web3 Domains</span>
+            </h2>
 
-        {/* Cards Grid — responsive: 1 → 2 → 4 columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-x-6 gap-y-14">
-          {sponsoredTLDs.map(tld => (
-            <SponsorCard key={tld.name} {...tld} />
-          ))}
+            <p className="text-[var(--text-secondary)] text-base md:text-lg leading-relaxed mb-8 max-w-md opacity-80">
+              Discover our hand-picked sponsored TLDs — premium extensions that power the next generation of digital identities, brands, and communities on the blockchain.
+            </p>
+
+            <div className="flex items-center gap-6 mt-8">
+              <div className="flex -space-x-3">
+                {[
+                  'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+                  'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+                  'https://i.pravatar.cc/150?u=a04258114e29026702d',
+                  'https://i.pravatar.cc/150?u=a04258114e29026708d'
+                ].map((src, i) => (
+                  <motion.div 
+                    key={i} 
+                    whileHover={{ y: -5, zIndex: 10 }}
+                    className="w-12 h-12 rounded-full border-2 border-[var(--bg-primary)] bg-yellow-500 shadow-xl overflow-hidden"
+                  >
+                     <img src={src} alt="Pioneer" className="w-full h-full object-cover" />
+                  </motion.div>
+                ))}
+              </div>
+              <div className="text-sm font-medium text-[var(--text-secondary)]">
+                Joined by <span className="text-[var(--text-primary)] font-bold">12,000+</span> web3 pioneers
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — Interactive Card Carousel */}
+          <div className="relative flex items-start justify-center lg:justify-center pt-10">
+            <div className="relative w-full max-w-lg lg:pr-4">
+              
+              {/* Stack background effect (indicates more cards) */}
+              <div className="absolute inset-0 translate-x-4 translate-y-4 scale-95 opacity-20 bg-yellow-500/20 rounded-2xl blur-sm" />
+              <div className="absolute inset-0 translate-x-2 translate-y-2 scale-98 opacity-40 bg-yellow-500/10 rounded-2xl blur-xs" />
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ x: 50, opacity: 0, rotate: 2 }}
+                  animate={{ x: 0, opacity: 1, rotate: 0 }}
+                  exit={{ x: -50, opacity: 0, rotate: -2 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  className="relative z-10"
+                >
+                  <SponsorCard {...cards[activeIndex]} />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Navigation Controls — Contained within margins */}
+              <div className="absolute -right-2 lg:-right-4 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-3">
+                <button 
+                  onClick={nextCard}
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-yellow-500 text-black flex items-center justify-center shadow-xl shadow-yellow-500/40 hover:scale-110 active:scale-95 transition-all group"
+                >
+                  <ChevronRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </div>
+
+              <button 
+                onClick={prevCard}
+                className="absolute -left-2 lg:-left-12 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 rounded-full border border-yellow-500/20 bg-[var(--bg-primary)]/80 backdrop-blur-md flex items-center justify-center text-yellow-500/60 hover:text-yellow-400 hover:border-yellow-500/50 transition-all z-20"
+              >
+                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

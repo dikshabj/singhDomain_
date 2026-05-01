@@ -262,6 +262,11 @@ body::before {
   to { --angle: 360deg; }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
 /* 3D floating orb */
 .orb {
   border-radius: 50%;
@@ -366,11 +371,27 @@ body::before {
   animation: sweepGold 4s ease infinite;
 }
 
-@keyframes sweepGold {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+/* Accessibility: Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-.dark .announcement-bar {
-  background: linear-gradient(90deg, #0F0A00, #1A1200, #F5C518, #1A1200, #0F0A00);
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }

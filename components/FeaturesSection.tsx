@@ -1,19 +1,19 @@
-'use client'
 import FloatingBackground from './FloatingBackground'
+import { Globe, Link2, Shield, Mail, CreditCard, Compass, ArrowRight } from 'lucide-react'
 
 const S = 300 // diamond container size
 const GAP = 6
 
 const features = [
-  { icon: '🌐', title: 'Be a Registrar', desc: 'Manage and register your own web3 domains with full control.', color: '#4ECDC4' },
-  { icon: '⛓️', title: 'Mint Web3 TLDs', desc: 'Mint your own TLDs and sell them on the marketplace.', color: 'var(--gold)' },
-  { icon: '🛡️', title: 'Own Your Identity', desc: 'Secure your unique digital presence permanently on the blockchain.', color: '#4ECDC4' },
-  { icon: '📧', title: 'Web3 Emails', desc: 'Secure decentralized communication with web3-enabled emails.', color: '#FF6B35' },
-  { icon: '💳', title: 'Name Your Wallet', desc: 'Personalize your crypto wallet with a human-readable domain.', color: 'var(--gold)' },
-  { icon: '🌍', title: 'Surf the Internet', desc: 'Browse smoothly with web3-enabled DNS resolution.', color: '#4ECDC4' },
+  { icon: Globe, title: 'Be a Registrar', desc: 'Manage and register your own web3 domains with full control.', color: '#4ECDC4' },
+  { icon: Link2, title: 'Mint Web3 TLDs', desc: 'Mint your own TLDs and sell them on the marketplace.', color: '#F5C518' },
+  { icon: Shield, title: 'Own Your Identity', desc: 'Secure your unique digital presence permanently on the blockchain.', color: '#4ECDC4' },
+  { icon: Mail, title: 'Web3 Emails', desc: 'Secure decentralized communication with web3-enabled emails.', color: '#FF6B35' },
+  { icon: CreditCard, title: 'Name Your Wallet', desc: 'Personalize your crypto wallet with a human-readable domain.', color: '#F5C518' },
+  { icon: Compass, title: 'Surf the Internet', desc: 'Browse smoothly with web3-enabled DNS resolution.', color: '#4ECDC4' },
 ]
 
-function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
+function DiamondCard({ icon: Icon, title, desc, color }: typeof features[0]) {
   return (
     <div 
       style={{ 
@@ -50,15 +50,20 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
 
       {/* Top vertex circle */}
       <div
-        className="absolute z-10 flex items-center justify-center"
-        style={{
-          top: 28, left: '50%', transform: 'translateX(-50%)',
-          width: 48, height: 48, borderRadius: '50%',
-          background: color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 85%)` : color + '25',
-          border: `2px solid ${color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 50%)` : color + '80'}`,
-        }}
+        className="absolute z-10 left-0 right-0 flex justify-center"
+        style={{ top: 24 }}
       >
-        <span style={{ fontSize: 20 }}>{icon}</span>
+        <div
+          className="flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+          style={{
+            width: 52, height: 52, borderRadius: '50%',
+            background: color + '25',
+            border: `2px solid ${color}80`,
+            boxShadow: `0 0 20px ${color}15`,
+          }}
+        >
+          <Icon size={24} style={{ color }} strokeWidth={2.5} />
+        </div>
       </div>
 
       {/* Content — centered */}
@@ -81,15 +86,19 @@ function DiamondCard({ icon, title, desc, color }: typeof features[0]) {
 
       {/* Bottom vertex arrow */}
       <div
-        className="absolute z-10 flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold transition-transform duration-300 group-hover:scale-110"
-        style={{
-          bottom: 28, left: '50%', transform: 'translateX(-50%)',
-          background: color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 85%)` : color + '25', 
-          border: `1.5px solid ${color.startsWith('var') ? `color-mix(in srgb, ${color}, transparent 60%)` : color + '60'}`, 
-          color: color.startsWith('var') ? color : color
-        }}
+        className="absolute z-10 left-0 right-0 flex justify-center"
+        style={{ bottom: 24 }}
       >
-        →
+        <div
+          className="flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 group-hover:scale-125 group-hover:bg-[color]"
+          style={{
+            background: color + '25', 
+            border: `1.5px solid ${color}60`, 
+            color
+          }}
+        >
+          <ArrowRight size={18} strokeWidth={3} />
+        </div>
       </div>
     </div>
   )
@@ -99,6 +108,7 @@ export default function FeaturesSection() {
   const row1 = features.slice(0, 3)
   const row2 = features.slice(3)
   const offset = (S + GAP) / 2
+  const centeredShift = Math.round(offset / 2)
   const overlapY = Math.round(S * 0.30)
 
   return (
@@ -145,7 +155,7 @@ export default function FeaturesSection() {
         <div className="flex flex-col items-center">
           {/* Desktop: Staggered Honeycomb (3-3) */}
           <div className="hidden xl:block">
-            <div style={{ transform: `translateX(-${offset / 2}px)` }}>
+            <div style={{ transform: `translateX(-${centeredShift}px)` }}>
               {/* Row 1 */}
               <div className="flex" style={{ gap: GAP }}>
                 {row1.map(f => <DiamondCard key={f.title} {...f} />)}
