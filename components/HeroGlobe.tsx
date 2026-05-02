@@ -15,7 +15,7 @@ export default function HeroGlobe() {
   }, [])
 
   return (
-    <div className={`lg:col-span-5 hidden lg:flex items-center justify-center sticky top-32 scale-75 xl:scale-100 transition-all duration-1000 ${hasMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{zIndex:2}}>
+    <div className={`lg:col-span-5 hidden lg:flex items-center justify-center sticky top-24 scale-75 xl:scale-90 transition-all duration-1000 ${hasMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{zIndex:2}}>
       <div className="relative w-80 h-80">
         
         {/* Background Glow Aura */}
