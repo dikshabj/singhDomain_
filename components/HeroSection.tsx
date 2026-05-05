@@ -87,7 +87,6 @@ export default function HeroSection() {
     }
   }, [])
 
-
   return (
     <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-16 pb-6 lg:pt-20" style={{ zIndex: 0 }}>
       <FloatingBackground density="low" />
@@ -127,13 +126,13 @@ export default function HeroSection() {
         </h1>
 
           {/* Sub text */}
-          <p className="text-[10px] md:text-xs lg:text-sm mb-4 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
+          <p className="text-[10px] md:text-xs lg:text-sm mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
           <div>
             {/* Trending Tags Row — moved below search bar */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 mt-1 px-2 items-center">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 mt-4 px-2 items-center">
               <span className="text-[9px] md:text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
