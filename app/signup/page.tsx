@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import { Eye, EyeOff, Mail, Lock, UserPlus, ArrowRight, User } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
 import FloatingBackground from '@/components/FloatingBackground'
 import { signupUser, saveEmail, isLoggedIn } from '@/lib/auth'
 
@@ -47,8 +46,14 @@ export default function SignupPage() {
       toast.error('Passwords do not match')
       return
     }
-    if (password.length < 6) {
-      toast.error('Password must be at least 6 characters')
+    if (password.length < 8) {
+      toast.error('Password must be at least 8 characters')
+      return
+    }
+    // Backend fails if it's ONLY alphanumeric (requires special char)
+    const isAlphanumeric = /^[a-zA-Z0-9]+$/.test(password)
+    if (isAlphanumeric) {
+      toast.error('Password must include at least one special character')
       return
     }
 
@@ -242,8 +247,6 @@ export default function SignupPage() {
           </div>
         </motion.div>
       </section>
-
-      <Footer />
     </main>
   )
 }

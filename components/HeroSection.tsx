@@ -1,7 +1,10 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import FloatingBackground from './FloatingBackground'
+import dynamic from 'next/dynamic'
+
+const FloatingBackground = dynamic(() => import('./FloatingBackground'), { ssr: false })
+const HeroGlobe = dynamic(() => import('./HeroGlobe'), { ssr: false })
 
 const DOMAINS = ['.singh', '.metaverse', '.gaming', '.usa', '.web3', '.crypto', '.nft', '.dao']
 
@@ -73,6 +76,7 @@ export default function HeroSection() {
     animate()
 
     const resize = () => {
+      if (!canvas) return
       canvas.width = canvas.offsetWidth
       canvas.height = canvas.offsetHeight
     }
@@ -82,7 +86,6 @@ export default function HeroSection() {
       window.removeEventListener('resize', resize)
     }
   }, [])
-
 
   return (
     <section className="relative min-h-0 flex flex-col items-center justify-start overflow-hidden pt-16 pb-6 lg:pt-20" style={{ zIndex: 0 }}>
@@ -123,14 +126,13 @@ export default function HeroSection() {
         </h1>
 
           {/* Sub text */}
-          <p className="text-[10px] md:text-xs lg:text-sm mb-4 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
+          <p className="text-[10px] md:text-xs lg:text-sm mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-80">
             Own your digital identity forever. Mint, manage, and sell Web3 domains across multiple blockchains.
           </p>
 
-          {/* Search Bar removed — moved to global Navbar */}
           <div>
             {/* Trending Tags Row — moved below search bar */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 mt-1 px-2 items-center">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-1.5 mt-4 px-2 items-center">
               <span className="text-[9px] md:text-[10px] text-[var(--text-secondary)] mr-1 font-bold uppercase tracking-tighter opacity-60">Trending:</span>
               {['.singh', '.gaming', '.metaverse', '.usa'].map(d => (
                 <button
@@ -163,128 +165,10 @@ export default function HeroSection() {
               ))}
             </div>
           </div>
-
-          {/* Type selector removed */}
-
-          {/* Search bar removed from here */}
-
-          {/* Stats removed from here */}
         </div>
 
-        {/* 3D Globe / Domain sphere — right column, sticky so it stays centered */}
-        <div className="lg:col-span-5 hidden lg:flex items-center justify-center sticky top-24 scale-75 xl:scale-90" style={{zIndex:2}}>
-          <div className="relative w-72 h-72 animate-float">
-            {/* Outer ring */}
-            <div className="absolute inset-0 rounded-full animate-spin-slow"
-              style={{ border: '1px solid var(--globe-ring1)' }} />
-            <div className="absolute inset-4 rounded-full"
-              style={{ animationDelay:'0.5s', animation:'spin 15s linear infinite reverse', border: '1px solid var(--globe-ring2)' }} />
-            {/* Core */}
-            <div className="absolute inset-8 rounded-full"
-              style={{
-                background: 'var(--globe-core-bg)',
-                border: '1px solid var(--globe-core-border)',
-                boxShadow: 'var(--globe-core-shadow)'
-              }}
-            >
-              <div className="absolute inset-0 rounded-full flex items-center justify-center">
-                <span className="text-5xl font-display font-bold" style={{fontFamily:'Bebas Neue', color:'var(--globe-sd-color)'}}>SD</span>
-              </div>
-            </div>
-            {/* Inner glow ring (light theme decoration) */}
-            <div className="absolute inset-10 rounded-full pointer-events-none"
-              style={{ border: '1px dashed var(--globe-ring2)', opacity: 0.5 }} />
-            {/* Orbiting dots */}
-            {[0,60,120,180,240,300].map((deg, i) => (
-              <div
-                key={`p1-${i}`}
-                className="absolute w-1.5 h-1.5 rounded-full bg-orange-400 dark:bg-yellow-400"
-                style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(${deg}deg) translateX(160px)`,
-                  boxShadow: '0 0 15px var(--gold)',
-                  animation: `spin ${10 + i}s linear infinite`,
-                  opacity: 0.6
-                }}
-              />
-            ))}
-
-            {/* Rotating Rings (Outer) */}
-            <div className="absolute inset-0 rounded-full border border-dashed border-orange-500/20 dark:border-yellow-500/20 animate-spin-slow" />
-            <div className="absolute inset-6 rounded-full border border-orange-500/10 dark:border-yellow-500/10" 
-              style={{ animation: 'spin 12s linear infinite reverse' }} />
-            
-            {/* Tilted Ring 1 */}
-            <div className="absolute inset-[-10px] rounded-full border border-orange-500/30 dark:border-yellow-500/30"
-              style={{ transform: 'rotateX(75deg) rotateY(15deg)', animation: 'spin 8s linear infinite' }} />
-            
-            {/* Tilted Ring 2 */}
-            <div className="absolute inset-[-10px] rounded-full border border-orange-500/30 dark:border-yellow-500/30"
-              style={{ transform: 'rotateX(-75deg) rotateY(-15deg)', animation: 'spin 10s linear infinite reverse' }} />
-
-            {/* Main Core Sphere */}
-            <div className="absolute inset-10 rounded-full group cursor-pointer transition-all duration-700 hover:scale-110"
-              style={{
-                background: 'var(--globe-core-bg)',
-                border: '1px solid var(--globe-core-border)',
-                boxShadow: 'var(--globe-core-shadow)',
-                zIndex: 5
-              }}
-            >
-              {/* Inner Glow Pulse */}
-              <div className="absolute inset-0 rounded-full animate-pulse opacity-50" 
-                style={{ background: 'radial-gradient(circle, var(--gold) 0%, transparent 70%)' }} />
-
-              {/* Logo / Text */}
-              <div className="absolute inset-0 rounded-full flex flex-col items-center justify-center">
-                <span className="text-6xl font-display font-bold tracking-tighter" 
-                  style={{fontFamily:'Bebas Neue', color:'var(--globe-sd-color)', filter: 'drop-shadow(0 0 10px var(--gold-glow))'}}>
-                  SD
-                </span>
-                <div className="w-12 h-0.5 bg-orange-500/30 dark:bg-yellow-500/30 mt-[-5px] rounded-full" />
-              </div>
-
-              {/* Holographic Sweep */}
-              <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-              </div>
-            </div>
-
-            {/* Orbiting Dots (Inner Layer) */}
-            {[30, 150, 270].map((deg, i) => (
-              <div
-                key={`p2-${i}`}
-                className="absolute w-2 h-2 rounded-full bg-orange-500 dark:bg-yellow-500"
-                style={{
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(${deg}deg) translateX(110px)`,
-                  boxShadow: '0 0 20px var(--gold)',
-                  animation: `spin ${5 + i}s linear infinite reverse`,
-                  zIndex: 6
-                }}
-              />
-            ))}
-
-            {/* Floating Domain Tags */}
-            {DOMAINS.slice(0, 5).map((d, i) => (
-              <div
-                key={d}
-                className="absolute domain-pill text-[10px] font-bold px-3 py-1.5 backdrop-blur-md shadow-lg"
-                style={{
-                  top: `${[5, 80, 20, 85, 45][i]}%`,
-                  left: `${[-50, -40, 110, 100, -70][i]}%`,
-                  animation: `float ${4 + i}s ease-in-out ${i * 0.3}s infinite`,
-                  borderColor: 'var(--border-gold)',
-                  zIndex: 10
-                }}
-              >
-                {d}
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 3D Globe Extracted to component */}
+        <HeroGlobe />
       </div>
     </div>
   </section>

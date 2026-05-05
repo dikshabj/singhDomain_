@@ -22,6 +22,11 @@ export async function verifyOtp(email: string, otp: number) {
   return response.data
 }
 
+export async function resendOtp(email: string) {
+  const response = await api.post('/user/re-generate-link', { email })
+  return response.data
+}
+
 export async function googleLogin(access_token: string) {
   const response = await api.post('/user/google/login', { access_token })
   return response.data
@@ -33,7 +38,12 @@ export async function forgotPassword(email: string) {
 }
 
 export async function resetPassword(email: string, otp: number, newPassword: string) {
-  const response = await api.post('/user/reset-password-otp', { email, otp, newPassword })
+  const response = await api.post('/user/reset-password-otp', {
+    email,
+    otp,
+    password: newPassword,
+    confirmPassword: newPassword,
+  })
   return response.data
 }
 
@@ -81,4 +91,14 @@ export function clearProfile() {
 export function isLoggedIn(): boolean {
   const profile = getProfile()
   return !!profile?.Token
+}
+
+export async function getUserProfile() {
+  const response = await authApi.get('/user/get-details/')
+  return response.data
+}
+
+export async function updateUserProfile(data: any) {
+  const response = await authApi.patch('/user/update-user', data)
+  return response.data
 }

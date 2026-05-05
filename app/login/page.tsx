@@ -8,9 +8,8 @@ import { Eye, EyeOff, Mail, Lock, LogIn, ArrowRight } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useGoogleLogin } from '@react-oauth/google'
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
 import FloatingBackground from '@/components/FloatingBackground'
-import { loginUser, googleLogin, saveProfile, isLoggedIn } from '@/lib/auth'
+import { loginUser, googleLogin, saveProfile, isLoggedIn, saveEmail } from '@/lib/auth'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -70,8 +69,16 @@ export default function LoginPage() {
         router.push('/')
       }, 1000)
     } catch (error: any) {
+      if (error?.response?.data?.activate) {
+        toast.error(error.response.data.activate)
+        saveEmail(email) // Save email for the verify page
+        setTimeout(() => {
+          router.push('/verify-otp')
+        }, 2000)
+        return
+      }
+
       const errorMessage =
-        error?.response?.data?.activate ||
         error?.response?.data?.error ||
         'Invalid credentials. Please try again.'
       toast.error(errorMessage)
@@ -252,7 +259,6 @@ export default function LoginPage() {
         </motion.div>
       </section>
 
-      <Footer />
     </main>
   )
 }
