@@ -17,6 +17,13 @@ import EditEventModal from '@/components/EditEventModal'
 import AnalyticsModal from '@/components/AnalyticsModal'
 import EmailAttendeesModal from '@/components/EmailAttendeesModal'
 import { getProfile } from '@/lib/auth'
+import { API_URL } from '@/lib/api'
+
+const getImageUrl = (path?: string) => {
+  if (!path) return 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80'
+  if (path.startsWith('http')) return path
+  return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`
+}
 
 function EventsContent() {
   const router = useRouter()
@@ -268,7 +275,7 @@ function EventsContent() {
                     >
                       <div className="aspect-[16/10] relative overflow-hidden">
                         <img 
-                          src={event.photo || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80'} 
+                          src={getImageUrl(event.photo)} 
                           alt={event.name}
                           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                         />
