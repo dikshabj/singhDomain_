@@ -5,17 +5,11 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.singhcoin
 // Public axios instance (no auth)
 const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 })
 
 // Authenticated axios instance (attaches token from localStorage)
 export const authApi = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 })
 
 authApi.interceptors.request.use((config) => {
@@ -31,6 +25,7 @@ authApi.interceptors.request.use((config) => {
       } catch {}
     }
   }
+  console.log('AUTH API REQUEST:', config.method?.toUpperCase(), config.url, config.data instanceof FormData ? 'FormData' : config.data)
   return config
 })
 

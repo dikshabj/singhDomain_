@@ -71,8 +71,12 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
+@keyframes progress-bar-stripes {
+  from { background-position: 20px 0; }
+  to { background-position: 0 0; }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {

@@ -8,7 +8,8 @@ import { Eye, EyeOff, Mail, Lock, UserPlus, ArrowRight, User } from 'lucide-reac
 import toast, { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import FloatingBackground from '@/components/FloatingBackground'
-import { signupUser, saveEmail, isLoggedIn } from '@/lib/auth'
+import { signupUser, signupBusinessUser, saveEmail, isLoggedIn } from '@/lib/auth'
+import { Building2, Globe, FileText } from 'lucide-react'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -19,6 +20,12 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [accountType, setAccountType] = useState<'Personal' | 'Business'>('Personal')
+  
+  // Business specific states
+  const [companyName, setCompanyName] = useState('')
+  const [website, setWebsite] = useState('')
+  const [constitution, setConstitution] = useState('Proprietor')
 
   // Redirect if already logged in
   useEffect(() => {
@@ -58,9 +65,21 @@ export default function SignupPage() {
     }
 
     setIsLoading(true)
-
+    
     try {
-      await signupUser(username, email, password, confirmPassword)
+      if (accountType === 'Personal') {
+        await signupUser(username, email, password, confirmPassword)
+      } else {
+        await signupBusinessUser({
+          username,
+          email,
+          password,
+          companyName,
+          website,
+          constitution
+        })
+      }
+      
       saveEmail(email)
       toast.success('Registration successful! Please verify your email.')
       setTimeout(() => {
@@ -114,11 +133,39 @@ export default function SignupPage() {
                 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-2"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
-                Create Account
+                {accountType === 'Personal' ? 'Create Account' : 'Business Registry'}
               </h1>
               <p className="text-[var(--text-secondary)] text-sm">
-                Register to start your Web3 domain journey
+                {accountType === 'Personal' 
+                  ? 'Register to start your Web3 domain journey' 
+                  : 'Register your organization on Singh Domain'}
               </p>
+            </div>
+
+            {/* Account Type Toggle */}
+            <div className="flex p-1 bg-[var(--bg-primary)] rounded-xl border border-[var(--border)] mb-8">
+              <button
+                type="button"
+                onClick={() => setAccountType('Personal')}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all ${
+                  accountType === 'Personal'
+                    ? 'bg-yellow-500 text-black shadow-md'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                Personal
+              </button>
+              <button
+                type="button"
+                onClick={() => setAccountType('Business')}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all ${
+                  accountType === 'Business'
+                    ? 'bg-yellow-500 text-black shadow-md'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                Business
+              </button>
             </div>
 
             {/* Form */}
@@ -140,6 +187,68 @@ export default function SignupPage() {
                   />
                 </div>
               </div>
+
+              {/* Business Specific Fields */}
+              {accountType === 'Business' && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="space-y-4"
+                >
+                  {/* Company Name */}
+                  <div>
+                    <label className="block text-sm font-semibold text-[var(--text-primary)] mb-2">
+                      Company Name
+                    </label>
+                    <div className="relative">
+                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-secondary)]" />
+                      <input
+                        type="text"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder="Your company name"
+                        className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-yellow-500/50 focus:ring-2 focus:ring-yellow-500/10 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Website */}
+                  <div>
+                    <label className="block text-sm font-semibold text-[var(--text-primary)] mb-2">
+                      Website (Optional)
+                    </label>
+                    <div className="relative">
+                      <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-secondary)]" />
+                      <input
+                        type="url"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        placeholder="https://example.com"
+                        className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-yellow-500/50 focus:ring-2 focus:ring-yellow-500/10 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Constitution */}
+                  <div>
+                    <label className="block text-sm font-semibold text-[var(--text-primary)] mb-2">
+                      Constitution
+                    </label>
+                    <div className="relative">
+                      <FileText className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-secondary)]" />
+                      <select
+                        value={constitution}
+                        onChange={(e) => setConstitution(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] appearance-none focus:outline-none focus:border-yellow-500/50 focus:ring-2 focus:ring-yellow-500/10 transition-all"
+                      >
+                        <option value="Proprietor">Proprietor</option>
+                        <option value="Partnership">Partnership</option>
+                        <option value="Company">Company</option>
+                      </select>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Email */}
               <div>

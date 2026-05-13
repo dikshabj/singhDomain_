@@ -18,6 +18,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [accountType, setAccountType] = useState<'Personal' | 'Business'>('Personal')
 
   const loginWithGoogle = useGoogleLogin({
     onSuccess: async (codeResponse) => {
@@ -125,11 +126,37 @@ export default function LoginPage() {
                 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-2"
                 style={{ fontFamily: 'Sora, sans-serif' }}
               >
-                Welcome Back
+                {accountType === 'Personal' ? 'Welcome Back' : 'Business Portal'}
               </h1>
               <p className="text-[var(--text-secondary)] text-sm">
-                Login to access your Singh Domain dashboard
+                Login to access your Singh Domain {accountType === 'Personal' ? 'dashboard' : 'business account'}
               </p>
+            </div>
+
+            {/* Account Type Toggle */}
+            <div className="flex p-1 bg-[var(--bg-primary)] rounded-xl border border-[var(--border)] mb-8">
+              <button
+                type="button"
+                onClick={() => setAccountType('Personal')}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all ${
+                  accountType === 'Personal'
+                    ? 'bg-yellow-500 text-black shadow-md'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                Personal
+              </button>
+              <button
+                type="button"
+                onClick={() => setAccountType('Business')}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all ${
+                  accountType === 'Business'
+                    ? 'bg-yellow-500 text-black shadow-md'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                Business
+              </button>
             </div>
 
             {/* Form */}

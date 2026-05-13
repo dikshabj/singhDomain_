@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon, ShoppingBag, Menu, X, Search, LogOut, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { getProfile, clearProfile, isLoggedIn as checkLoggedIn } from '@/lib/auth'
+import { getProfile, clearProfile, isLoggedIn as checkLoggedIn, getUserProfile, updateSavedProfile } from '@/lib/auth'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -19,6 +19,7 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState('')
+  const [profilePic, setProfilePic] = useState('')
   const { theme, setTheme } = useTheme()
   const router = useRouter()
 
@@ -29,14 +30,41 @@ export default function Navbar() {
     }
     window.addEventListener('scroll', onScroll, { passive: true })
 
-    // Check auth status
-    const profile = getProfile()
-    if (profile?.Token) {
-      setLoggedIn(true)
-      setUserEmail(profile.email || '')
+    const refreshProfile = () => {
+      const profile = getProfile()
+      if (profile?.Token) {
+        setLoggedIn(true)
+        setUserEmail(profile.email || '')
+        setProfilePic(profile.profilePic || profile.pic || '')
+      }
     }
 
-    return () => window.removeEventListener('scroll', onScroll)
+    refreshProfile()
+    window.addEventListener('profileUpdate', refreshProfile)
+    window.addEventListener('storage', refreshProfile)
+
+    // Sync fresh profile from backend to catch any stale localStorage pic
+    const syncProfileFromBackend = async () => {
+      const profile = getProfile()
+      if (!profile?.Token) return
+      try {
+        const response = await getUserProfile()
+        if (response?.success && response.data) {
+          const freshPic = response.data.profilePic || response.data.pic || ''
+          updateSavedProfile(response.data)
+          if (freshPic) setProfilePic(freshPic)
+        }
+      } catch {
+        // silently fail — offline or token expired
+      }
+    }
+    syncProfileFromBackend()
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('profileUpdate', refreshProfile)
+      window.removeEventListener('storage', refreshProfile)
+    }
   }, [])
 
   const handleLogout = () => {
@@ -85,9 +113,11 @@ export default function Navbar() {
 
             <div className="hidden md:flex items-center gap-6">
               {!isSearchExpanded && [
+                { name: 'Home', href: '/' },
                 { name: 'Marketplace', href: '/marketplace' },
                 { name: 'Domains', href: '/domains' },
                 { name: 'Referral', href: '/referral' },
+                { name: 'Feed', href: '/feed' },
                 { name: 'Profile', href: '/profile' },
               ].map((link) => (
                 <Link
@@ -181,8 +211,17 @@ export default function Navbar() {
                   href="/profile"
                   className="flex items-center gap-2 px-1.5 md:px-3 py-1 md:py-1.5 rounded-lg bg-yellow-500/5 border border-yellow-500/10 hover:border-yellow-500/30 transition-all"
                 >
-                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black text-xs font-black">
-                    {userEmail.charAt(0).toUpperCase()}
+                  <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black text-xs font-black overflow-hidden border border-yellow-500/20">
+                    {profilePic ? (
+                      <img 
+                        src={profilePic} 
+                        alt="" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                      />
+                    ) : (
+                      userEmail.charAt(0).toUpperCase()
+                    )}
                   </div>
                   <span className="hidden lg:block text-xs md:text-sm font-bold text-[var(--text-primary)]">
                     {userEmail.split('@')[0]}
@@ -232,14 +271,21 @@ export default function Navbar() {
             className="md:hidden bg-[var(--bg-primary)] border-t border-[var(--border)] overflow-hidden"
           >
             <div className="p-4 flex flex-col gap-4">
-              {['Marketplace', 'Domains', 'Referral', 'Profile'].map((item) => (
+              {[
+                { name: 'Home', href: '/' },
+                { name: 'Marketplace', href: '/marketplace' },
+                { name: 'Domains', href: '/domains' },
+                { name: 'Referral', href: '/referral' },
+                { name: 'Feed', href: '/feed' },
+                { name: 'Profile', href: '/profile' }
+              ].map((item) => (
                 <Link
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
+                  key={item.name}
+                  href={item.href}
                   className="text-sm font-medium text-[var(--text-secondary)] py-2"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {item}
+                  {item.name}
                 </Link>
               ))}
               {!loggedIn && (

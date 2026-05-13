@@ -58,17 +58,14 @@ export default function HeroGlobe() {
             zIndex: 5
           }}
         >
-          {/* Inner Glow Pulse */}
-          <div className="absolute inset-0 rounded-full animate-pulse opacity-40" 
-            style={{ background: 'radial-gradient(circle, var(--gold) 0%, transparent 70%)' }} />
-
-          {/* Logo / Text */}
-          <div className="absolute inset-0 rounded-full flex flex-col items-center justify-center">
-            <span className="text-6xl font-display font-bold tracking-tighter" 
-              style={{fontFamily:'Bebas Neue', color:'var(--globe-sd-color)', filter: 'drop-shadow(0 0 10px var(--gold-glow))'}}>
-              SD
-            </span>
-            <div className="w-12 h-0.5 bg-orange-500/30 dark:bg-yellow-500/30 mt-[-5px] rounded-full" />
+          {/* Lion Logo Seamless Integration - Highest Z-Index to hide any stray dots behind it */}
+          <div className="absolute inset-0 rounded-full flex items-center justify-center p-8 overflow-hidden" style={{ zIndex: 10 }}>
+            <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/40 via-transparent to-transparent opacity-60 pointer-events-none" />
+            <img 
+              src="/golden_lion_logo.png" 
+              alt="Lion Logo" 
+              className="w-[90%] h-[90%] object-contain rounded-full mix-blend-screen filter brightness-125 contrast-110 drop-shadow-[0_0_20px_rgba(234,179,8,0.4)] group-hover:scale-110 transition-transform duration-700 relative z-20"
+            />
           </div>
 
           {/* Holographic Sweep */}
