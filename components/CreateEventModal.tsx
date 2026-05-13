@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Upload, Calendar, MapPin, DollarSign, Users, Info, Sparkles } from 'lucide-react'
+import { X, Upload, Calendar, MapPin, DollarSign, Users, Info, Sparkles, ChevronDown } from 'lucide-react'
 import { createEvent } from '@/lib/event'
 import toast from 'react-hot-toast'
 
@@ -16,25 +16,55 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   
-              {/* Category */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-yellow-500 uppercase tracking-wider ml-1">Category</label>
-                <div className="relative">
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-yellow-500 outline-none transition-all appearance-none text-[var(--text-primary)]"
-                  >
-                    <option value="General" className="bg-[var(--bg-secondary)]">General</option>
-                    <option value="Technology" className="bg-[var(--bg-secondary)]">Technology</option>
-                    <option value="Entertainment" className="bg-[var(--bg-secondary)]">Entertainment</option>
-                    <option value="Music" className="bg-[var(--bg-secondary)]">Music</option>
-                    <option value="Sports" className="bg-[var(--bg-secondary)]">Sports</option>
-                    <option value="Education" className="bg-[var(--bg-secondary)]">Education</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    venue: '',
+    price: '0',
+    totalTickets: '100',
+    eventDateTime: '',
+    sellingStatus: 'For sale',
+    category: 'General',
+    location: ''
+  })
+  
+  const [file, setFile] = useState<File | null>(null)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (selectedFile) {
+      setFile(selectedFile)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string)
+      }
+      reader.readAsDataURL(selectedFile)
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!file) {
+      toast.error('Please upload an event image')
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+      const submitData = new FormData()
+      submitData.append('name', formData.name)
+      submitData.append('description', formData.description)
+      submitData.append('venue', formData.venue)
+      submitData.append('price', formData.price)
+      submitData.append('totalTickets', formData.totalTickets)
+      submitData.append('eventDateTime', formData.eventDateTime)
+      submitData.append('sellingStatus', formData.sellingStatus)
+      submitData.append('category', formData.category)
+      submitData.append('location', formData.location || formData.venue)
+      submitData.append('photo', file)
+      submitData.append('mintTransactionHash', 'MOCK_HASH_' + Date.now())
+
+      const response = await createEvent(submitData)
       if (response.error || response.err || response.message?.includes('fail')) {
         toast.error(response.error || response.err || 'Failed to create event')
       } else {
@@ -86,7 +116,7 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto scrollbar-hide">
+          <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
             
             {/* Image Upload */}
             <div className="space-y-2">
@@ -127,32 +157,63 @@ export default function CreateEventModal({ isOpen, onClose, onSuccess }: CreateE
               {/* Name */}
               <div className="space-y-2">
                 <label className="text-xs font-bold text-yellow-500 uppercase tracking-wider ml-1">Event Title</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  placeholder="e.g. Web3 Developers Meetup"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-yellow-500 outline-none transition-all"
+                />
+              </div>
+
+              {/* Category */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-yellow-500 uppercase tracking-wider ml-1">Category</label>
                 <div className="relative">
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    placeholder="e.g. Web3 Developers Meetup"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-yellow-500 outline-none transition-all"
-                  />
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({...formData, category: e.target.value})}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-yellow-500 outline-none transition-all appearance-none text-white cursor-pointer"
+                  >
+                    <option value="General" className="bg-[#1A1A1A]">General</option>
+                    <option value="Technology" className="bg-[#1A1A1A]">Technology</option>
+                    <option value="Entertainment" className="bg-[#1A1A1A]">Entertainment</option>
+                    <option value="Music" className="bg-[#1A1A1A]">Music</option>
+                    <option value="Sports" className="bg-[#1A1A1A]">Sports</option>
+                    <option value="Education" className="bg-[#1A1A1A]">Education</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-yellow-500 pointer-events-none" size={16} />
                 </div>
               </div>
 
               {/* Venue */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-yellow-500 uppercase tracking-wider ml-1">Venue / Location</label>
+                <label className="text-xs font-bold text-yellow-500 uppercase tracking-wider ml-1">Venue / Address</label>
                 <div className="relative">
                   <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500/50" size={16} />
                   <input
                     type="text"
                     required
                     value={formData.venue}
-                    onChange={(e) => setFormData({...formData, venue: e.target.value})}
-                    placeholder="e.g. Metaverse / New York"
+                    onChange={(e) => setFormData({...formData, venue: e.target.value, location: e.target.value})}
+                    placeholder="e.g. Times Square, NY"
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-sm focus:border-yellow-500 outline-none transition-all"
                   />
                 </div>
+              </div>
+
+               {/* City/Location */}
+               <div className="space-y-2">
+                <label className="text-xs font-bold text-yellow-500 uppercase tracking-wider ml-1">City (For Filtering)</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.location}
+                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  placeholder="e.g. New York"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm focus:border-yellow-500 outline-none transition-all"
+                />
               </div>
 
               {/* Date & Time */}

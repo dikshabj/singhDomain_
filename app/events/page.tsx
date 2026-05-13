@@ -33,6 +33,8 @@ export default function EventsPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isAnalyticsModalOpen, setIsAnalyticsModalOpen] = useState(false)
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedLocation, setSelectedLocation] = useState('')
 
   useEffect(() => {
     fetchEvents()
@@ -132,8 +134,14 @@ export default function EventsPage() {
 
     if (activeTab === 'created') {
       const currentUserId = currentUser?._id || currentUser?.id;
-      return currentUserId && event.userID === currentUserId;
+      if (!currentUserId || event.userID !== currentUserId) return false;
     }
+
+    // Category filtering
+    if (selectedCategory !== 'All' && event.category !== selectedCategory) return false;
+
+    // Location filtering
+    if (selectedLocation && !event.location?.toLowerCase().includes(selectedLocation.toLowerCase()) && !event.venue?.toLowerCase().includes(selectedLocation.toLowerCase())) return false;
 
     return true;
   }) : []
@@ -179,27 +187,58 @@ export default function EventsPage() {
 
             {/* Filters Bar */}
             <div className="flex flex-col md:flex-row items-center gap-4">
-               <div className="relative flex-1 w-full">
+               <div className="relative flex-[2] w-full">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-yellow-500" size={18} />
                   <input 
                     type="text"
-                    placeholder="Search events, venues, or descriptions..."
+                    placeholder="Search events..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full bg-[var(--bg-secondary)] border border-yellow-500/10 rounded-2xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-yellow-500 transition-all shadow-inner"
                   />
                </div>
-                <div className="flex bg-[var(--bg-secondary)] p-1.5 rounded-2xl border border-yellow-500/10 w-full md:w-fit overflow-x-auto">
-                   {(['all', 'upcoming', 'past', 'my-tickets', 'created'] as const).map((tab) => (
-                     <button
-                       key={tab}
-                       onClick={() => setActiveTab(tab)}
-                       className={`px-6 py-2.5 rounded-xl text-xs font-bold capitalize transition-all whitespace-nowrap ${activeTab === tab ? 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20' : 'text-[var(--text-secondary)] hover:text-yellow-500'}`}
-                     >
-                       {tab.replace('-', ' ')}
-                     </button>
-                   ))}
-                </div>
+
+               <div className="flex flex-1 gap-4 w-full md:w-auto">
+                 <div className="relative flex-1">
+                   <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-yellow-500/50" size={14} />
+                   <select 
+                     value={selectedCategory}
+                     onChange={(e) => setSelectedCategory(e.target.value)}
+                     className="w-full bg-[var(--bg-secondary)] border border-yellow-500/10 rounded-2xl py-4 pl-10 pr-4 text-xs font-bold focus:outline-none focus:border-yellow-500 transition-all appearance-none cursor-pointer text-white"
+                   >
+                     <option value="All">All Categories</option>
+                     <option value="General">General</option>
+                     <option value="Technology">Technology</option>
+                     <option value="Entertainment">Entertainment</option>
+                     <option value="Music">Music</option>
+                     <option value="Sports">Sports</option>
+                     <option value="Education">Education</option>
+                   </select>
+                 </div>
+
+                 <div className="relative flex-1">
+                   <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-yellow-500/50" size={14} />
+                   <input 
+                     type="text"
+                     placeholder="Location..."
+                     value={selectedLocation}
+                     onChange={(e) => setSelectedLocation(e.target.value)}
+                     className="w-full bg-[var(--bg-secondary)] border border-yellow-500/10 rounded-2xl py-4 pl-10 pr-4 text-xs font-bold focus:outline-none focus:border-yellow-500 transition-all text-white"
+                   />
+                 </div>
+               </div>
+            </div>
+
+            <div className="flex bg-[var(--bg-secondary)] p-1.5 rounded-2xl border border-yellow-500/10 w-fit overflow-x-auto">
+               {(['all', 'upcoming', 'past', 'my-tickets', 'created'] as const).map((tab) => (
+                 <button
+                   key={tab}
+                   onClick={() => setActiveTab(tab)}
+                   className={`px-6 py-2.5 rounded-xl text-xs font-bold capitalize transition-all whitespace-nowrap ${activeTab === tab ? 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20' : 'text-[var(--text-secondary)] hover:text-yellow-500'}`}
+                 >
+                   {tab.replace('-', ' ')}
+                 </button>
+               ))}
             </div>
 
             {/* Events Grid */}
