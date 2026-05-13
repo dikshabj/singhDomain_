@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import FloatingBackground from '@/components/FloatingBackground'
 import Sidebar from '@/components/Sidebar'
+import { authApi } from '@/lib/api'
 import { getUserProfile, updateUserProfile, clearProfile, isLoggedIn, getProfile, updateProfilePic, updateSavedProfile, updateBillingInfo } from '@/lib/auth'
 
 export default function ProfilePage() {
@@ -79,6 +80,9 @@ export default function ProfilePage() {
         setUser({ ...user, ...updatedData })
         updateSavedProfile(updatedData)
       } else {
+        // First update the main wallet address (required for freename logic)
+        await authApi.post('/user/update-walletAddress', { walletAddress })
+
         await updateBillingInfo({
           name: billingName,
           street,
