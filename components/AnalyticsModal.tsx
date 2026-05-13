@@ -54,7 +54,7 @@ export default function AnalyticsModal({ isOpen, onClose, event }: AnalyticsModa
         `"${attendee.orderId || ''}"`,
         attendee.ticket,
         attendee.price || 0,
-        `"${new Date(attendee.date).toLocaleString()}"`
+        `"${attendee.date ? new Date(attendee.date).toLocaleString() : 'N/A'}"`
       ].join(','))
     ].join('\n')
 

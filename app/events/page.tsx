@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, MapPin, Ticket, Search, Plus, Filter, Clock, ArrowRight, Edit2, Trash2, Users, BarChart3 } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
 import FloatingBackground from '@/components/FloatingBackground'
-import { Event, getAllEvents, deleteEvent } from '@/lib/event'
+import { Event, getAllEvents, deleteEvent, captureEventPayment } from '@/lib/event'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Toaster, toast } from 'react-hot-toast'
 import { format } from 'date-fns'
@@ -18,7 +18,7 @@ import AnalyticsModal from '@/components/AnalyticsModal'
 import EmailAttendeesModal from '@/components/EmailAttendeesModal'
 import { getProfile } from '@/lib/auth'
 
-export default function EventsPage() {
+function EventsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [events, setEvents] = useState<Event[]>([])
@@ -38,41 +38,39 @@ export default function EventsPage() {
 
   useEffect(() => {
     fetchEvents()
-    const profile = getProfile()
-    if (profile) {
-      setCurrentUser(profile)
-    }
+    fetchUser()
+    handlePaymentParams()
+  }, [])
 
-    // Hook for AttendeesModal to open EmailModal
-    if (typeof window !== 'undefined') {
-      (window as any).openEmailModal = () => setIsEmailModalOpen(true)
-    }
-
-    // Handle PayPal Redirect Return
-    const paymentStatus = searchParams.get('payment')
-    const token = searchParams.get('token')
+  const handlePaymentParams = async () => {
+    const payment = searchParams.get('payment')
+    const orderId = searchParams.get('token') // PayPal returns token as order ID
     const eventId = searchParams.get('eventId')
-    if (paymentStatus === 'success' && token && eventId) {
-      handlePaymentCapture(token, eventId)
-    } else if (paymentStatus === 'cancel') {
-      toast.error('Payment was cancelled')
-    }
-  }, [searchParams])
 
-  const handlePaymentCapture = async (orderId: string, eventId: string) => {
-    try {
-      toast.loading('Verifying payment...', { id: 'payment-capture' })
-      const response = await captureEventPayment(orderId, eventId)
-      if (response.error) {
-        toast.error(response.error, { id: 'payment-capture' })
-      } else {
-        toast.success('Payment successful! Your tickets are booked.', { id: 'payment-capture' })
-        fetchEvents()
-        router.replace('/events') // Clean up URL
+    if (payment === 'success' && orderId && eventId) {
+      try {
+        toast.loading('Verifying payment...', { id: 'payment-capture' })
+        const response = await captureEventPayment(orderId, eventId)
+        if (response.error) {
+          toast.error(response.error, { id: 'payment-capture' })
+        } else {
+          toast.success('Ticket booked successfully!', { id: 'payment-capture' })
+          fetchEvents()
+          // Clean URL
+          router.replace('/events')
+        }
+      } catch (error) {
+        toast.error('Payment verification failed', { id: 'payment-capture' })
       }
-    } catch (error) {
-      toast.error('Failed to capture payment', { id: 'payment-capture' })
+    } else if (payment === 'cancel') {
+      toast.error('Payment was cancelled')
+      router.replace('/events')
     }
+  }
+
+  const fetchUser = async () => {
+    const profile = getProfile()
+    setCurrentUser(profile)
   }
 
   const fetchEvents = async () => {
@@ -81,55 +79,42 @@ export default function EventsPage() {
       const data = await getAllEvents()
       setEvents(data)
     } catch (error) {
-      console.error('Failed to load events', error)
+      toast.error('Failed to load events')
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleDeleteEvent = async (eventID: string) => {
-    if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) return
-    
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this event?')) return
     try {
-      const response = await deleteEvent(eventID)
-      if (response.error) {
-        toast.error(response.error)
-      } else {
-        toast.success('Event deleted successfully')
-        fetchEvents()
-      }
+      await deleteEvent(id)
+      toast.success('Event deleted')
+      fetchEvents()
     } catch (error) {
       toast.error('Failed to delete event')
     }
   }
 
   const filteredEvents = Array.isArray(events) ? events.filter(event => {
-    // Search filtering
-    const matchesSearch = 
-      event.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.venue?.toLowerCase().includes(searchQuery.toLowerCase());
+    // Basic Search
+    const matchesSearch = event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         event.venue.toLowerCase().includes(searchQuery.toLowerCase())
     
-    if (!matchesSearch) return false;
+    if (!matchesSearch) return false
 
-    // Tab filtering
-    if (activeTab === 'all') return true;
+    // Tab Filtering
+    const now = new Date()
+    const eventDate = new Date(event.eventDateTime)
 
-    const eventDate = new Date(event.eventDateTime);
-    const now = new Date();
-    // Set both to start of day for cleaner 'today' vs 'upcoming' vs 'past' if needed, 
-    // but standard comparison is usually fine for most users.
+    if (activeTab === 'upcoming' && eventDate < now) return false
+    if (activeTab === 'past' && eventDate >= now) return false
     
-    if (activeTab === 'upcoming') {
-      return eventDate >= now;
-    }
-    
-    if (activeTab === 'past') {
-      return eventDate < now;
-    }
-
     if (activeTab === 'my-tickets') {
-      return event.userTicketCount && event.userTicketCount > 0;
+      const currentUserId = currentUser?._id || currentUser?.id;
+      const hasTicket = event.soldTo?.some(s => s.userId === currentUserId)
+      if (!hasTicket) return false
     }
 
     if (activeTab === 'created') {
@@ -146,45 +131,49 @@ export default function EventsPage() {
     return true;
   }) : []
 
-  const isOwner = (event: Event) => {
-    const currentUserId = currentUser?._id || currentUser?.id;
-    return currentUserId && event.userID === currentUserId;
-  }
+  const selectedEvent = events.find(e => e._id === selectedEventId) || null
 
   return (
-    <main className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
-      <Toaster position="top-right" />
-      <Navbar />
-      <FloatingBackground density="low" />
-
-      <section className="relative z-10 pt-24 pb-20 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="flex min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans selection:bg-yellow-500/30">
+      <FloatingBackground />
+      <Toaster position="top-center" />
+      
+      <Sidebar />
+      
+      <main className="flex-1 lg:ml-64 min-h-screen relative">
+        <Navbar />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           
-          {/* Left Sidebar */}
-          <div className="hidden lg:block lg:col-span-3 space-y-4 sticky top-24 h-fit">
-            <Sidebar />
+          {/* Header Section */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-2">
+                DISCOVER <span className="text-yellow-500">EVENTS</span>
+              </h1>
+              <p className="text-[var(--text-secondary)] font-bold text-sm uppercase tracking-widest flex items-center gap-2">
+                <span className="w-8 h-[2px] bg-yellow-500" />
+                Experience the extraordinary
+              </p>
+            </motion.div>
+
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              onClick={() => setIsModalOpen(true)}
+              className="btn-gold group px-8 py-4 rounded-2xl flex items-center gap-3 self-start md:self-center"
+            >
+              <Plus className="group-hover:rotate-90 transition-transform duration-300" />
+              <span className="font-black uppercase tracking-tighter text-sm">Host Event</span>
+            </motion.button>
           </div>
 
-          {/* Main Content */}
-          <div className="col-span-1 lg:col-span-9 space-y-8">
+          {/* Search & Tabs */}
+          <div className="space-y-8 mb-12">
             
-            {/* Header & Search */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gradient-to-br from-yellow-500/10 to-transparent p-8 rounded-3xl border border-yellow-500/10 shadow-2xl backdrop-blur-sm">
-              <div>
-                <h1 className="text-4xl font-black text-yellow-500 mb-2">Discover Events</h1>
-                <p className="text-[var(--text-secondary)] text-sm">Experience the best Web3 events on SinghDomain</p>
-              </div>
-              <div className="flex items-center gap-3">
-                 <button 
-                  onClick={() => setIsModalOpen(true)}
-                  className="btn-gold flex items-center gap-2 px-6 py-3 rounded-xl font-bold shadow-lg shadow-yellow-500/20 active:scale-95 transition-all"
-                 >
-                    <Plus size={20} />
-                    Create Event
-                 </button>
-              </div>
-            </div>
-
             {/* Filters Bar */}
             <div className="flex flex-col md:flex-row items-center gap-4">
                <div className="relative flex-[2] w-full">
@@ -243,194 +232,191 @@ export default function EventsPage() {
 
             {/* Events Grid */}
             {isLoading ? (
-              <div className="flex flex-col items-center py-20 gap-4">
-                <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
-                <p className="text-sm font-bold animate-pulse text-yellow-500 tracking-widest">LOADING EVENTS...</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[1,2,3,4,5,6].map(i => (
+                  <div key={i} className="aspect-[4/5] rounded-3xl bg-[var(--bg-secondary)] animate-pulse border border-white/5" />
+                ))}
               </div>
-            ) : filteredEvents.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            ) : filteredEvents.length === 0 ? (
+              <div className="py-20 text-center bg-[var(--bg-secondary)] rounded-3xl border border-yellow-500/10">
+                 <div className="w-20 h-20 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                   <Calendar className="text-yellow-500" size={32} />
+                 </div>
+                 <h3 className="text-xl font-bold text-white mb-2">No events found</h3>
+                 <p className="text-[var(--text-secondary)] text-sm">Try adjusting your search or filters</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredEvents.map((event, idx) => (
                   <motion.div
                     key={event._id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
-                    className="glass-card group overflow-hidden border-yellow-500/5 hover:border-yellow-500/30 transition-all shadow-xl hover:shadow-2xl"
+                    className="group relative bg-[var(--bg-secondary)] rounded-3xl overflow-hidden border border-white/5 hover:border-yellow-500/30 transition-all duration-500 shadow-xl hover:shadow-yellow-500/5"
                   >
+                    {/* Event Banner */}
                     <div className="aspect-video relative overflow-hidden">
                       <img 
-                        src={event.photo || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80'} 
+                        src={event.photo || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80'} 
                         alt={event.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      <div className="absolute top-4 right-4 flex flex-col gap-2">
-                        <div className="bg-yellow-500 text-black px-3 py-1.5 rounded-lg text-[10px] font-black shadow-lg">
-                           {event.price > 0 ? `$${event.price}` : 'FREE'}
-                        </div>
-                        {isOwner(event) && (
-                          <div className="flex gap-2">
-                             <button 
-                               onClick={(e) => {
-                                 e.stopPropagation()
-                                 setSelectedEventId(event._id)
-                                 setIsEditModalOpen(true)
-                               }}
-                               className="p-2 bg-black/60 hover:bg-yellow-500 hover:text-black rounded-lg backdrop-blur-md transition-all text-white border border-white/10"
-                               title="Edit Event"
-                             >
-                                <Edit2 size={14} />
-                             </button>
-                             <button 
-                               onClick={(e) => {
-                                 e.stopPropagation()
-                                 setSelectedEventId(event._id)
-                                 setIsAnalyticsModalOpen(true)
-                               }}
-                               className="p-2 bg-black/60 hover:bg-yellow-500 hover:text-black rounded-lg backdrop-blur-md transition-all text-white border border-white/10"
-                               title="View Analytics"
-                             >
-                                <BarChart3 size={14} />
-                             </button>
-                             <button 
-                               onClick={(e) => {
-                                 e.stopPropagation()
-                                 setSelectedEventId(event._id)
-                                 setIsAttendeesModalOpen(true)
-                               }}
-                               className="p-2 bg-black/60 hover:bg-yellow-500 hover:text-black rounded-lg backdrop-blur-md transition-all text-white border border-white/10"
-                               title="View Attendees"
-                             >
-                                <Users size={14} />
-                             </button>
-                             <button 
-                               onClick={(e) => {
-                                 e.stopPropagation()
-                                 handleDeleteEvent(event._id)
-                               }}
-                               className="p-2 bg-black/60 hover:bg-red-500 rounded-lg backdrop-blur-md transition-all text-white border border-white/10"
-                               title="Delete Event"
-                             >
-                                <Trash2 size={14} />
-                             </button>
-                          </div>
-                        )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+                      
+                      {/* Price Badge */}
+                      <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full">
+                        <span className="text-yellow-500 font-black text-sm">${event.price}</span>
                       </div>
-                      <div className="absolute bottom-4 left-4 right-4">
-                         <div className="flex items-center gap-2 text-yellow-400 text-[10px] font-bold mb-1">
-                            <Calendar size={12} />
-                            <span>{event.eventDateTime ? format(new Date(event.eventDateTime), 'PPP') : 'Date TBA'}</span>
-                         </div>
-                         <h3 className="text-white font-black text-lg line-clamp-1">{event.name}</h3>
+
+                      {/* Category Badge */}
+                      <div className="absolute top-4 right-4 bg-yellow-500 px-4 py-1.5 rounded-full">
+                        <span className="text-black font-black text-[10px] uppercase tracking-widest">{event.category || 'Event'}</span>
                       </div>
                     </div>
-                    <div className="p-5 space-y-4">
-                      <div className="flex items-center gap-2 text-[var(--text-secondary)] text-xs">
-                        <MapPin size={14} className="text-yellow-500" />
-                        <span className="line-clamp-1">{event.venue || 'Remote / Metaverse'}</span>
+
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-3">
+                         <div className="px-3 py-1 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-[10px] font-black uppercase tracking-widest">
+                           {format(new Date(event.eventDateTime), 'MMM dd')}
+                         </div>
+                         <div className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[var(--text-secondary)] text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                           <Clock size={10} />
+                           {format(new Date(event.eventDateTime), 'hh:mm a')}
+                         </div>
                       </div>
-                      <p className="text-[var(--text-secondary)] text-xs line-clamp-2 leading-relaxed">
-                        {event.description}
-                      </p>
-                      <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                        <div className="flex items-center gap-2">
-                           <div className="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500 border border-yellow-500/20">
-                              <Ticket size={16} />
-                           </div>
-                           <span className="text-[10px] font-bold">{event.ticketsAvailable} left</span>
+
+                      <h3 className="text-xl font-black text-white mb-2 line-clamp-1 group-hover:text-yellow-500 transition-colors">
+                        {event.name}
+                      </h3>
+                      
+                      <div className="flex items-center gap-1.5 text-[var(--text-secondary)] text-xs mb-6">
+                        <MapPin size={14} className="text-yellow-500/50" />
+                        <span className="font-bold line-clamp-1">{event.venue}</span>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">Remaining</span>
+                          <span className="text-lg font-black text-white">{event.ticketsAvailable} <span className="text-xs text-[var(--text-secondary)] font-normal">/ {event.totalTickets}</span></span>
                         </div>
-                         <button 
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              setSelectedEventId(event._id)
-                              setIsBookModalOpen(true)
-                            }}
-                            disabled={event.ticketsAvailable === 0}
-                            className="flex-1 flex items-center justify-center gap-2 bg-yellow-500 text-black py-3 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-yellow-400 transition-all shadow-lg shadow-yellow-500/10 active:scale-95 disabled:opacity-50 disabled:grayscale"
-                          >
-                            <Ticket size={14} />
-                            {event.userTicketCount ? 'Buy More' : 'Book Now'}
-                          </button>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-2">
+                          {(currentUser?._id === event.userID || currentUser?.id === event.userID) ? (
+                            <div className="flex items-center gap-2">
+                               <button 
+                                onClick={() => {
+                                  setSelectedEventId(event._id)
+                                  setIsEditModalOpen(true)
+                                }}
+                                className="p-2.5 rounded-xl bg-white/5 hover:bg-yellow-500/10 text-[var(--text-secondary)] hover:text-yellow-500 transition-all border border-white/5"
+                                title="Edit Event"
+                               >
+                                 <Edit2 size={16} />
+                               </button>
+                               <button 
+                                onClick={() => {
+                                  setSelectedEventId(event._id)
+                                  setIsAnalyticsModalOpen(true)
+                                }}
+                                className="p-2.5 rounded-xl bg-white/5 hover:bg-blue-500/10 text-[var(--text-secondary)] hover:text-blue-500 transition-all border border-white/5"
+                                title="View Analytics"
+                               >
+                                 <BarChart3 size={16} />
+                               </button>
+                               <button 
+                                onClick={() => {
+                                  setSelectedEventId(event._id)
+                                  setIsAttendeesModalOpen(true)
+                                }}
+                                className="p-2.5 rounded-xl bg-white/5 hover:bg-green-500/10 text-[var(--text-secondary)] hover:text-green-500 transition-all border border-white/5"
+                                title="View Attendees"
+                               >
+                                 <Users size={16} />
+                               </button>
+                               <button 
+                                onClick={() => handleDelete(event._id)}
+                                className="p-2.5 rounded-xl bg-white/5 hover:bg-red-500/10 text-[var(--text-secondary)] hover:text-red-500 transition-all border border-white/5"
+                                title="Delete Event"
+                               >
+                                 <Trash2 size={16} />
+                               </button>
+                            </div>
+                          ) : (
+                            <button 
+                              onClick={() => {
+                                setSelectedEventId(event._id)
+                                setIsBookModalOpen(true)
+                              }}
+                              disabled={event.ticketsAvailable === 0}
+                              className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-tighter transition-all ${event.ticketsAvailable === 0 ? 'bg-white/5 text-white/20 cursor-not-allowed' : 'bg-yellow-500 text-black hover:scale-105 shadow-lg shadow-yellow-500/20'}`}
+                            >
+                              {event.ticketsAvailable === 0 ? 'Sold Out' : 'Book Now'}
+                              {event.ticketsAvailable > 0 && <ArrowRight size={16} />}
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
-            ) : (
-              <div className="glass-card p-20 text-center space-y-6 border-yellow-500/10">
-                <div className="w-24 h-24 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto text-yellow-500 animate-bounce">
-                  <Calendar size={48} />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-black">No events found</h3>
-                  <p className="text-[var(--text-secondary)] text-sm max-w-sm mx-auto">
-                    Try adjusting your search or check back later for new experiences.
-                  </p>
-                </div>
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="btn-gold px-10 py-3 rounded-xl font-bold shadow-lg shadow-yellow-500/20"
-                >
-                  Reset Search
-                </button>
-              </div>
             )}
           </div>
         </div>
-      </section>
+      </main>
 
+      {/* Modals */}
       <CreateEventModal 
-        isOpen={isModalOpen}
+        isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchEvents}
       />
 
       <BookTicketModal 
         isOpen={isBookModalOpen}
-        onClose={() => {
-          setIsBookModalOpen(false)
-          setSelectedEventId(null)
-        }}
-        event={events.find(e => e._id === selectedEventId) || null}
+        onClose={() => setIsBookModalOpen(false)}
+        event={selectedEvent}
         onSuccess={fetchEvents}
       />
 
       <AttendeesModal 
         isOpen={isAttendeesModalOpen}
-        onClose={() => {
-          setIsAttendeesModalOpen(false)
-          setSelectedEventId(null)
-        }}
-        event={events.find(e => e._id === selectedEventId) || null}
+        onClose={() => setIsAttendeesModalOpen(false)}
+        event={selectedEvent}
       />
 
       <EditEventModal 
         isOpen={isEditModalOpen}
-        onClose={() => {
-          setIsEditModalOpen(false)
-          setSelectedEventId(null)
-        }}
+        onClose={() => setIsEditModalOpen(false)}
+        event={selectedEvent}
         onSuccess={fetchEvents}
-        event={events.find(e => e._id === selectedEventId) || null}
       />
 
       <AnalyticsModal 
         isOpen={isAnalyticsModalOpen}
-        onClose={() => {
-          setIsAnalyticsModalOpen(false)
-          setSelectedEventId(null)
-        }}
-        event={events.find(e => e._id === selectedEventId) || null}
+        onClose={() => setIsAnalyticsModalOpen(false)}
+        event={selectedEvent}
       />
 
       <EmailAttendeesModal 
         isOpen={isEmailModalOpen}
-        onClose={() => {
-          setIsEmailModalOpen(false)
-          setSelectedEventId(null)
-        }}
-        event={events.find(e => e._id === selectedEventId) || null}
+        onClose={() => setIsEmailModalOpen(false)}
+        event={selectedEvent}
       />
-    </main>
+    </div>
+  )
+}
+
+export default function EventsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)]">
+        <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <EventsContent />
+    </Suspense>
   )
 }

@@ -1,6 +1,7 @@
 import { authApi } from './api'
 
 export interface EventAttendee {
+  _id: string
   userId: string
   walletAddress?: string
   username?: string
@@ -25,6 +26,8 @@ export interface Event {
   ticketsAvailable: number
   venue: string
   eventDateTime: string
+  category?: string
+  location?: string
   createAddress: string
   createdAt: string
   soldTo: EventAttendee[]
