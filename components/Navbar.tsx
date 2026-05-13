@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon, ShoppingBag, Menu, X, Search, LogOut, User } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import toast from 'react-hot-toast'
 import { getProfile, clearProfile, isLoggedIn as checkLoggedIn, getUserProfile, updateSavedProfile } from '@/lib/auth'
 
 import { API_URL } from '@/lib/api'
@@ -98,6 +99,42 @@ export default function Navbar() {
     }
   }
 
+  const handleBuyDomain = async (domainName: string) => {
+    if (!loggedIn) {
+      toast.error('Please login to buy domains');
+      router.push('/login');
+      return;
+    }
+    
+    try {
+      toast.loading('Initiating purchase...', { id: 'buy-domain' });
+      const { buyDomain } = await import('@/lib/domain');
+      const response = await buyDomain(domainName);
+      
+      if (response.success && response.paymentIntent) {
+        toast.success('Redirecting to payment...', { id: 'buy-domain' });
+        // If it's a paypal link, redirect there
+        if (response.paymentIntent.links) {
+          const approveLink = response.paymentIntent.links.find((l: any) => l.rel === 'approve');
+          if (approveLink) {
+            window.location.href = approveLink.href;
+            return;
+          }
+        }
+        router.push('/profile');
+      } else if (response.error) {
+        toast.error(response.error, { id: 'buy-domain' });
+      } else if (response.message) {
+        toast.error(response.message, { id: 'buy-domain' });
+      } else {
+        toast.error('Failed to initiate purchase', { id: 'buy-domain' });
+      }
+    } catch (error: any) {
+      const msg = error.response?.data?.message || 'Error initiating purchase';
+      toast.error(msg, { id: 'buy-domain' });
+    }
+  }
+
   if (!mounted) return null
 
   return (
@@ -180,7 +217,12 @@ export default function Navbar() {
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <p className="text-xs font-black text-yellow-500">${res.price}</p>
-                                  <button className="px-2 py-1 bg-yellow-500 text-black rounded text-[9px] font-bold">Buy</button>
+                                  <button 
+                                    onClick={() => handleBuyDomain(res.name)}
+                                    className="px-2 py-1 bg-yellow-500 text-black rounded text-[9px] font-bold hover:scale-105 active:scale-95 transition-all"
+                                  >
+                                    Buy
+                                  </button>
                                 </div>
                               </div>
                             ))}

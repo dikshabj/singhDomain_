@@ -1,4 +1,4 @@
-import api from './api'
+import api, { authApi } from './api'
 
 export interface DomainResult {
   name: string
@@ -51,4 +51,13 @@ export async function searchDomain(searchString: string): Promise<DomainResult[]
       type: 'EXACT_MATCH'
     }
   ]
+}
+
+export async function buyDomain(domainName: string) {
+  const response = await authApi.post('/freename/buyZones', {
+    zones: [domainName],
+    return_url: window.location.origin + `/profile?purchase=success&domain=${domainName}`,
+    cancel_url: window.location.origin + '/?purchase=cancel'
+  })
+  return response.data
 }
