@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { User, Mail, Shield, Camera, Save, LogOut, ChevronRight } from 'lucide-react'
+import { User, Mail, Shield, Camera, Save, LogOut, ChevronRight, CreditCard } from 'lucide-react'
 import { useRef } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import FloatingBackground from '@/components/FloatingBackground'
 import Sidebar from '@/components/Sidebar'
-import { getUserProfile, updateUserProfile, clearProfile, isLoggedIn, getProfile, updateProfilePic, updateSavedProfile } from '@/lib/auth'
+import { getUserProfile, updateUserProfile, clearProfile, isLoggedIn, getProfile, updateProfilePic, updateSavedProfile, updateBillingInfo } from '@/lib/auth'
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -21,6 +21,16 @@ export default function ProfilePage() {
   const [fullName, setFullName] = useState('')
   const [bio, setBio] = useState('')
   const [companyName, setCompanyName] = useState('')
+  
+  // Billing states
+  const [activeTab, setActiveTab] = useState<'profile' | 'billing'>('profile')
+  const [billingName, setBillingName] = useState('')
+  const [street, setStreet] = useState('')
+  const [city, setCity] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [country, setCountry] = useState('')
+  const [walletAddress, setWalletAddress] = useState('')
+
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -38,6 +48,14 @@ export default function ProfilePage() {
           setFullName(data.fullName || '')
           setBio(data.bio || '')
           setCompanyName(data.companyName || '')
+          
+          // Billing data
+          setBillingName(data.registrantName || data.fullName || '')
+          setStreet(data.registrantStreet || '')
+          setCity(data.registrantCity || '')
+          setPostalCode(data.registrantPostalCode || '')
+          setCountry(data.registrantCountry || '')
+          setWalletAddress(data.registrantWalletAddress || data.walletAddress || '')
         }
       } catch (error) {
         toast.error('Failed to fetch profile details')
@@ -54,13 +72,35 @@ export default function ProfilePage() {
     setIsUpdating(true)
 
     try {
-      await updateUserProfile({ fullName, bio, companyName })
-      toast.success('Profile updated successfully!')
-      const updatedData = { fullName, bio, companyName }
-      setUser({ ...user, ...updatedData })
-      updateSavedProfile(updatedData)
-    } catch (error) {
-      toast.error('Update failed. Please try again.')
+      if (activeTab === 'profile') {
+        await updateUserProfile({ fullName, bio, companyName })
+        toast.success('Profile updated successfully!')
+        const updatedData = { fullName, bio, companyName }
+        setUser({ ...user, ...updatedData })
+        updateSavedProfile(updatedData)
+      } else {
+        await updateBillingInfo({
+          name: billingName,
+          street,
+          city,
+          postalCode,
+          country,
+          walletAddress
+        })
+        toast.success('Billing information saved!')
+        const updatedData = { 
+          registrantName: billingName, 
+          registrantStreet: street, 
+          registrantCity: city, 
+          registrantPostalCode: postalCode, 
+          registrantCountry: country, 
+          registrantWalletAddress: walletAddress 
+        }
+        setUser({ ...user, ...updatedData })
+      }
+    } catch (error: any) {
+      const msg = error.response?.data?.message || 'Update failed. Please try again.'
+      toast.error(msg)
     } finally {
       setIsUpdating(false)
     }
@@ -198,48 +238,133 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="space-y-4 pt-4 border-t border-yellow-500/10">
-                       <div className="flex items-center gap-3 text-[var(--text-secondary)]">
-                          <Mail size={16} />
-                          <span className="text-sm">{user?.email}</span>
-                       </div>
+                       <button 
+                        onClick={() => setActiveTab('profile')}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'profile' ? 'bg-yellow-500 text-black font-bold' : 'hover:bg-yellow-500/5 text-[var(--text-secondary)]'}`}
+                       >
+                          <User size={18} />
+                          <span className="text-sm">Public Profile</span>
+                       </button>
+                       <button 
+                        onClick={() => setActiveTab('billing')}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'billing' ? 'bg-yellow-500 text-black font-bold' : 'hover:bg-yellow-500/5 text-[var(--text-secondary)]'}`}
+                       >
+                          <CreditCard size={18} />
+                          <span className="text-sm">Billing Info</span>
+                       </button>
                     </div>
                   </div>
 
                   <div className="lg:col-span-2">
                     <form onSubmit={handleUpdate} className="space-y-6">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-yellow-500 uppercase">Full Name</label>
-                          <input
-                            type="text"
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
-                            placeholder="Your full name"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-yellow-500 uppercase">Company</label>
-                          <input
-                            type="text"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
-                            placeholder="Company name (optional)"
-                          />
-                        </div>
-                      </div>
+                      {activeTab === 'profile' ? (
+                        <>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                              <label className="text-xs font-bold text-yellow-500 uppercase">Full Name</label>
+                              <input
+                                type="text"
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                                placeholder="Your full name"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-xs font-bold text-yellow-500 uppercase">Company</label>
+                              <input
+                                type="text"
+                                value={companyName}
+                                onChange={(e) => setCompanyName(e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                                placeholder="Company name (optional)"
+                              />
+                            </div>
+                          </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-bold text-yellow-500 uppercase">Bio</label>
-                        <textarea
-                          value={bio}
-                          onChange={(e) => setBio(e.target.value)}
-                          rows={4}
-                          className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all resize-none"
-                          placeholder="Tell us about yourself..."
-                        />
-                      </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-yellow-500 uppercase">Bio</label>
+                            <textarea
+                              value={bio}
+                              onChange={(e) => setBio(e.target.value)}
+                              rows={4}
+                              className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all resize-none"
+                              placeholder="Tell us about yourself..."
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-yellow-500 uppercase">Registrant Name</label>
+                            <input
+                              type="text"
+                              value={billingName}
+                              onChange={(e) => setBillingName(e.target.value)}
+                              className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                              placeholder="Full name for registration"
+                            />
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-yellow-500 uppercase">Street Address</label>
+                            <input
+                              type="text"
+                              value={street}
+                              onChange={(e) => setStreet(e.target.value)}
+                              className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                              placeholder="Street address"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                              <label className="text-xs font-bold text-yellow-500 uppercase">City</label>
+                              <input
+                                type="text"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                                placeholder="City"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-xs font-bold text-yellow-500 uppercase">Postal Code</label>
+                              <input
+                                type="text"
+                                value={postalCode}
+                                onChange={(e) => setPostalCode(e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                                placeholder="Postal code"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                              <label className="text-xs font-bold text-yellow-500 uppercase">Country (2-letter code)</label>
+                              <input
+                                type="text"
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value.toUpperCase())}
+                                maxLength={2}
+                                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                                placeholder="US, GB, IN, etc."
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="text-xs font-bold text-yellow-500 uppercase">Wallet Address</label>
+                              <input
+                                type="text"
+                                value={walletAddress}
+                                onChange={(e) => setWalletAddress(e.target.value)}
+                                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-secondary)] border border-yellow-500/10 focus:border-yellow-500/50 focus:outline-none transition-all"
+                                placeholder="0x..."
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
 
                       <div className="pt-4">
                         <button

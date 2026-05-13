@@ -168,3 +168,14 @@ export async function unfollowUser(username: string) {
   // Backend uses 'removeUser' field in update-user to unfollow someone
   return updateUserProfile({ removeUser: username })
 }
+export async function updateBillingInfo(data: {
+  name: string,
+  street: string,
+  city: string,
+  postalCode: string,
+  country: string,
+  walletAddress: string
+}) {
+  const response = await authApi.patch('/freename/updateRegistrant', data)
+  return response.data
+}

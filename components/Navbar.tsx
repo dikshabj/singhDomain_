@@ -131,7 +131,14 @@ export default function Navbar() {
       }
     } catch (error: any) {
       const msg = error.response?.data?.message || 'Error initiating purchase';
-      toast.error(msg, { id: 'buy-domain' });
+      const cause = error.response?.data?.cause;
+      
+      if (cause === 'billingInfo' || cause === 'registrantProfile' || cause === 'walletAddress') {
+        toast.error(msg, { id: 'buy-domain' });
+        setTimeout(() => router.push('/profile'), 2000);
+      } else {
+        toast.error(msg, { id: 'buy-domain' });
+      }
     }
   }
 
