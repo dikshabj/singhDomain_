@@ -9,6 +9,14 @@ interface SidebarProps {
   onPostClick?: () => void
 }
 
+import { API_URL } from '@/lib/api'
+
+const getImageUrl = (path?: string) => {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`
+}
+
 export default function Sidebar({ onPostClick }: SidebarProps) {
   const router = useRouter()
   const pathname = usePathname()
@@ -61,7 +69,7 @@ export default function Sidebar({ onPostClick }: SidebarProps) {
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-2xl font-bold text-black border-4 border-[var(--bg-secondary)] shadow-xl mb-3 overflow-hidden">
           {user?.profilePic || user?.pic ? (
             <img 
-              src={user.profilePic || user.pic} 
+              src={getImageUrl(user.profilePic || user.pic)} 
               alt="" 
               className="w-full h-full object-cover"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}

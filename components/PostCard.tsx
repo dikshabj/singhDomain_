@@ -10,6 +10,13 @@ import { formatDistanceToNow } from 'date-fns'
 import ConfirmationModal from './ConfirmationModal'
 import ReportModal from './ReportModal'
 import { useRouter } from 'next/navigation'
+import { API_URL } from '@/lib/api'
+
+const getImageUrl = (path?: string) => {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`
+}
 
 interface PostCardProps {
   post: Post
@@ -234,7 +241,7 @@ export default function PostCard({ post }: PostCardProps) {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center border-2 border-[var(--bg-secondary)] overflow-hidden shadow-md">
               {post.pic ? (
-                <img src={post.pic} alt={post.username} className="w-full h-full object-cover" />
+                <img src={getImageUrl(post.pic)} alt={post.username} className="w-full h-full object-cover" />
               ) : (
                 <User className="w-5 h-5 text-black" />
               )}
@@ -361,7 +368,7 @@ export default function PostCard({ post }: PostCardProps) {
         <div className="relative aspect-square md:aspect-video bg-[var(--bg-secondary)] flex items-center justify-center overflow-hidden group">
           {post.photo && (
             <img 
-              src={post.photo} 
+              src={getImageUrl(post.photo)} 
               alt="Post Content" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
@@ -463,7 +470,7 @@ export default function PostCard({ post }: PostCardProps) {
                         <div key={idx} className="flex gap-2 group">
                           <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center border border-[var(--bg-secondary)] overflow-hidden shadow-sm">
                             {comment.pic ? (
-                              <img src={comment.pic} alt={comment.username} className="w-full h-full object-cover" />
+                              <img src={getImageUrl(comment.pic)} alt={comment.username} className="w-full h-full object-cover" />
                             ) : (
                               <span className="text-[10px] font-bold text-black">
                                 {comment.username ? comment.username[0].toUpperCase() : 'U'}

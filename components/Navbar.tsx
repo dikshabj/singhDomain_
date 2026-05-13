@@ -7,6 +7,14 @@ import { Sun, Moon, ShoppingBag, Menu, X, Search, LogOut, User } from 'lucide-re
 import { motion, AnimatePresence } from 'framer-motion'
 import { getProfile, clearProfile, isLoggedIn as checkLoggedIn, getUserProfile, updateSavedProfile } from '@/lib/auth'
 
+import { API_URL } from '@/lib/api'
+
+const getImageUrl = (path?: string) => {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  return `${API_URL}${path.startsWith('/') ? '' : '/'}${path}`
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -214,7 +222,7 @@ export default function Navbar() {
                   <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black text-xs font-black overflow-hidden border border-yellow-500/20">
                     {profilePic ? (
                       <img 
-                        src={profilePic} 
+                        src={getImageUrl(profilePic)} 
                         alt="" 
                         className="w-full h-full object-cover"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
