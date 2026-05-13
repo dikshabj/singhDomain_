@@ -167,13 +167,3 @@ export async function verifyTicket(eventId: string, ticketId: string) {
   const response = await authApi.get(`/events/verifyTickets/${eventId}/${ticketId}`)
   return response.data
 }
-
-export async function getEventsByCategory(category: string) {
-  const response = await authApi.get(`/events/category/${category}`)
-  return response.data
-}
-
-export async function getEventsByLocation(location: string) {
-  const response = await authApi.get(`/events/location/${location}`)
-  return response.data
-}
