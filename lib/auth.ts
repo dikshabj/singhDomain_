@@ -122,7 +122,25 @@ export async function getUserProfile() {
 }
 
 export async function updateUserProfile(data: any) {
-  const response = await authApi.post('/user/update-user', data)
+  // If data is already FormData, use it directly
+  if (data instanceof FormData) {
+    const response = await authApi.post('/user/update-user', data)
+    return response.data
+  }
+
+  // Convert object to FormData as the backend uses Multer upload.single('profile')
+  const formData = new FormData()
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      if (Array.isArray(value)) {
+        value.forEach(v => formData.append(key, v))
+      } else {
+        formData.append(key, value as string)
+      }
+    }
+  })
+
+  const response = await authApi.post('/user/update-user', formData)
   return response.data
 }
 
@@ -137,12 +155,11 @@ export function updateSavedProfile(newData: any) {
   if (typeof window === 'undefined') return
   const current = getProfile()
   if (current) {
-    // Backend returns 'profilePic', but login response might have it as 'pic'
-    // We normalize to both to be safe
-    const normalizedData = {
-      ...newData,
-      pic: newData.profilePic || newData.pic,
-      profilePic: newData.profilePic || newData.pic
+    // Only update pic/profilePic if they are provided in newData
+    const normalizedData = { ...newData }
+    if (newData.profilePic || newData.pic) {
+      normalizedData.pic = newData.profilePic || newData.pic
+      normalizedData.profilePic = newData.profilePic || newData.pic
     }
     const updated = { ...current, ...normalizedData }
     localStorage.setItem('profile', JSON.stringify(updated))

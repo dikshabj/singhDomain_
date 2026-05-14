@@ -103,7 +103,8 @@ export default function ProfilePage() {
         setUser({ ...user, ...updatedData })
       }
     } catch (error: any) {
-      const msg = error.response?.data?.message || 'Update failed. Please try again.'
+      console.error('Profile Update Error:', error);
+      const msg = error.response?.data?.message || error.response?.data?.error || 'Update failed. Please try again.'
       toast.error(msg)
     } finally {
       setIsUpdating(false)
