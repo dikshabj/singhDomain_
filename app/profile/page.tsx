@@ -80,22 +80,35 @@ export default function ProfilePage() {
         setUser({ ...user, ...updatedData })
         updateSavedProfile(updatedData)
       } else {
+        // Sanitize inputs to match strict backend regex:
+        // Name and City: only letters and spaces
+        // Street: only letters, numbers and spaces
+        const sanitizedName = billingName.replace(/[^a-zA-Z\s]/g, '')
+        const sanitizedStreet = street.replace(/[^a-zA-Z0-9\s]/g, '')
+        const sanitizedCity = city.replace(/[^a-zA-Z\s]/g, '')
+
+        if (!sanitizedName || !sanitizedStreet || !sanitizedCity) {
+          toast.error('Please enter valid details (Letters and numbers only, no special characters like commas or dots)')
+          setIsUpdating(false)
+          return
+        }
+
         // First update the main wallet address (required for freename logic)
         await authApi.post('/user/update-walletAddress', { walletAddress })
 
         await updateBillingInfo({
-          name: billingName,
-          street,
-          city,
+          name: sanitizedName,
+          street: sanitizedStreet,
+          city: sanitizedCity,
           postalCode,
           country,
           walletAddress
         })
         toast.success('Billing information saved!')
         const updatedData = { 
-          registrantName: billingName, 
-          registrantStreet: street, 
-          registrantCity: city, 
+          registrantName: sanitizedName, 
+          registrantStreet: sanitizedStreet, 
+          registrantCity: sanitizedCity, 
           registrantPostalCode: postalCode, 
           registrantCountry: country, 
           registrantWalletAddress: walletAddress 
