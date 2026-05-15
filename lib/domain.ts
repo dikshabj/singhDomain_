@@ -54,7 +54,7 @@ export async function searchDomain(searchString: string): Promise<DomainResult[]
 }
 
 export async function buyDomain(domainName: string) {
-  const response = await authApi.post('/freename/buyZonesWithPaypal', {
+  const response = await authApi.post('/freename/buyZones', {
     zones: [domainName],
     royalties: [],
     return_url: window.location.origin + `/profile?purchase=success&domain=${domainName}`,

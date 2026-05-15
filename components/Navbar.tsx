@@ -111,6 +111,12 @@ export default function Navbar() {
       const { buyDomain } = await import('@/lib/domain');
       const response = await buyDomain(domainName);
       
+      if (response.url) {
+        toast.success('Redirecting to PayPal...', { id: 'buy-domain' });
+        window.location.href = response.url;
+        return;
+      }
+
       if (response.success && response.paymentIntent) {
         toast.success('Redirecting to payment...', { id: 'buy-domain' });
         // If it's a paypal link, redirect there
