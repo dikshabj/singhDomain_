@@ -25,12 +25,26 @@ export default function Navbar() {
   const [results, setResults] = useState<any[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
   const [userEmail, setUserEmail] = useState('')
   const [profilePic, setProfilePic] = useState('')
   const { theme, setTheme } = useTheme()
   const router = useRouter()
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setResults([])
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   useEffect(() => {
     setMounted(true)
@@ -191,7 +205,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2 md:gap-3">
             {/* Navbar Search */}
-            <div className="relative flex items-center">
+            <div className="relative flex items-center" ref={searchRef}>
               <AnimatePresence>
                 {isSearchExpanded && (
                   <motion.div
